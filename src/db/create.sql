@@ -2,6 +2,10 @@
 Creation script for the PostgreSQL tables.
 
 Running this script will create the tables and required users.
+
+Run it like:
+
+ # psql -U postgres -f create.sql
 */
 
 
@@ -14,6 +18,10 @@ create type difficulty as ENUM ('Easy', 'Medium', 'Tough', 'Very Tough');
 
 
 create schema orchard;
+
+
+comment on schema orchard is
+    'The Organised Repository of Charts for Rhythm Doctor';
 
 -- level table
 create table orchard.level (
@@ -89,5 +97,5 @@ grant select on orchard.booster to web_anon;
 
 -- role for authenticating as the anonymous read-only role
 drop role if exists authenticator;
-create role authenticator noinherit login password 'mysecretpassword';
+create role authenticator noinherit login;
 grant web_anon to authenticator;
