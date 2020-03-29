@@ -1,0 +1,15 @@
+{
+  "name": "orchard",
+  "version": "0.0.1",
+  "description": "organised repository of charts for rhythm doctor",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "pg": "^7.18.2"
+  }
+}
