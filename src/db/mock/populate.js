@@ -7,7 +7,7 @@ Not secure.
 const axios = require('axios').default;
 const _ = require('lodash');
 const sha256 = require('js-sha256').sha256;
-const uuid = require('uuid').v4;
+const vitals = require('@auburnsummer/vitals');
 
 
 const RD_API_URL = "https://script.google.com/macros/s/AKfycbzm3I9ENulE7uOmze53cyDuj7Igi7fmGiQ6w045fCRxs_sK3D4/exec";
