@@ -83,6 +83,7 @@ create table orchard.aux_data (
     -- 0: not approved (i.e. awaiting the competency test)
     -- 1: approved (passed the competency test)
     -- 2: starred (a level cannot be starred unless it also passed the competency test)
+    -- 3??? probably won't exist
     approval            int             not null default 0,
 
     -- text that can appear regarding the approval level.
@@ -117,8 +118,8 @@ grant select on orchard.booster to web_anon;
 create role edit_anon nologin;
 grant usage on schema orchard to edit_anon;
 grant all on orchard.level to edit_anon;
-grant all on orchard.level_tags to edit_anon;
-grant all on orchard.level_authors to edit_anon;
+grant all on orchard.level_tag to edit_anon;
+grant all on orchard.level_author to edit_anon;
 grant all on orchard.aux_data to edit_anon;
 grant all on orchard.booster to edit_anon;
 
