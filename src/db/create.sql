@@ -45,7 +45,7 @@ create table orchard.level (
 
 -- level tags
 create table orchard.level_tag (
-    sha256  character (64)  references orchard.level(sha256),
+    sha256  character (64)  references orchard.level(sha256)    on delete cascade,
     tag     text            not null,
     seq     int             not null, -- index of this tag
     primary key (sha256, tag, seq)
@@ -54,7 +54,7 @@ create table orchard.level_tag (
 
 -- level authors
 create table orchard.level_author (
-    sha256  character (64)  references orchard.level(sha256),
+    sha256  character (64)  references orchard.level(sha256)    on delete cascade,
     author  text            not null,
     seq     int             not null, -- index of this author in the list
     primary key (sha256, author, seq)
