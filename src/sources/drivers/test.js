@@ -44,5 +44,11 @@ module.exports = class {
         });
         return resp.data;
     }
+
+    // A function which gets called whenever Orchard adds or removes a level from
+    // this source. (e.g. webhooks)
+    async onChangeHook() {
+
+    }
     
 }

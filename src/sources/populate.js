@@ -48,8 +48,10 @@ const runDriver = async (driverName, args) => {
         return vitals.analyse(rdzip, false);
     }));
 
+    return data;
+
     const uploads = await Promise.all(_.map(data, async (datum) => {
-        
+
     }));
 }
 

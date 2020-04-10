@@ -1,0 +1,54 @@
+Todo list!
+
+This is so that I can look back at this and motivate myself by seeing the work
+I've already done.
+
+x: done
+.: in progress
+ : not done
+
+Orchard back-end:
+[x] Come up with the conceptual design
+[x] Create database schema in SQL
+[x] Set up PostgREST and test it out with some queries against the database
+    with mock data
+[x] Determine the interface for "drivers" which interface against Discord,
+    Steam workshop etc.
+[x] Implement a stubbed driver for writing code against.
+[.] Write code that uses a driver and generates PostgREST queries.
+[ ] Implement "what levels are stale?" (need to be updated) in SQL
+[ ] Modify the generator to only generate newly added levels
+[ ] Modify the generator to delete levels when they are removed from the
+    source
+[ ] Decide on how we're going to do search
+[ ] Implement search, filtering, sorting, etc.
+[ ] Implement booster packs, hopefully in SQL directly
+[ ] Finalise initial API
+[ ] Create Docker image ready for deployment
+
+Orchard front-end:
+[x] I want to do something skeumorphic but with pixel art
+[ ] Research ideas + mockups, get a discussion going on RDL
+[ ] Hire someone on RDL to do pixel art assets. Maybe multiple people?
+[ ] Make it! Probably React + Tailwind
+
+Discord bot:
+[ ] Look at cheap storage systems for discord bots instead of Sheets or Firestore
+[ ] (Geez firestore is annoying as hell)
+[ ] Check how to do dynamic DNS with Cloudflare so we can talk to the bot
+[ ] Create the bot, maybe directly with websockets instead of discord.js
+
+Workshop scraper:
+[x] Implement workshop scraper + downloader as microservice (bluebird)
+[ ] Implement driver that mirrors the bluebird downloader onto either an IPFS instance or just regular caddy
+[ ] (IPFS is really cool though hmmm)
+[ ] Generate download links using Cloudflare's IPFS gateway, not ours
+
+3rd option:
+[ ] Some third option that isn't associated with Discord or Steam
+[ ] Maybe just email? An email option would probably involve:
+    - [ ] Set up email forwarding so postmaster, etc. still go to mailbox
+    - [ ] But a special email (submit@rhythm.cafe) goes to the server directly
+    - [ ] And if there is an rdzip attachment, we add that to the database
+    - [ ] Could add extremely simple captcha (i.e. "include the phrase xxxxx in your email")
+
