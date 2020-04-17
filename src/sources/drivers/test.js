@@ -14,7 +14,12 @@ module.exports = class {
         // however, you can edit Steam Workshop levels, so for Workshop the IID needs to be a combination of the last updated
         // date and the level ID.
         this.iidKey = 'url';
-        return this;
+
+        // If true, Orchard will rehost the rdzips on our own servers and use that for the download link.
+        this.rehost = false;
+
+        // If rehost is false, this needs to be a path from an object returned by expand() to a url.
+        this.urlPath = "url";
     }
 
     // A function which is called when the driver is loaded. Doesn't _have_ to do anything.

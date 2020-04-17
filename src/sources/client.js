@@ -23,8 +23,8 @@ const levelCommands = (data, downloadURL, submissionMethod, iid) => {
             last_updated: data.lastUpdated,
             single_player: data.singlePlayer,
             two_player: data.twoPlayer,
-            image_url: data.imageURL,
-            icon_url: data.icon,
+            image_ipfs: data.previewImageIpfsHash,
+            icon_ipfs: data.iconIpfsHash,
             download_url: downloadURL
         }
     };

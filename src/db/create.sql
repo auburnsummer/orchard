@@ -37,8 +37,8 @@ create table orchard.level (
     last_updated     timestamp        not null,
     single_player    boolean          not null,
     two_player       boolean          not null,
-    image_url        text,            -- could be null if image is malformed
-    icon_url         text,            -- levels don't have to have an icon
+    image_ipfs       text             not null,
+    icon_ipfs        text,            -- levels don't have to have an icon
     download_url     text             not null
 );
 
