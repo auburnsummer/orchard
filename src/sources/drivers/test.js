@@ -7,8 +7,11 @@ const axios = require('axios');
 
 module.exports = class {
     constructor() {
+        // A human-readable submission method. Should be unique.
+        this.submissionMethod = "Test";
+
         // If true, Orchard will rehost the rdzips on our own servers and use that for the download link.
-        this.rehost = false;
+        this.rehost = true;
 
         // If rehost is false, this needs to be a path from an object returned by expand() to a url.
         this.urlPath = "url";

@@ -2,6 +2,8 @@ const _ = require('lodash');
 const vitals = require('@auburnsummer/vitals');
 const axios = require('axios');
 
+const client = require('./client.js');
+
 /**
  * 
  * @param {*} driver 
@@ -13,10 +15,11 @@ const runDriverLevel = async (driver, iid) => {
 
     const rdzip = await driver.get(iid);
     const [vitalsData, driverData] = await Promise.all([vitals.analyse(rdzip, profile), driver.expand(iid)]);
-    return {
-        vitals: vitalsData,
-        driver: driverData
-    }
+    
+    // if rehost, it's ipfs:// + the hash, otherwise it's the driver-specific URL
+    const downloadURL = driver.rehost ? "ipfs://" + vitalsData.rdzipIpfsHash : _.get(driverData, driver.urlPath);
+
+    return client.levelCommands(vitalsData, downloadURL, driver.submissionMethod, iid);
 }
 
 
