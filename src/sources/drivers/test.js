@@ -7,14 +7,6 @@ const axios = require('axios');
 
 module.exports = class {
     constructor() {
-        // the individual identifier key name. This is some parameter which has both the following properties:
-        //  - An iid maps to exactly one level;
-        //  - If the level changes, the iid also changes.
-        // for instance, you can't edit a level in Discord without reuploading it, so the URL can be the IID.
-        // however, you can edit Steam Workshop levels, so for Workshop the IID needs to be a combination of the last updated
-        // date and the level ID.
-        this.iidKey = 'url';
-
         // If true, Orchard will rehost the rdzips on our own servers and use that for the download link.
         this.rehost = false;
 
@@ -28,7 +20,12 @@ module.exports = class {
         console.log("init!");
     }
 
-    // Return an array of iids.
+    // Return an array of iids. This is some parameter which has both the following properties:
+        //  - An iid maps to exactly one level;
+        //  - If the level changes, the iid also changes.
+        // for instance, you can't edit a level in Discord without reuploading it, so the URL can be the IID.
+        // however, you can edit Steam Workshop levels, so for Workshop the IID needs to be a combination of the last updated
+        // date and the level ID.
     // TODO: pagination?
     async getIids() {
         return _.map(this.testData, (level) => level.url);
