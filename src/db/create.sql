@@ -12,10 +12,6 @@ Run it like:
 -- create the named schema for PostgREST
 drop schema if exists orchard cascade;
 
--- difficulty type
-drop type if exists difficulty;
-create type difficulty as ENUM ('Easy', 'Medium', 'Tough', 'Very Tough');
-
 
 create schema orchard;
 
@@ -29,7 +25,7 @@ create table orchard.level (
     sha256           character (64)   primary key,
     artist           text             not null,
     song             text             not null,
-    "difficulty"     difficulty       not null default 'Medium',
+    "difficulty"     int              not null default 1, -- Medium
     seizure_warning  boolean          not null default false,
     description      text,
     max_BPM          real             not null default 0, -- could be null if the level doesn't have PlaySong events at all

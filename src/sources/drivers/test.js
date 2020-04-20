@@ -6,12 +6,12 @@ const _ = require('lodash');
 const axios = require('axios');
 
 module.exports = class {
-    constructor() {
+    constructor({submissionMethod}) {
         // A human-readable submission method. Should be unique.
-        this.submissionMethod = "Test";
+        this.submissionMethod = submissionMethod;
 
         // If true, Orchard will rehost the rdzips on our own servers and use that for the download link.
-        this.rehost = true;
+        this.rehost = false;
 
         // If rehost is false, this needs to be a path from an object returned by expand() to a url.
         this.urlPath = "url";
