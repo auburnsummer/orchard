@@ -17,8 +17,8 @@ Orchard back-end:
 [x] Implement a stubbed driver for writing code against.
 [x] Set up an IPFS node
 [x] Switch vitals over to hosting files on IPFS instead of imgur freeloading
-[.] Write code that uses a driver and generates PostgREST queries.
-[ ] Implement "what levels are stale?" (need to be updated) in SQL
+[x] Write code that uses a driver and generates PostgREST queries.
+[.] Implement "what levels are stale?" (need to be updated) in SQL
 [ ] Modify the generator to only generate newly added levels
 [ ] Modify the generator to delete levels when they are removed from the
     source
@@ -35,10 +35,9 @@ Orchard front-end:
 [ ] Make it! Probably React + Tailwind
 
 Discord bot:
-[ ] Look at cheap storage systems for discord bots instead of Sheets or Firestore
-[ ] (Geez firestore is annoying as hell)
+[ ] Set up a simple flat-file database system instead of Firestore (e.g. lowdb with object storage)
 [ ] Check how to do dynamic DNS with Cloudflare so we can talk to the bot
-[ ] Create the bot, maybe directly with websockets instead of discord.js
+[ ] Create the bot
 
 Workshop scraper:
 [x] Implement workshop scraper + downloader as microservice (bluebird)
