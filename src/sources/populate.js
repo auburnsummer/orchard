@@ -26,8 +26,8 @@ const runDriverLevel = async (driver, iid) => {
 
         return client.levelCommands(vitalsData, downloadURL, driver.submissionMethod, iid);
     } catch(err) {
-        log(`Error occured when processing ${driver.submissionMethod} iid ${iid}`);
-        log(err);
+        log("!driver", `Error occured when processing ${driver.submissionMethod} iid ${iid}`);
+        log("!driver", err);
         return Promise.resolve(false);
     }
 }
