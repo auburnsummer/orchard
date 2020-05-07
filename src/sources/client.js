@@ -26,6 +26,18 @@ const levelCommands = (data, downloadURL, submissionMethod, iid) => {
         endpoint: 'level',
         data: _.pick(data, _.difference(_.keys(data), ["tags", "authors", "rdzip_ipfs"]))
     };
+
+    // aux data
+    const auxCommand = {
+        endpoint: 'aux_data',
+        data: {
+            sha256: data.sha256,
+            submission_method: submissionMethod,
+            iid: iid,
+            download_url: downloadURL
+        }
+    };
+
     // tags
     const tagCommands = _.map(data.tags, (tag, idx) => {
         return {
@@ -48,16 +60,6 @@ const levelCommands = (data, downloadURL, submissionMethod, iid) => {
             }
         };
     });
-    // aux data
-    const auxCommand = {
-        endpoint: 'aux_data',
-        data: {
-            sha256: data.sha256,
-            submission_method: submissionMethod,
-            iid: iid,
-            download_url: downloadURL
-        }
-    }
 
     return _.flatten([
         levelCommand,
@@ -68,58 +70,25 @@ const levelCommands = (data, downloadURL, submissionMethod, iid) => {
 }
 
 /**
- * postgREST allows you to send a list of commands under one endpoint for efficiency.
- * 
- * This function batches up commands based on common endpoints.
- * In addition, it sorts the commands in a specific order to satisfy foreign key constraints.
- * 
- * @param {} commands - list of commands
- */
-const consolidate = (commands) => {
-    // we have to create a level first before tags, etc due to foreign key constraints.
-    const order = ["level", "aux_data", "level_tag", "level_author", "booster"];
-
-    // Get to the form { [endpoint] : [list of commands] }
-    const unsortedMap = _.reduce(commands, (prev, curr) => {
-        if (!_.includes(_.keys(prev), curr.endpoint)) {
-            prev[curr.endpoint] = [];
-        }
-        prev[curr.endpoint].push(curr.data);
-        return prev;
-    }, {});
-
-    // Get to a form [ {endpoint: text, data: [...]}, {endpoint: text, data: [...]} ]
-    return _.filter(
-        _.map(order, (o) => {
-            return {endpoint: o, data: unsortedMap[o]};
-        }),
-        ({endpoint, data}) => !_.isUndefined(data)
-    );
-}
-
-/**
- * Upload a batch of POST requests to the postgREST server. Commands are just objects with these keys:
+ * Upload a list of POST requests to the server.
  * 
  * @param {*} commands 
  */
 const runPostRequests = async (commands) => {
-    // turn the command list into a map of endpoint -> list of data
-    const batched = consolidate(commands);
-
-    for (let batch of batched) {
-        let resp = await axios({
-            method: 'post',
-            url: `${process.env.POSTGREST_SERVER}/${batch.endpoint}`,
-            headers: {
-                authorization: `Bearer ${process.env.BEARER_TOKEN}`
-            },
-            data: batch.data
-        });
-    }
+    // TODO: do this with RPC instead!
+    // for (let command of commands) {
+    //     let resp = await axios({
+    //         method: 'post',
+    //         url: `${process.env.POSTGREST_SERVER}/${command.endpoint}`,
+    //         headers: {
+    //             authorization: `Bearer ${process.env.BEARER_TOKEN}`
+    //         },
+    //         data: command.data
+    //     });
+    // }
 }
 
 module.exports = {
     levelCommands : levelCommands,
-    consolidate : consolidate,
     runPostRequests : runPostRequests
 }

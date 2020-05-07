@@ -4,23 +4,26 @@
 
 const _ = require('lodash');
 const axios = require('axios');
+const log = require('../../log.js');
 
 module.exports = class {
+    // The driver constructor can take any arbitary number of arguments as required, but...
     constructor({submissionMethod}) {
-        // A human-readable submission method. Should be unique.
+        // ...it has to at least expose these three properties:
+
+        // submissionMethod: A human-readable submission method. Should be unique.
         this.submissionMethod = submissionMethod;
 
-        // If true, Orchard will rehost the rdzips on our own servers and use that for the download link.
+        // If true, Orchard will rehost the rdzips on IPFS and use that for the download link.
         this.rehost = false;
 
-        // If rehost is false, this needs to be a path from an object returned by expand() to a url.
+        // If rehost is false, this needs to be a path from an object returned by expand() to a direct download URL.
         this.urlPath = "url";
     }
 
     // A function which is called when the driver is loaded. Doesn't _have_ to do anything.
     async init() {
         this.testData = require('./testData.json');
-        console.log("init!");
     }
 
     // Return an array of iids. This is some parameter which has both the following properties:
