@@ -72,7 +72,7 @@ order by seq;
 
 
 -- auxiliary data (not directly from the rdzip)
-create table orchard.aux_data (
+create table orchard.aux (
     sha256              character (64)  references orchard.level(sha256)    on delete cascade,
     download_url        text             not null,
     submission_method   text            not null, -- e.g. 'discord', 'steam_workshop', etc
@@ -126,7 +126,7 @@ grant usage on schema orchard to web_anon;
 grant select on orchard.level to web_anon;
 grant select on orchard.level_tags to web_anon;
 grant select on orchard.level_authors to web_anon;
-grant select on orchard.aux_data to web_anon;
+grant select on orchard.aux to web_anon;
 grant select on orchard.booster to web_anon;
 
 
@@ -137,7 +137,7 @@ grant usage on schema orchard to edit_anon;
 grant all on orchard.level to edit_anon;
 grant all on orchard.level_tag to edit_anon;
 grant all on orchard.level_author to edit_anon;
-grant all on orchard.aux_data to edit_anon;
+grant all on orchard.aux to edit_anon;
 grant all on orchard.booster to edit_anon;
 grant execute on function orchard.add_level to edit_anon;
 
