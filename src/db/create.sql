@@ -8,6 +8,7 @@ Run it like:
  # psql -U postgres -f create.sql
 */
 
+CREATE EXTENSION plpython3u;
 
 -- create the named schema for PostgREST
 drop schema if exists orchard cascade;
@@ -106,21 +107,12 @@ create table orchard.booster (
 -- ##########################
 alter default privileges revoke execute on functions from public;
 
-CREATE FUNCTION orchard.add_level(param json) RETURNS text AS
+CREATE FUNCTION orchard.add_level(a json) RETURNS text AS
 $$
-DECLARE
-    my_string text := 'Hello, World!';
-BEGIN
-    RETURN my_string;
-END
+#INSERT HERE
+
 $$
-LANGUAGE plpgsql;
-
-CREATE FUNCTION orchard.test(a integer, b integer)
-RETURNS integer AS $$
- SELECT a + b;
-$$ LANGUAGE SQL IMMUTABLE;
-
+LANGUAGE plpython3u;
 
 -- ##########################
 --          ROLES
@@ -148,7 +140,6 @@ grant all on orchard.level_author to edit_anon;
 grant all on orchard.aux_data to edit_anon;
 grant all on orchard.booster to edit_anon;
 grant execute on function orchard.add_level to edit_anon;
-grant execute on function orchard.test to edit_anon;
 
 
 

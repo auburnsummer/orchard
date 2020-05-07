@@ -117,3 +117,5 @@ dist
 src/db/key
 src/abcde.js
 src/db/postgrest
+
+src/db/out.sql
