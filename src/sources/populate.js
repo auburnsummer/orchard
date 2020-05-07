@@ -24,7 +24,7 @@ const runDriverLevel = async (driver, iid) => {
         // if rehost, it's ipfs:// + the hash, otherwise it's the driver-specific URL
         const downloadURL = driver.rehost ? "ipfs://" + vitalsData.rdzipIpfsHash : _.get(driverData, driver.urlPath);
 
-        return client.levelCommands(vitalsData, downloadURL, driver.submissionMethod, iid);
+        return client.levelCommands(vitalsData, downloadURL, driver.submissionMethod, iid, driverData);
     } catch(err) {
         log("!driver", `Error occured when processing ${driver.submissionMethod} iid ${iid}`);
         log("!driver", err);

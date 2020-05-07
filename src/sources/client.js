@@ -19,8 +19,9 @@ const axios = require('axios');
  *                    It's always a direct link.
  * @param submissionMethod A string of the submission method. This needs to be unique.
  * @param iid The driver-specific individual id
+ * @param driverData driver-specific data which just gets dumped in the submission_info field.
  */
-const levelCommands = (data, downloadURL, submissionMethod, iid) => {
+const levelCommands = (data, downloadURL, submissionMethod, iid, driverData) => {
     // level. direct from data except the "tags" and "authors".
     const levelCommand = {
         endpoint: 'level',
@@ -34,7 +35,8 @@ const levelCommands = (data, downloadURL, submissionMethod, iid) => {
             sha256: data.sha256,
             submission_method: submissionMethod,
             iid: iid,
-            download_url: downloadURL
+            download_url: downloadURL,
+            submission_info: JSON.stringify(driverData),
         }
     };
 

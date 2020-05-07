@@ -19,6 +19,9 @@ create schema orchard;
 comment on schema orchard is
     'The Organised Repository of Charts for Rhythm Doctor';
 
+-- ##########################
+--          TABLES
+-- ##########################
 
 -- level table. data comes directly from vitals
 create table orchard.level (
@@ -98,6 +101,30 @@ create table orchard.booster (
     json_data   jsonb
 );
 
+-- ##########################
+--        PROCEDURES
+-- ##########################
+alter default privileges revoke execute on functions from public;
+
+CREATE FUNCTION orchard.add_level(param json) RETURNS text AS
+$$
+DECLARE
+    my_string text := 'Hello, World!';
+BEGIN
+    RETURN my_string;
+END
+$$
+LANGUAGE plpgsql;
+
+CREATE FUNCTION orchard.test(a integer, b integer)
+RETURNS integer AS $$
+ SELECT a + b;
+$$ LANGUAGE SQL IMMUTABLE;
+
+
+-- ##########################
+--          ROLES
+-- ##########################
 
 -- role for anonymous read-only access
 drop role if exists web_anon;
@@ -120,12 +147,15 @@ grant all on orchard.level_tag to edit_anon;
 grant all on orchard.level_author to edit_anon;
 grant all on orchard.aux_data to edit_anon;
 grant all on orchard.booster to edit_anon;
-
+grant execute on function orchard.add_level to edit_anon;
+grant execute on function orchard.test to edit_anon;
 
 
 
 -- role for authenticating as the anonymous read-only role
 drop role if exists authenticator;
 create role authenticator noinherit login;
+
+
 grant web_anon to authenticator;
 grant edit_anon to authenticator;
