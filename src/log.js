@@ -3,9 +3,9 @@
  */
 
 const LOG_FILE = "/tmp/orchard.log";
-const fs = require('fs');
+const fs = require("fs");
 
-const stream = fs.createWriteStream(LOG_FILE, {flags:'a'});
+const stream = fs.createWriteStream(LOG_FILE, {flags:"a"});
 
 /**
  * Logs an object.
@@ -14,12 +14,12 @@ const stream = fs.createWriteStream(LOG_FILE, {flags:'a'});
  *  - ':' : normal message
  */
 module.exports = (type, object) => {
-    try {
-        const s = `[${type}] ${object.toString()}`
-        console.error(s);
-        stream.write(s);
-    }
-    catch (err) {
-        // okay now we're REALLY in trouble I guess
-    }
-}
+	try {
+		const s = `[${type}] ${object.toString()}`;
+		console.error(s);
+		stream.write(s);
+	}
+	catch (err) {
+		// okay now we're REALLY in trouble I guess
+	}
+};
