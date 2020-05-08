@@ -1,0 +1,9 @@
+# Sources.txt
+# Here's how the format works:
+# Lines that start with # are comments. There are no mid-line comments.
+# Lines that are blank are ignored.
+# Lines that have the format [driver] :: [args] are parsed:
+#   - driver is the name of a driver JS file, directly from the /drivers directory.
+#   - args is a JSON Lines formatted string (http://jsonlines.org/), but with implicit leading and ending braces.
+
+test :: "submissionMethod": "Test"

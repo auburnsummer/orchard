@@ -1,7 +1,6 @@
 const _ = require('lodash');
 const axios = require('axios');
 
-
 /**
  * Add a level to the database.
  * 
@@ -12,7 +11,7 @@ const axios = require('axios');
  * @param iid The driver-specific individual id
  * @param driverData driver-specific data which just gets dumped in the submission_info field.
  */
-const levelCommands = (data, downloadURL, submissionMethod, iid, driverData) => {
+const addLevel = (data, downloadURL, submissionMethod, iid, driverData) => {
     // level. direct from data except the "tags" and "authors".
     const level = _.pick(data, _.difference(_.keys(data), ["tags", "authors", "rdzip_ipfs"]))
 
@@ -25,15 +24,28 @@ const levelCommands = (data, downloadURL, submissionMethod, iid, driverData) => 
         submission_info: JSON.stringify(driverData)
     }
 
-    return {
+    const dataToSend = {
         level: level,
         aux: aux,
         tags: data.tags,
         authors: data.authors
-    }
+    };
+
+    const endpoint = `${process.env.POSTGREST_SERVER}/rpc/add_level`;
+
+    return axios({
+        method: 'POST',
+        url: endpoint,
+        data: dataToSend,
+        headers: {
+            authorization: `Bearer ${process.env.BEARER_TOKEN}`,
+            prefer: `params=single-object`,
+            "content-type" : "application/json"
+        }
+    });
 }
 
 
 module.exports = {
-    levelCommands : levelCommands,
+    addLevel : addLevel,
 }

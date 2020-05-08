@@ -23,8 +23,8 @@ const runDriverLevel = async (driver, iid) => {
         
         // if rehost, it's ipfs:// + the hash, otherwise it's the driver-specific URL
         const downloadURL = driver.rehost ? "ipfs://" + vitalsData.rdzipIpfsHash : _.get(driverData, driver.urlPath);
-
-        return client.levelCommands(vitalsData, downloadURL, driver.submissionMethod, iid, driverData);
+        log(":driver", `Uploading ${driver.submissionMethod} iid ${iid}...`)
+        return client.addLevel(vitalsData, downloadURL, driver.submissionMethod, iid, driverData);
     } catch(err) {
         log("!driver", `Error occured when processing ${driver.submissionMethod} iid ${iid}`);
         log("!driver", err);
@@ -53,14 +53,7 @@ const runDriver = async (driverName, args) => {
     // get the vitals data and the driver-specific data
     const data = await utils.mapSeries(iids, iid => runDriverLevel(driver, iid), 2);
 
-    // some of the promises might be false
-    const filteredData = _.filter(data);
-
-    return filteredData;
-
-    const uploads = await Promise.all(_.map(data, async (datum) => {
-
-    }));
+    return data;
 }
 
 
