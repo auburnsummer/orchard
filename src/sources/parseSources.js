@@ -23,6 +23,7 @@ const parse = async (fileName) => {
 			args: JSON.parse(argString)
 		};
 	}),
+	// filter on driver existing and not being an empty string
 	(o) => o.driver
 	);
 };

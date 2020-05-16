@@ -60,17 +60,6 @@ create table orchard.level_author (
     primary key (sha256, author, seq)
 );
 
-
--- views that give the tags and authors in order automatically
-create view orchard.level_tags as
-select sha256, tag from orchard.level_tag
-order by seq;
-
-create view orchard.level_authors as
-select sha256, author from orchard.level_author
-order by seq;
-
-
 -- auxiliary data (not directly from the rdzip)
 create table orchard.aux (
     sha256              character (64)  references orchard.level(sha256)    on delete cascade,
@@ -90,6 +79,8 @@ create table orchard.aux (
     -- text that can appear regarding the approval level.
     -- for instance, this might show the reason a level has a star ("comp 8 winner"), or why a level was rejected ("oneshots incorrectly cued")
     approval_message    text,
+    -- True if the level has been "deleted"
+    recycle_bin         boolean         not null default false,
 
     primary key (sha256)
 );
@@ -103,16 +94,47 @@ create table orchard.booster (
 );
 
 -- ##########################
+--        Views
+-- ##########################
+
+
+-- views that give the tags and authors in order automatically
+create view orchard.level_tags as
+select sha256, tag from orchard.level_tag
+order by seq;
+
+create view orchard.level_authors as
+select sha256, author from orchard.level_author
+order by seq;
+
+
+-- views that give the levels but not the recycle bin ones
+create view orchard.levels as
+select * from orchard.level as i
+left join orchard.aux as j
+using (sha256)
+where j.recycle_bin = 'f';
+ 
+
+
+-- ##########################
 --        PROCEDURES
 -- ##########################
 alter default privileges revoke execute on functions from public;
 
 CREATE FUNCTION orchard.add_level(a json) RETURNS text AS
 $$
-#INSERT HERE
+#INSERT_ADD_LEVEL_HERE
 
 $$
-LANGUAGE plpython3u;
+LANGUAGE plpython3u VOLATILE;
+
+CREATE FUNCTION orchard.get_iid_diffs(method text, iids text[]) returns text[] AS
+$$
+#INSERT_GET_IID_DIFFS_HERE
+
+$$
+LANGUAGE plpython3u STABLE;
 
 -- ##########################
 --          ROLES
@@ -123,7 +145,7 @@ drop role if exists web_anon;
 create role web_anon nologin;
 
 grant usage on schema orchard to web_anon;
-grant select on orchard.level to web_anon;
+grant select on orchard.levels to web_anon;
 grant select on orchard.level_tags to web_anon;
 grant select on orchard.level_authors to web_anon;
 grant select on orchard.aux to web_anon;
@@ -140,6 +162,7 @@ grant all on orchard.level_author to edit_anon;
 grant all on orchard.aux to edit_anon;
 grant all on orchard.booster to edit_anon;
 grant execute on function orchard.add_level to edit_anon;
+grant execute on function orchard.get_iid_diffs to edit_anon;
 
 
 
