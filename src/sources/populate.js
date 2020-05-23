@@ -13,7 +13,7 @@ const utils = require("../utils.js");
  */
 const runDriverLevel = async (driver, iid) => {
 	try {
-		log(":driver", `Processing ${driver.submissionMethod} iid ${iid}...`);
+		log(":driver", `Processing ${driver.serialise()} iid ${iid}...`);
 		// if it's rehosting, we need to pass "all" to vitals. otherwise "nouploading".
 		const profile = driver.rehost ? "all" : "noupload";
 
@@ -22,11 +22,11 @@ const runDriverLevel = async (driver, iid) => {
 		console.log(vitalsData);
 		// if rehost, it's ipfs:// + the hash, otherwise it's the driver-specific URL
 		const downloadURL = driver.rehost ? "ipfs://" + vitalsData.rdzip_ipfs : _.get(driverData, driver.urlPath);
-		log(":driver", `Uploading ${driver.submissionMethod} iid ${iid}...`);
-		await client.addLevel(vitalsData, downloadURL, driver.submissionMethod, iid, driverData);
+		log(":driver", `Uploading ${driver.serialise()} iid ${iid}...`);
+		await client.addLevel(vitalsData, downloadURL, driver.serialise(), iid, driverData);
 		return Promise.resolve(true);
 	} catch(err) {
-		log("!driver", `Error occured when processing ${driver.submissionMethod} iid ${iid}`);
+		log("!driver", `Error occured when processing ${driver.serialise()} iid ${iid}`);
 		log("!driver", err);
 		return Promise.resolve(false);
 	}
@@ -46,7 +46,7 @@ const runDriver = async (driverName, args) => {
 	try {
 		await driver.init();
 
-		log(":driver", `Initialised driver ${driver.submissionMethod}`);
+		log(":driver", `Initialised driver ${driver.serialise()}`);
 
 		// Get the iids...
 		const iids = await driver.getIids();

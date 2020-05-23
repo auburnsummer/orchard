@@ -6,12 +6,14 @@ const _ = require("lodash");
 const axios = require("axios");
 
 module.exports = class {
-	constructor({submissionMethod, rehost}) {
-		this.submissionMethod = submissionMethod;
-
+	constructor({rehost}) {
 		this.rehost = rehost;
 
 		this.urlPath = "url";
+	}
+
+	serialise() {
+		return "Example";
 	}
 
 	async init() {

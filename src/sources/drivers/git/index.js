@@ -9,8 +9,11 @@ const _ = require("lodash");
 module.exports = class {
 	constructor({cloneURL}) {
 		this.cloneURL = cloneURL;
-		this.submissionMethod = `Git repo: ${cloneURL}`;
 		this.rehost = true;
+	}
+
+	serialise() {
+		return `Git repo:: ${this.cloneURL}`;
 	}
 
 	async init() {

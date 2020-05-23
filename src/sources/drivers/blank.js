@@ -6,16 +6,18 @@
 module.exports = class {
 	// The driver constructor can take any arbitary number of arguments as required, but...
 	constructor({}) {
-		// ...it has to at least expose these three properties:
-
-		// submissionMethod: A human-readable submission method. Should be unique.
-		this.submissionMethod = "Example";
+		// ...it has to at least expose these two properties:
 
 		// If true, Orchard will rehost the rdzips on IPFS and use that for the download link.
 		this.rehost = false;
 
 		// If rehost is false, this needs to be a path from an object returned by expand() to a direct download URL.
 		this.urlPath = "example";
+	}
+
+	// Returns some unique string representation of this driver.
+	serialise() {
+
 	}
 
 	// A function which is called when the driver is loaded.
