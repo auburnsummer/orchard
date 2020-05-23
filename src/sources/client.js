@@ -38,7 +38,7 @@ const addLevel = (data, downloadURL, submissionMethod, iid, driverData) => {
 		url: endpoint,
 		data: dataToSend,
 		headers: {
-			authorization: `Bearer ${process.env.BEARER_TOKEN}`,
+			authorization: `Bearer ${process.env.POSTGREST_TOKEN}`,
 			prefer: "params=single-object",
 			"content-type" : "application/json"
 		}

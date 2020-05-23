@@ -6,4 +6,5 @@
 #   - driver is the name of a driver JS file, directly from the /drivers directory.
 #   - args is a JSON Lines formatted string (http://jsonlines.org/), but with implicit leading and ending braces.
 
-test :: "submissionMethod": "Test"
+test :: "submissionMethod": "Test", "rehost": true
+git :: "cloneURL" : "https://github.com/1ug1a/rd-levels.git"

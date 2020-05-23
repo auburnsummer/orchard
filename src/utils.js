@@ -8,7 +8,7 @@ const _ = require("lodash");
  * @param {*} arr : An array of something.
  * @param {*} func : A function which returns a Promise.
  * @param {*} throttle: How many functions allowed at once.
- * @returns The resolved values of each of the Promises obtained by running func() on each item in arr.
+ * @returns Promise of the resolved values of each of the Promises obtained by running func() on each item in arr.
  */
 const mapSeries = async (arr, func, throttle=1) => {
 	const chunks = _.chunk(arr, throttle);
@@ -18,6 +18,24 @@ const mapSeries = async (arr, func, throttle=1) => {
 		return _.concat(soFar, next);
 	}, Promise.resolve([]));
 };
+
+/**
+ * Try a promise a few times if it fails.
+ * @param {*} func  - a function which returns a promise.
+ * @param {*} retries - number of times to try
+ * @param {*} waitTime - time in seconds to wait between attempts
+ * @param {*} err 
+ */
+const retry = async (func, retries=3, waitTime=10, err=null) => {
+	if (retries < 0) {
+		return Promise.reject(err);
+	}
+	return func()
+	.catch( async (err) => {
+		await new Promise(resolve => setTimeout(resolve, waitTime * 1000));
+		return retry(func, retries - 1, waitTime, err);
+	});
+}
 
 
 module.exports = {

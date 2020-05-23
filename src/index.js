@@ -9,7 +9,8 @@ const log = require("./log.js");
 const _ = require("lodash");
 
 ( async () => {
-	const entries = await parseSources.parse("./src/sources/sources.txt");
+	const sourcePath = process.argv[2] || "./src/sources/sources.txt";
+	const entries = await parseSources.parse(sourcePath);
 	console.log(entries);
 	const failedDrivers = [];
 	for (const entry of entries) {

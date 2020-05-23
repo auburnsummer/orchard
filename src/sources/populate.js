@@ -19,11 +19,12 @@ const runDriverLevel = async (driver, iid) => {
 
 		const rdzip = await driver.get(iid);
 		const [vitalsData, driverData] = await Promise.all([vitals.analyse(rdzip, profile), driver.expand(iid)]);
-
+		console.log(vitalsData);
 		// if rehost, it's ipfs:// + the hash, otherwise it's the driver-specific URL
-		const downloadURL = driver.rehost ? "ipfs://" + vitalsData.rdzipIpfsHash : _.get(driverData, driver.urlPath);
+		const downloadURL = driver.rehost ? "ipfs://" + vitalsData.rdzip_ipfs : _.get(driverData, driver.urlPath);
 		log(":driver", `Uploading ${driver.submissionMethod} iid ${iid}...`);
-		return client.addLevel(vitalsData, downloadURL, driver.submissionMethod, iid, driverData);
+		await client.addLevel(vitalsData, downloadURL, driver.submissionMethod, iid, driverData);
+		return Promise.resolve(true);
 	} catch(err) {
 		log("!driver", `Error occured when processing ${driver.submissionMethod} iid ${iid}`);
 		log("!driver", err);
@@ -32,25 +33,38 @@ const runDriverLevel = async (driver, iid) => {
 };
 
 /**
- * Given a driver name and associated arguments, return a list of level commands for that driver.
+ * Given a driver name and associated arguments, do that driver
  * @param {*} driverName
  * @param {*} args
  */
 const runDriver = async (driverName, args) => {
-	const Driver = require(`./drivers/${driverName}.js`);
+	const Driver = require(`./drivers/${driverName}`);
 
 	const driver = new Driver(args);
 
-	// run the driver-specified init script:
-	await driver.init();
+	let data;
+	try {
+		await driver.init();
 
-	log(":driver", `Initialised driver ${driver.submissionMethod}`);
+		log(":driver", `Initialised driver ${driver.submissionMethod}`);
+	
+		// Get the iids...
+		const iids = await driver.getIids();
 
-	// Get the iids...
-	const iids = await driver.getIids();
-
-	// get the vitals data and the driver-specific data
-	const data = await utils.mapSeries(iids, iid => runDriverLevel(driver, iid), 2);
+		// get the vitals data and the driver-specific data
+		data = await utils.mapSeries(iids, iid => runDriverLevel(driver, iid), 2);
+	}
+	catch (err) {
+		log("!driver", err);
+	}
+	finally {
+		try {
+			await driver.cleanup();
+		}
+		catch (err) {
+			log("!driver cleanup", err);
+		}
+	}
 
 	return data;
 };
