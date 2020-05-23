@@ -2,7 +2,7 @@
 // A driver is a standardised set of functions which implement getting levels from a source.
 // implement these to add support for a service.
 
-
+/* eslint-disable */
 module.exports = class {
 	// The driver constructor can take any arbitary number of arguments as required, but...
 	constructor({}) {
@@ -18,18 +18,18 @@ module.exports = class {
 		this.urlPath = "example";
 	}
 
-    // A function which is called when the driver is loaded.
+	// A function which is called when the driver is loaded.
 	async init() {
-		
+
 	}
 
 	// Return an array of iids. This is some parameter which has both the following properties:
 	//  - An iid maps to exactly one level;
-    //  - If the level changes, the iid also changes.
-    
+	//  - If the level changes, the iid also changes.
+
 	// for instance, you can't edit a level in Discord without reuploading it, so the URL can be the IID.
-    // however, you can edit Steam Workshop levels, so for Workshop the IID needs to be a combination of 
-    // the last updated date and the level ID.
+	// however, you can edit Steam Workshop levels, so for Workshop the IID needs to be a combination of
+	// the last updated date and the level ID.
 	async getIids() {
 
 	}
@@ -55,3 +55,5 @@ module.exports = class {
 	}
 
 };
+
+/* eslint-enable */

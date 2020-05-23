@@ -47,7 +47,7 @@ const runDriver = async (driverName, args) => {
 		await driver.init();
 
 		log(":driver", `Initialised driver ${driver.submissionMethod}`);
-	
+
 		// Get the iids...
 		const iids = await driver.getIids();
 

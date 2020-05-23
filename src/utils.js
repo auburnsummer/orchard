@@ -24,20 +24,21 @@ const mapSeries = async (arr, func, throttle=1) => {
  * @param {*} func  - a function which returns a promise.
  * @param {*} retries - number of times to try
  * @param {*} waitTime - time in seconds to wait between attempts
- * @param {*} err 
+ * @param {*} err
  */
 const retry = async (func, retries=3, waitTime=10, err=null) => {
 	if (retries < 0) {
 		return Promise.reject(err);
 	}
 	return func()
-	.catch( async (err) => {
-		await new Promise(resolve => setTimeout(resolve, waitTime * 1000));
-		return retry(func, retries - 1, waitTime, err);
-	});
-}
+		.catch( async (err) => {
+			await new Promise(resolve => setTimeout(resolve, waitTime * 1000));
+			return retry(func, retries - 1, waitTime, err);
+		});
+};
 
 
 module.exports = {
-	mapSeries: mapSeries
+	mapSeries: mapSeries,
+	retry: retry
 };
