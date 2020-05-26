@@ -5,7 +5,7 @@ Running this script will create the tables and required users.
 
 Run it like:
 
- # psql -U postgres -f create.sql
+ # sh create.sh
 */
 
 CREATE EXTENSION plpython3u;

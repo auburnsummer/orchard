@@ -120,3 +120,4 @@ src/db/postgrest
 
 src/db/out.sql
 src/test.txt
+src/db/dump.sql
