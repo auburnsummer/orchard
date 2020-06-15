@@ -121,3 +121,6 @@ src/db/postgrest
 src/db/out.sql
 src/test.txt
 src/db/dump.sql
+
+debug_log
+.vagrant

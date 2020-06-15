@@ -18,7 +18,7 @@ Orchard back-end:
 [x] Set up an IPFS node
 [x] Switch vitals over to hosting files on IPFS instead of imgur freeloading
 [x] Write code that uses a driver and generates PostgREST queries.
-[.] Implement "what levels are stale?" (need to be updated) in SQL
+[ ] Implement "what levels are stale?" (need to be updated) in SQL
 [ ] Modify the generator to only generate newly added levels
 [ ] Modify the generator to delete levels when they are removed from the
     source
