@@ -52,4 +52,3 @@ Workshop scraper:
     - [ ] But a special email (submit@rhythm.cafe) goes to the server directly
     - [ ] And if there is an rdzip attachment, we add that to the database
     - [ ] Could add extremely simple captcha (i.e. "include the phrase xxxxx in your email")
-

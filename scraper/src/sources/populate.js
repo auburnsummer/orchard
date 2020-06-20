@@ -3,8 +3,8 @@ const vitals = require("@auburnsummer/vitals");
 
 const client = require("./client.js");
 
-const log = require("../log.js");
-const utils = require("../utils.js");
+const log = require("../utils/log.js");
+const utils = require("../utils/promises.js");
 
 /**
  * Given an iid from a driver, return the level commands associated with that driver.
@@ -19,7 +19,6 @@ const runDriverLevel = async (driver, iid) => {
 
 		const rdzip = await driver.get(iid);
 		const [vitalsData, driverData] = await Promise.all([vitals.analyse(rdzip, profile), driver.expand(iid)]);
-		console.log(vitalsData);
 		// if rehost, it's ipfs:// + the hash, otherwise it's the driver-specific URL
 		const downloadURL = driver.rehost ? "ipfs://" + vitalsData.rdzip_ipfs : _.get(driverData, driver.urlPath);
 		log(":driver", `Uploading ${driver.serialise()} iid ${iid}...`);

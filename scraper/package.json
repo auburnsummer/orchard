@@ -1,24 +1,22 @@
 {
-  "name": "orchard",
+  "name": "scraper",
   "version": "0.0.1",
-  "description": "organised repository of charts for rhythm doctor",
-  "main": "index.js",
+  "description": "scraper for orchard",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@auburnsummer/vitals": "0.3.1",
+    "@auburnsummer/vitals": "^0.3.1",
     "axios": "^0.19.2",
     "del": "^5.1.0",
+    "dotenv-defaults": "^1.1.1",
     "find-config": "^1.0.0",
-    "isomorphic-git": "^1.4.0",
+    "isomorphic-git": "^1.5.0",
     "js-sha256": "^0.9.0",
     "lodash": "^4.17.15",
-    "uuid": "^7.0.3"
-  },
-  "devDependencies": {
-    "eslint": "^6.8.0"
+    "uuid": "^8.1.0"
   }
 }

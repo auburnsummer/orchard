@@ -1,5 +1,6 @@
 const _ = require("lodash");
 const axios = require("axios");
+const log = require('../utils/log');
 
 /**
  * Add a level to the database.
@@ -30,6 +31,7 @@ const addLevel = (data, downloadURL, submissionMethod, iid, driverData) => {
 		tags: data.tags,
 		authors: data.authors
 	};
+	log("JSON", JSON.stringify(dataToSend));
 
 	const endpoint = `${process.env.POSTGREST_SERVER}/rpc/add_level`;
 

@@ -114,13 +114,12 @@ dist
 .yarn/build-state.yml
 .pnp.*
 
-src/db/key
-src/abcde.js
-src/db/postgrest
+backend/key
+scraper/src/abcde.js
 
-src/db/out.sql
-src/test.txt
-src/db/dump.sql
+backend/src/sql/out.sql
+scraper/test.txt
+backend/src/sql/dump.sql
 
 debug_log
 .vagrant

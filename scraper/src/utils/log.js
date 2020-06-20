@@ -15,7 +15,7 @@ const stream = fs.createWriteStream(LOG_FILE, {flags:"a"});
  */
 module.exports = (type, object) => {
 	try {
-		const s = `[${type}] ${object.toString()}`;
+		const s = `[${type}] ${object.toString()}\n`;
 		console.error(s);
 		stream.write(s);
 	}

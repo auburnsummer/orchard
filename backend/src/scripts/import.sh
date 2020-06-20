@@ -1,0 +1,1 @@
+psql -U postgres < ../sql/dump.sql

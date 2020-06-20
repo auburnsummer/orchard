@@ -1,17 +1,22 @@
-require("dotenv").config({ path: require("find-config")(".env") });
+require("dotenv-defaults").config({
+	path: require("find-config")(".env"),
+	defaults: require("find-config")(".env.defaults")
+});
 /*
 Entry point for the indexing script.
 */
 
 const parseSources = require("./sources/parseSources.js");
 const populate = require("./sources/populate.js");
-const log = require("./log.js");
+const log = require("./utils/log.js");
 const _ = require("lodash");
 
+console.error(process.env);
+
 ( async () => {
-	const sourcePath = process.argv[2] || "./src/sources/sources.txt";
+	const sourcePath = process.argv[2] || "sources.txt";
 	const entries = await parseSources.parse(sourcePath);
-	console.log(entries);
+	console.error(entries);
 	const failedDrivers = [];
 	for (const entry of entries) {
 		try {
