@@ -115,6 +115,7 @@ dist
 .pnp.*
 
 backend/key
+backend/token
 scraper/src/abcde.js
 
 backend/src/sql/out.sql
