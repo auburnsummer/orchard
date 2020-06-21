@@ -6,20 +6,20 @@ This document describes how to get started with the development environment.
 
 You should have [VirtualBox][0], [Vagrant][1], and git installed. On Windows I suggest [Git Bash][2] but feel free to use whatever.
 
-Check that Vagrant is in the path by entering `vagrant --version` in the command line.
+Check that Vagrant is in the path by running `vagrant --version`.
 
-If you are on Windows, run the command `git config --global core.autocrlf false` to ensure Unix-style line endings.
+If you are on Windows, run the command `git config --global core.autocrlf false` before cloning this repo to ensure Unix-style line endings.
 
 
 ## Chat
 
-Things relating to the level website are generally discussed in a special channel on RDL.
+Things relating to the level website are generally discussed in the #pharmacy channel on the Rhythm Doctor Lounge discord server.
 For now, talk about orchard goes there as well. DM me @auburnsummer for access.
 
 
 ## Setting up the VM
 
-In this step, we use Vagrant to provision a VirtualBox VM running Ubuntu 20.04, which the required tools will be installed in. It
+In this step, we use Vagrant to provision a VirtualBox VM running Ubuntu 20.04, then install the required tools. It
 should be possible to use other hypervisors other than VirtualBox (e.g. HyperV), but I have not tested these.
 
 First, clone this repository, then `cd` into the resulting directory. You should now be at the same directory
@@ -41,9 +41,11 @@ If something has _really_ broken in the VM, your best bet is to probably just de
 
 After `vagrant up` has finished, you will see a screen with a number of IP addresses on it.
 You want the IP address of the `eth1` interface. This is the IP address of the VM that you can use to access it.
-(It will be different for you and me).
+(It will be different for you and me). Take a note of this IP address.
 
 ![](https://user-images.githubusercontent.com/37142182/85196759-af063880-b31f-11ea-92e1-ff755da70256.PNG)
+
+If you forget the IP address, you can run `vagrant ssh` to enter the VM, then run `ip addr` inside the VM.
 
 ## Accessing the development environment
 
@@ -53,9 +55,9 @@ The VM has booted up, but how do we actually code on it? There are a few ways he
 
 This option lets you edit files in a web-based environment.
 This is probably the most straightforward way, since you don't need to install anything
-on the host PC. 
+on the host PC. Unless you have a good reason, just use this.
 
-Just visit `http://<THE IP>:8081` in a browser. For instance, the IP address of
+Visit `http://<THE IP>:8081` in a browser. For instance, the IP address of
 my VM was `172.28.128.4`, so I would visit `http://172.28.128.4:8081`.
 
 What you'll find is basically Visual Studio Code but in a browser window:
@@ -75,6 +77,8 @@ Keep in mind that this terminal runs as root by default, so be careful!
 ### Option 2: local editing
 
 In this option, we edit the files locally, which are then synced with the VM using a synced folder.
+You could do this if you have strong opinions on what you want your IDE to look like and want to
+keep your local text editor.
 
 First, run the command `vagrant ssh` to open a shell inside the VM. You will use this shell to run
 commands. Run the command `cd /vagrant`
@@ -87,8 +91,82 @@ reflected in the `/vagrant` directory of the VM.
 
 In this section, we examine the commands to run the various parts of orchard.
 
-Will write this later
+### Multiple terminals
 
+There's a few different parts of orchard, so it makes sense to have a few different terminals around.
+There are a few different ways to accomplish this. The easiest is to just press the `+` button in code-server
+whenever you want a new terminal:
+
+![](https://user-images.githubusercontent.com/37142182/85215093-f55aa680-b3b6-11ea-9ebb-15e9e275e801.PNG)
+
+Alternatively, the VM also has `tmux` installed. This is a tool which lets you run multiple terminals
+in a single terminal. Take a look at [A Quick and Easy Guide to tmux](https://www.hamvocke.com/blog/a-quick-and-easy-guide-to-tmux/)
+if you want to go down that path. 
+
+Alternatively again, you could also just run `vagrant ssh` in a bunch of different windows.
+
+### SQL stuff
+
+The backend uses [PostgREST][4] and [Postgres][5]. PostgREST is a server which automatically creates an API
+from a SQL database. I used it because I thought it would save me time. In hindsight, it probably didn't. Ah well.
+
+The VM should already have them installed. There are a few shell scripts in the `backend/src/scripts` directory which
+you should use to set up the database. For now, ignore `import.sh` and `export.sh`.
+
+`cd` to `/vagrant/backend`. From here, run `sh src/scripts/create.sh` (making use of tab-complete to do it quickly).
+
+You'll see a lot of SQL commands whizz on by.
+
+![Capture5](https://user-images.githubusercontent.com/37142182/85215262-571c1000-b3b9-11ea-8148-01b0a8524722.PNG)
+
+Then, run the command `psql -U postgres`. This will enter a postgres shell as the user `postgres`. Try running a command
+like `select * from orchard.level;`.
+
+![](https://user-images.githubusercontent.com/37142182/85215277-96e2f780-b3b9-11ea-8851-48e883edf061.PNG)
+
+There's nothing in the table yet, since we just made it! Don't worry, we'll start to add levels in the database soon
+enough. Exit the postgres shell by typing in `exit`.
+
+By the way, what does `create.sh` actually do? If you have a look at the file, you'll find that it uses `sed` to
+combine various Python scripts in the `src/procedures` directory into one big SQL file, which it then runs. This means
+that if the Python scripts change, the `create.sh` script needs to be reran for those changes to actually reflect in
+the database.
+
+### PostgREST stuff
+
+The VM has PostgREST installed already, so this is pretty straightforward. Just run `postgrest tutorial.conf`:
+
+![Capture7](https://user-images.githubusercontent.com/37142182/85215384-158c6480-b3bb-11ea-8f19-3a01275b3bfb.PNG)
+
+If you navigate in a web browser to `<THE_IP>:3000/levels`, you'll get a response like `[]`. This is because there are
+no levels yet.
+
+You can exit PostgREST by pressing Ctrl-C. For now, we want to keep it running, so leave it as it is and open a new
+terminal to do other things in.
+
+### Scraper stuff
+
+#### Decentralisation
+
+Next, let's look at the scraper, which is the part of orchard which collects rdzips from various sources. 
+
+Right now, the level system is very centralised. The only submission method is posting a level to #rd-showcase in RDL. However,
+this makes the moderators and admins of RDL culpable for copyright violations enacted in the server.
+
+Instead, for orchard, users are **responsible for their own levels**. Instead of one large Discord server, you would
+set up a small private Discord server for you and your friends / level making group, and invite the Custom Levels Chick bot
+to that server. Or you would store your levels in a shared Google Drive folder, or a personal Git repository...
+
+This is fairly similar to how [chorus](https://github.com/Paturages/chorus) operates. Which makes sense, since orchard
+is based off chorus in a few ways. The difference is I hope that for RD, people will gather around small groups rather than
+entirely individual folders.
+
+It will be more annoying than the current system, but this is the only way to retain our current freedoms in level making.
+
+#### Starting up the scraper
+
+`cd` to the `/vagrant/scraper` directory. Then run `npm install` to install the dependencies. Then run `node src/index.js` and
+let that go for a while. If you go to `<THE_IP>:3000/levels` again, there will now be levels there!
 
 
 
@@ -97,3 +175,5 @@ Will write this later
 [1]: https://www.vagrantup.com/
 [2]: https://gitforwindows.org/
 [3]: https://github.com/cdr/code-server
+[4]: http://postgrest.org/en/v7.0.0/
+[5]: https://www.postgresql.org/
