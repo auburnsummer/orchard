@@ -47,7 +47,24 @@ const addLevel = (data, downloadURL, submissionMethod, iid, driverData) => {
 	});
 };
 
+const getIidDiffs = (method, iids) => {
+	const endpoint = `${process.env.POSTGREST_SERVER}/rpc/get_iid_diffs`;
+
+	return axios({
+		method: "POST",
+		url: endpoint,
+		data: {
+			method: method,
+			iids: iids
+		},
+		headers: {
+			authorization: `Bearer ${process.env.POSTGREST_TOKEN}`
+		}
+	});
+}
+
 
 module.exports = {
 	addLevel : addLevel,
+	getIidDiffs : getIidDiffs
 };

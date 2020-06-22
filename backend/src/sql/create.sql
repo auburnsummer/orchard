@@ -129,7 +129,7 @@ $$
 $$
 LANGUAGE plpython3u VOLATILE;
 
-CREATE FUNCTION orchard.get_iid_diffs(method text, iids text[]) returns text[] AS
+CREATE FUNCTION orchard.get_iid_diffs(method text, iids text[]) returns jsonb AS
 $$
 #INSERT_GET_IID_DIFFS_HERE
 

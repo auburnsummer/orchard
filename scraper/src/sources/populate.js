@@ -11,7 +11,7 @@ const utils = require("../utils/promises.js");
  * @param {*} driver
  * @param {*} iid
  */
-const runDriverLevel = async (driver, iid) => {
+const processIid = async (driver, iid) => {
 	try {
 		log(":driver", `Processing ${driver.serialise()} iid ${iid}...`);
 		// if it's rehosting, we need to pass "all" to vitals. otherwise "nouploading".
@@ -32,6 +32,36 @@ const runDriverLevel = async (driver, iid) => {
 };
 
 /**
+ * Divide iids into groups as follows:
+ *  - add: levels that need to be added
+ *  - bin: levels that need to be binned
+ *  - unbin: levels that need to be unbinned
+ * Levels that need to be ignored are just not in any of the lists at all.
+ *  see https://user-images.githubusercontent.com/37142182/85217954-01576000-b3d9-11ea-967f-1fdb6c5bdb3d.png
+ * @param {*} method 
+ * @param {*} iids 
+ */
+const getIidGroups = async (method, iids) => {
+	const diffs = await client.getIidDiffs(method, iids);
+
+	// things in the request that are not in the database
+	const add = _.filter(diffs, (diff) => !_.isNull(diff.proposed_iid));
+
+	// things that are in the database that are not in the request AND are currently not binned
+	const bin = _.filter(diffs, (diff) => !_.isNull(diff.iid) && diff.recycle_bin);
+
+	// things that are in the request and also in the database, but are currently binned
+	// for now, no unbinning...
+	const unbin = []
+
+	return {
+		add: add,
+		bin: bin,
+		unbin: unbin
+	}
+}
+
+/**
  * Given a driver name and associated arguments, do that driver
  * @param {*} driverName
  * @param {*} args
@@ -50,8 +80,14 @@ const runDriver = async (driverName, args) => {
 		// Get the iids...
 		const iids = await driver.getIids();
 
+		const groups = await getIidGroups(driver.serialise(), iids);
+
+		console.log("BREAKPOINT");
+
+		// split the iids into groups according to what we need to do with them.
+
 		// get the vitals data and the driver-specific data
-		data = await utils.mapSeries(iids, iid => runDriverLevel(driver, iid), 2);
+		data = await utils.mapSeries(iids, iid => processIid(driver, iid), 2);
 	}
 	catch (err) {
 		log("!driver", err);

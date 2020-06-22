@@ -69,6 +69,6 @@ try:
 except Exception as e:
 	plpy.log("Error!")
 	plpy.log(str(e))
-	return False
+	raise
 else:
 	return True

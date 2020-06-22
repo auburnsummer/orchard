@@ -20,7 +20,7 @@ tar xfJ postgrest-v7.0.1-linux-x64-static.tar.xz
 sudo cp postgrest /usr/local/bin
 
 # PM2
-sudo npm install pm2 -g
+# sudo npm install pm2 -g
 
 # install an IPFS instance.
 cd /tmp
@@ -30,7 +30,11 @@ cd go-ipfs
 sudo bash install.sh
 
 ipfs init --profile server
-pm2 start "ipfs daemon"
+
+sudo cp /vagrant/vagrant_scripts/ipfsd.service /lib/systemd/system/
+sudo systemctl enable ipfsd
+sudo systemctl start ipfsd
+
 
 # Make a random key and corresponding jwt token.
 
@@ -63,7 +67,8 @@ sudo chown vagrant /vagrant/scraper/node_modules
 
 # code-server
 curl -fsSL https://code-server.dev/install.sh | sh
-
-pm2 start "code-server --auth none --bind-addr=0.0.0.0:8081"
+sudo cp /vagrant/vagrant_scripts/code-server.service /lib/systemd/system/
+sudo systemctl enable code-server
+sudo systemctl start code-server
 
 ip addr
