@@ -60,6 +60,9 @@ const getIidDiffs = (method, iids) => {
 		headers: {
 			authorization: `Bearer ${process.env.POSTGREST_TOKEN}`
 		}
+	})
+	.then( (resp) => {
+		return resp.data;
 	});
 }
 

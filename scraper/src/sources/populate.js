@@ -42,17 +42,16 @@ const processIid = async (driver, iid) => {
  * @param {*} iids 
  */
 const getIidGroups = async (method, iids) => {
-	const diffs = await client.getIidDiffs(method, iids);
+	const levels = await client.getIidDiffs(method, iids);
 
 	// things in the request that are not in the database
-	const add = _.filter(diffs, (diff) => !_.isNull(diff.proposed_iid));
+	const add = _.filter(levels, (level) => !_.isNull(level.proposed_iid) && _.isNull(level.iid));
 
 	// things that are in the database that are not in the request AND are currently not binned
-	const bin = _.filter(diffs, (diff) => !_.isNull(diff.iid) && diff.recycle_bin);
+	const bin = _.filter(levels, (level) => !_.isNull(level.iid) && (!level.recycle_bin));
 
 	// things that are in the request and also in the database, but are currently binned
-	// for now, no unbinning...
-	const unbin = []
+	const unbin = _.filter(levels, (level) => level.iid === level.proposed_iid && level.recycle_bin)
 
 	return {
 		add: add,
