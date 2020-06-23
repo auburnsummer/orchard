@@ -1,6 +1,8 @@
 const _ = require("lodash");
 const axios = require("axios");
-const log = require('../utils/log');
+const log = require("../utils/log");
+
+const promiseUtils = require("../utils/promises");
 
 /**
  * Add a level to the database.
@@ -61,13 +63,42 @@ const getIidDiffs = (method, iids) => {
 			authorization: `Bearer ${process.env.POSTGREST_TOKEN}`
 		}
 	})
-	.then( (resp) => {
-		return resp.data;
-	});
-}
+		.then( (resp) => {
+			return resp.data;
+		});
+};
 
+/**
+ * Recycle bin some levels
+ * @param {*} method 
+ * @param {*} iids 
+ */
+const recycleBin = (method, iids, bin) => {
+	const batchSize = 10; // todo: determine this empirically
+	const batches = _.chunk(iids, batchSize);
+	const endpoint = `${process.env.POSTGREST_SERVER}/aux`
+	return promiseUtils.mapSeries(batches, (batch) => {
+		const eqQuery = `eq.${method}`;
+		const inQuery = "in.(" + _.join(batch, ",") + ")";
+		return axios({
+			method: "PATCH",
+			url: endpoint,
+			headers: {
+				authorization: `Bearer ${process.env.POSTGREST_TOKEN}`
+			},
+			params: {
+				submission_method: eqQuery,
+				iid: inQuery
+			},
+			data: {
+				recycle_bin: bin
+			}
+		});
+	}, 2);
+}
 
 module.exports = {
 	addLevel : addLevel,
-	getIidDiffs : getIidDiffs
+	getIidDiffs : getIidDiffs,
+	recycleBin: recycleBin
 };

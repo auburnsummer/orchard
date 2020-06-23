@@ -4,7 +4,7 @@ const vitals = require("@auburnsummer/vitals");
 const client = require("./client.js");
 
 const log = require("../utils/log.js");
-const utils = require("../utils/promises.js");
+const promiseUtils= require("../utils/promises.js");
 
 /**
  * Given an iid from a driver, return the level commands associated with that driver.
@@ -38,27 +38,33 @@ const processIid = async (driver, iid) => {
  *  - unbin: levels that need to be unbinned
  * Levels that need to be ignored are just not in any of the lists at all.
  *  see https://user-images.githubusercontent.com/37142182/85217954-01576000-b3d9-11ea-967f-1fdb6c5bdb3d.png
- * @param {*} method 
- * @param {*} iids 
+ * @param {*} method
+ * @param {*} iids
  */
 const getIidGroups = async (method, iids) => {
 	const levels = await client.getIidDiffs(method, iids);
 
 	// things in the request that are not in the database
-	const add = _.filter(levels, (level) => !_.isNull(level.proposed_iid) && _.isNull(level.iid));
+	const add = _.map(_.filter(levels,
+		(level) => !_.isNull(level.proposed_iid) && _.isNull(level.iid)),
+	(level) => level.proposed_iid);
 
-	// things that are in the database that are not in the request AND are currently not binned
-	const bin = _.filter(levels, (level) => !_.isNull(level.iid) && (!level.recycle_bin));
+	// things that are not in the request but are in the database AND are not already binned
+	const bin = _.map(_.filter(levels,
+		(level) => !_.isNull(level.iid) && (!level.recycle_bin)),
+	(level) => level.iid);
 
 	// things that are in the request and also in the database, but are currently binned
-	const unbin = _.filter(levels, (level) => level.iid === level.proposed_iid && level.recycle_bin)
+	const unbin = _.map(_.filter(levels,
+		(level) => level.iid === level.proposed_iid && level.recycle_bin),
+	(level) => level.iid);
 
 	return {
 		add: add,
 		bin: bin,
 		unbin: unbin
-	}
-}
+	};
+};
 
 /**
  * Given a driver name and associated arguments, do that driver
@@ -79,14 +85,19 @@ const runDriver = async (driverName, args) => {
 		// Get the iids...
 		const iids = await driver.getIids();
 
-		const groups = await getIidGroups(driver.serialise(), iids);
-
-		console.log("BREAKPOINT");
-
 		// split the iids into groups according to what we need to do with them.
+		const {add, bin, unbin} = await getIidGroups(driver.serialise(), iids);
 
-		// get the vitals data and the driver-specific data
-		data = await utils.mapSeries(iids, iid => processIid(driver, iid), 2);
+
+		log(":driver", `Adding ${add.length}, binning ${bin.length}, unbinning ${unbin.length}`)
+
+		// do the bins as well
+		const binResult =  await client.recycleBin(driver.serialise(), bin, true);
+		const unbinResult = await client.recycleBin(driver.serialise(), unbin, false);
+		const addResult = await promiseUtils.mapSeries(add, iid => processIid(driver, iid), 2);
+
+
+		data = {binResult, unbinResult, addResult}
 	}
 	catch (err) {
 		log("!driver", err);
