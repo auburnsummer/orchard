@@ -38,6 +38,7 @@ create table orchard.level (
     single_player    boolean          not null,
     two_player       boolean          not null,
     image_ipfs       text             not null,
+    rdzip_ipfs       text             not null,
     hue              real             not null,
     icon_ipfs        text             -- levels don't have to have an icon
 );
@@ -63,7 +64,7 @@ create table orchard.level_author (
 -- auxiliary data (not directly from the rdzip)
 create table orchard.aux (
     sha256              character (64)  references orchard.level(sha256)    on delete cascade,
-    download_url        text             not null,
+    download_url        text            not null,
     submission_method   text            not null, -- e.g. 'discord', 'steam_workshop', etc
     submission_info     jsonb,          -- optional submission-specific data inserted by the driver.
     iid                 text            not null, -- a submission method specific id.

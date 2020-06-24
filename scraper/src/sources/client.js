@@ -16,7 +16,7 @@ const promiseUtils = require("../utils/promises");
  */
 const addLevel = (data, downloadURL, submissionMethod, iid, driverData) => {
 	// level. direct from data except the "tags" and "authors".
-	const level = _.pick(data, _.difference(_.keys(data), ["tags", "authors", "rdzip_ipfs"]));
+	const level = _.pick(data, _.difference(_.keys(data), ["tags", "authors"]));
 
 	// aux data
 	const aux = {

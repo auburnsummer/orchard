@@ -14,8 +14,7 @@ const promiseUtils= require("../utils/promises.js");
 const processIid = async (driver, iid) => {
 	try {
 		log(":driver", `Processing ${driver.serialise()} iid ${iid}...`);
-		// if it's rehosting, we need to pass "all" to vitals. otherwise "nouploading".
-		const profile = driver.rehost ? "all" : "noupload";
+		const profile = "all";
 
 		const rdzip = await driver.get(iid);
 		const [vitalsData, driverData] = await Promise.all([vitals.analyse(rdzip, profile), driver.expand(iid)]);

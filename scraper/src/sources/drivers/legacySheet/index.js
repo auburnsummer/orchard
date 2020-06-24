@@ -1,6 +1,8 @@
 
-// A driver is a standardised set of functions which implement getting levels from a source.
-// implement these to add support for a service.
+const axios = require('axios');
+const _ = require('lodash');
+
+const API_URL = "https://script.google.com/macros/s/AKfycbzm3I9ENulE7uOmze53cyDuj7Igi7fmGiQ6w045fCRxs_sK3D4/exec";
 
 /* eslint-disable */
 module.exports = class {
@@ -9,21 +11,26 @@ module.exports = class {
 		// ...it has to at least expose these two properties:
 
 		// If true, Orchard will rehost the rdzips on IPFS and use that for the download link.
-		// NOTE: Orchard will _always_ rehost the rdzips regardless. This just decides if the DL link is IPFS or not.
 		this.rehost = false;
 
 		// If rehost is false, this needs to be a path from an object returned by expand() to a direct download URL.
-		this.urlPath = "example";
+		this.urlPath = "iid";
 	}
 
 	// Returns some unique string representation of this driver.
 	serialise() {
-
+        return "Legacy google sheet";
 	}
 
 	// A function which is called when the driver is loaded.
 	async init() {
-
+        this.data = await axios({
+            method: "GET",
+            url: API_URL
+        })
+            .then( (resp) => {
+                return resp.data;
+            })
 	}
 
 	// Return an array of iids. This is some parameter which has both the following properties:
@@ -34,17 +41,22 @@ module.exports = class {
 	// however, you can edit Steam Workshop levels, so for Workshop the IID needs to be a combination of
 	// the last updated date and the level ID.
 	async getIids() {
-
+        return _.map(this.data, (x) => x.download_url);
 	}
 
 	// Given an IID, return a full driver-specific object.
 	async expand(iid) {
-
+        return {iid};
 	}
 
 	// Given an IID, return the rdzip that maps to that IID as an arraybuffer (i.e. download the level)
 	async get(iid) {
-
+        const resp = await axios({
+			method: "get",
+			url: iid,
+			responseType: "arraybuffer"
+		});
+		return resp.data;
 	}
 
 	// A function which gets called whenever Orchard adds or removes a level from this source.
