@@ -6,6 +6,9 @@ const client = require("./client.js");
 const log = require("../utils/log.js");
 const promiseUtils= require("../utils/promises.js");
 
+
+const SIMUTANEOUS_PROCESSING = 2;
+
 /**
  * Given an iid from a driver, return the level commands associated with that driver.
  * @param {*} driver
@@ -93,7 +96,7 @@ const runDriver = async (driverName, args) => {
 		// do the bins as well
 		const binResult =  await client.recycleBin(driver.serialise(), bin, true);
 		const unbinResult = await client.recycleBin(driver.serialise(), unbin, false);
-		const addResult = await promiseUtils.mapSeries(add, iid => processIid(driver, iid), 2);
+		const addResult = await promiseUtils.mapSeries(add, iid => processIid(driver, iid), SIMUTANEOUS_PROCESSING);
 
 
 		data = {binResult, unbinResult, addResult}
