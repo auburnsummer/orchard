@@ -18,9 +18,9 @@ Orchard back-end:
 [x] Set up an IPFS node
 [x] Switch vitals over to hosting files on IPFS instead of imgur freeloading
 [x] Write code that uses a driver and generates PostgREST queries.
-[ ] Implement "what levels are stale?" (need to be updated) in SQL
-[ ] Modify the generator to only generate newly added levels
-[ ] Modify the generator to delete levels when they are removed from the
+[x] Implement "what levels are stale?" (need to be updated) in SQL
+[x] Modify the generator to only generate newly added levels
+[x] Modify the generator to delete levels when they are removed from the
     source
 [ ] Decide on how we're going to do search
 [ ] Implement search, filtering, sorting, etc.
@@ -44,6 +44,10 @@ Workshop scraper:
 [ ] Implement driver that mirrors the bluebird downloader onto either an IPFS instance or just regular caddy
 [ ] (IPFS is really cool though hmmm)
 [ ] Generate download links using Cloudflare's IPFS gateway, not ours
+
+Google Drive:
+[x] Work out how the heck authentication works 
+[ ] Implement driver
 
 3rd option:
 [ ] Some third option that isn't associated with Discord or Steam
