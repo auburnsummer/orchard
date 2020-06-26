@@ -14,6 +14,8 @@
     "del": "^5.1.0",
     "dotenv-defaults": "^1.1.1",
     "find-config": "^1.0.0",
+    "google-auth-library": "^6.0.2",
+    "googleapis": "^52.1.0",
     "isomorphic-git": "^1.5.0",
     "js-sha256": "^0.9.0",
     "lodash": "^4.17.15",
