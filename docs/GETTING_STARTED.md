@@ -2,7 +2,14 @@
 
 This document describes how to get started with the development environment.
 
+## Chat
+
+Things relating to the level website are generally discussed in the #pharmacy channel on the Rhythm Doctor Lounge discord server.
+For now, talk about orchard goes there as well. DM me @auburnsummer for access.
+
 ## Prerequisites
+
+### What needs to be installed
 
 You should have [VirtualBox][0], [Vagrant][1], and git installed. On Windows I suggest [Git Bash][2] but feel free to use whatever.
 
@@ -10,12 +17,33 @@ Check that Vagrant is in the path by running `vagrant --version`.
 
 If you are on Windows, run the command `git config --global core.autocrlf false` before cloning this repo to ensure Unix-style line endings.
 
+### Google Cloud Platform service account
 
-## Chat
+orchard interacts with Google Drive as one of the sources available. Unfortunately this requires a service account,
+which requires a Google Cloud Platform account, which requires a **credit card**!! (The Google Drive API itself doesn't
+cost anything, it's just that you need a credit card to make a GCP account in the first place.)
 
-Things relating to the level website are generally discussed in the #pharmacy channel on the Rhythm Doctor Lounge discord server.
-For now, talk about orchard goes there as well. DM me @auburnsummer for access.
+I'm aware this is a big hassle. Therefore, the easiest way to obtain a service account is to DM me @auburnsummer and I'll send you the service account I'm using.
 
+(It's not a big issue, because the service account we create here has no permissions at all.)
+
+Alternatively, you can create your own:
+
+ 1. Make a new GCP project.
+ 2. Search "Google Drive" in the top bar.
+ 3. Enable the Google Drive API.
+ 4. Click on "Create Credentials".
+ 5. Which API am I using? Google Drive API
+ 6. Where will you be calling the API from? Other non-UI
+ 7. What data will you be accessing? Application data
+ 8. Are you planning to use this API with App Engine or Compute Engine? Nope
+ 9. It should prompt you to create a service account now.
+ 10. Service account name doesn't matter. Leave Role empty.
+ 11. Key Type should be JSON.
+ 12. Click Continue, then create it without a Role.
+ 13. It will download a JSON file.
+ 
+Put the JSON file (the one you just got or the one I sent you) in the same directory as the `.env` file and call it `secret.json`.
 
 ## Setting up the VM
 

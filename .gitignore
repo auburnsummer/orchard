@@ -124,3 +124,5 @@ backend/src/sql/dump.sql
 
 debug_log
 .vagrant
+
+secret.json
