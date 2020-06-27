@@ -17,7 +17,9 @@ const authClient = await oclient.getClient();
 
 const drive = google.drive({version: "v3", auth: authClient});
 
-const results = await drive.files.list({q: `'${FOLDER_ID}' in parents`})
+const fields = "*";
+
+const results = await drive.files.list({q: `'${FOLDER_ID}' in parents`, fields: fields})
 
 let fileList = results.data.files;
 
@@ -29,7 +31,7 @@ while (_.some(fileList, isAFolder)) {
 		const resolved = await prev;
 		if (isAFolder(curr)) {
 			const q = `'${curr.id}' in parents`;
-			const moreResults = await drive.files.list({q})
+			const moreResults = await drive.files.list({q, fields})
 			return _.concat(resolved, moreResults.data.files);
 		} else {
 			return _.concat(resolved, curr);
