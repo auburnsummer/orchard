@@ -35,7 +35,7 @@ module.exports = class {
 			url: url,
 			responseType: "arraybuffer"
 		});
-		return Buffer.from(resp.data, 'binary');
+		return Buffer.from(resp.data, "binary");
 	}
 
 	async onChangeHook() {

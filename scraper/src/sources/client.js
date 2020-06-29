@@ -101,4 +101,4 @@ module.exports = {
 	addLevel,
 	getIidDiffs,
 	recycleBin
-}
+};

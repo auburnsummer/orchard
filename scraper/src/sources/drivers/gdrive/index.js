@@ -71,13 +71,13 @@ module.exports = class {
 		const out = await this.drive.files.get(
 			{
 				fileId: id,
-				alt: 'media'
+				alt: "media"
 			},
 			{
 				responseType: "arraybuffer"
 			}
 		);
-		return Buffer.from(out.data, 'binary');
+		return Buffer.from(out.data, "binary");
 	}
 
 	// A function which gets called whenever Orchard adds or removes a level from this source.
