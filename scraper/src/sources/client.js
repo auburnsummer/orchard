@@ -70,13 +70,13 @@ const getIidDiffs = (method, iids) => {
 
 /**
  * Recycle bin some levels
- * @param {*} method 
- * @param {*} iids 
+ * @param {*} method
+ * @param {*} iids
  */
 const recycleBin = (method, iids, bin) => {
 	const batchSize = 10; // todo: determine this empirically
 	const batches = _.chunk(iids, batchSize);
-	const endpoint = `${process.env.POSTGREST_SERVER}/aux`
+	const endpoint = `${process.env.POSTGREST_SERVER}/aux`;
 	return promiseUtils.mapSeries(batches, (batch) => {
 		const eqQuery = `eq.${method}`;
 		const inQuery = "in.(" + _.join(batch, ",") + ")";
@@ -95,10 +95,10 @@ const recycleBin = (method, iids, bin) => {
 			}
 		});
 	}, 2);
-}
+};
 
 module.exports = {
-	addLevel : addLevel,
-	getIidDiffs : getIidDiffs,
-	recycleBin: recycleBin
-};
+	addLevel,
+	getIidDiffs,
+	recycleBin
+}

@@ -29,5 +29,5 @@ const parse = async (fileName) => {
 };
 
 module.exports = {
-	parse: parse
-};
+	parse
+}

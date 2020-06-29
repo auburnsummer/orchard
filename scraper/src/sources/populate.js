@@ -18,7 +18,6 @@ const processIid = async (driver, iid) => {
 	try {
 		log(":driver", `Processing ${driver.serialise()} iid ${iid}...`);
 		const profile = "all";
-
 		const rdzip = await driver.get(iid);
 		const [vitalsData, driverData] = await Promise.all([vitals.analyse(rdzip, profile), driver.expand(iid)]);
 		// if rehost, it's ipfs:// + the hash, otherwise it's the driver-specific URL
@@ -61,11 +60,7 @@ const getIidGroups = async (method, iids) => {
 		(level) => level.iid === level.proposed_iid && level.recycle_bin),
 	(level) => level.iid);
 
-	return {
-		add: add,
-		bin: bin,
-		unbin: unbin
-	};
+	return {add, bin, unbin};
 };
 
 /**
@@ -91,7 +86,7 @@ const runDriver = async (driverName, args) => {
 		const {add, bin, unbin} = await getIidGroups(driver.serialise(), iids);
 
 
-		log(":driver", `Adding ${add.length}, binning ${bin.length}, unbinning ${unbin.length}`)
+		log(":driver", `Adding ${add.length}, binning ${bin.length}, unbinning ${unbin.length}`);
 
 		// do the bins as well
 		const binResult =  await client.recycleBin(driver.serialise(), bin, true);
@@ -99,7 +94,7 @@ const runDriver = async (driverName, args) => {
 		const addResult = await promiseUtils.mapSeries(add, iid => processIid(driver, iid), SIMUTANEOUS_PROCESSING);
 
 
-		data = {binResult, unbinResult, addResult}
+		data = {binResult, unbinResult, addResult};
 	}
 	catch (err) {
 		log("!driver", err);
