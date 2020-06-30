@@ -26,7 +26,7 @@ comment on schema orchard is
 
 -- level table. data comes directly from vitals
 create table orchard.level (
-    sha256           character (64)   primary key,
+    sha256           character (44)   primary key, -- base58btc encoded
     artist           text             not null,
     song             text             not null,
     "difficulty"     int              not null, -- Medium
@@ -40,13 +40,19 @@ create table orchard.level (
     image_ipfs       text             not null,
     rdzip_ipfs       text             not null,
     hue              real             not null,
+    has_classics     boolean          not null,
+    has_oneshots     boolean          not null,
+    has_squareshots  boolean          not null,
+    has_swing        boolean          not null,
+    has_freetimes    boolean          not null,
+    has_holds        boolean          not null,
     icon_ipfs        text             -- levels don't have to have an icon
 );
 
 
 -- level tags
 create table orchard.level_tag (
-    sha256  character (64)  references orchard.level(sha256)    on delete cascade,
+    sha256  character (44)  references orchard.level(sha256)    on delete cascade,
     tag     text            not null,
     seq     int             not null, -- index of this tag
     primary key (sha256, tag, seq)
@@ -55,7 +61,7 @@ create table orchard.level_tag (
 
 -- level authors
 create table orchard.level_author (
-    sha256  character (64)  references orchard.level(sha256)    on delete cascade,
+    sha256  character (44)  references orchard.level(sha256)    on delete cascade,
     author  text            not null,
     seq     int             not null, -- index of this author in the list
     primary key (sha256, author, seq)
@@ -63,7 +69,7 @@ create table orchard.level_author (
 
 -- auxiliary data (not directly from the rdzip)
 create table orchard.aux (
-    sha256              character (64)  references orchard.level(sha256)    on delete cascade,
+    sha256              character (44)  references orchard.level(sha256)    on delete cascade,
     download_url        text            not null,
     submission_method   text            not null, -- e.g. 'discord', 'steam_workshop', etc
     submission_info     jsonb,          -- optional submission-specific data inserted by the driver.

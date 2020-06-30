@@ -75,9 +75,12 @@ const runDriver = async (driverName, args) => {
 
 	let data;
 	try {
+		log(":driver", `Initialising driver ${driver.serialise()}...`);
+
+
 		await driver.init();
 
-		log(":driver", `Initialised driver ${driver.serialise()}`);
+		log(":driver", `...initialised driver ${driver.serialise()}`);
 
 		// Get the iids...
 		const iids = await driver.getIids();
