@@ -26,7 +26,7 @@ comment on schema orchard is
 
 -- level table. data comes directly from vitals
 create table orchard.level (
-    sha256           character (44)   primary key, -- base58btc encoded
+    sha256           varchar (44)     primary key, -- base58btc encoded
     artist           text             not null,
     song             text             not null,
     "difficulty"     int              not null, -- Medium
@@ -52,7 +52,7 @@ create table orchard.level (
 
 -- level tags
 create table orchard.level_tag (
-    sha256  character (44)  references orchard.level(sha256)    on delete cascade,
+    sha256  varchar (44)    references orchard.level(sha256)    on delete cascade,
     tag     text            not null,
     seq     int             not null, -- index of this tag
     primary key (sha256, tag, seq)
@@ -61,7 +61,7 @@ create table orchard.level_tag (
 
 -- level authors
 create table orchard.level_author (
-    sha256  character (44)  references orchard.level(sha256)    on delete cascade,
+    sha256  varchar (44)    references orchard.level(sha256)    on delete cascade,
     author  text            not null,
     seq     int             not null, -- index of this author in the list
     primary key (sha256, author, seq)
@@ -69,7 +69,7 @@ create table orchard.level_author (
 
 -- auxiliary data (not directly from the rdzip)
 create table orchard.aux (
-    sha256              character (44)  references orchard.level(sha256)    on delete cascade,
+    sha256              varchar (44)    references orchard.level(sha256)    on delete cascade,
     download_url        text            not null,
     submission_method   text            not null, -- e.g. 'discord', 'steam_workshop', etc
     submission_info     jsonb,          -- optional submission-specific data inserted by the driver.
