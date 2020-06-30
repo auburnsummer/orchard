@@ -24,12 +24,16 @@ sudo cp postgrest /usr/local/bin
 
 # install an IPFS instance.
 cd /tmp
-wget https://github.com/ipfs/go-ipfs/releases/download/v0.5.1/go-ipfs_v0.5.1_linux-amd64.tar.gz
-tar -xvzf go-ipfs_v0.5.1_linux-amd64.tar.gz
+wget https://github.com/ipfs/go-ipfs/releases/download/v0.6.0/go-ipfs_v0.6.0_linux-amd64.tar.gz
+tar -xvzf go-ipfs_v0.6.0_linux-amd64.tar.gz
 cd go-ipfs
 sudo bash install.sh
 
 ipfs init --profile server
+ipfs config Addresses.API "/ip4/0.0.0.0/tcp/5001"
+ipfs config Addresses.Gateway "/ip4/0.0.0.0/tcp/8080"
+ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["*"]'
+ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "POST"]'
 
 sudo cp /vagrant/vagrant_scripts/ipfsd.service /lib/systemd/system/
 sudo systemctl enable ipfsd
