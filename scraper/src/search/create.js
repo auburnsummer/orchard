@@ -7,6 +7,8 @@ require("dotenv-defaults").config({
 
 const axios = require('axios');
 
+const yaml = require('js-yaml');
+
 ( async () => {
     // is the index already there?
     let a;
@@ -37,5 +39,39 @@ const axios = require('axios');
         });
         console.log(b);
     }
+
+    // next, parse our configuration file.
+    const meiliConfig = require('./meili.json');
+    console.log(meiliConfig);
+
+    // put it in the settings of our index
+    let c;
+    try {
+        c = await axios({
+            method: "POST",
+            url: `${process.env.MEILISEARCH_SERVER}/indexes/levels/settings`,
+            data: meiliConfig
+        });
+        console.log(c.data);
+    } catch (err) {
+        console.log(err);
+    }
+
+    const uid = c.data.updateId;
+
+    while (true) {
+        const howIsItGoing = await axios({
+            method: "GET",
+            url: `${process.env.MEILISEARCH_SERVER}/indexes/levels/updates/${uid}`
+        });
+        if (howIsItGoing.data.status === "processed") {
+            console.log("complete!");
+            break;
+        } else {
+            console.log(howIsItGoing.data);
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+        }
+    }
+
 
 })();
