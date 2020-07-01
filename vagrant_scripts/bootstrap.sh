@@ -55,6 +55,14 @@ sed -i '/POSTGREST_TOKEN=/g' /vagrant/.env
 printf "\nPOSTGREST_TOKEN=" >> /vagrant/.env
 cat /vagrant/backend/token >> /vagrant/.env
 
+#meilisearch
+cd /tmp
+curl -L https://install.meilisearch.com | sh
+sudo cp meilisearch /usr/local/bin
+sudo cp /vagrant/vagrant_scripts/meilisearch.service /lib/systemd/system/
+sudo systemctl enable meilisearch
+sudo systemctl start meilisearch
+
 
 # Delete node_modules.
 rm -rf /vagrant/scraper/node_modules
