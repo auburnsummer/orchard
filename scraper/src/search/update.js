@@ -34,7 +34,7 @@ const moment = require('moment');
                 "has_holds",
                 "level_tag(tag,seq)",
                 "level_author(author,seq)",
-                "aux(submission_method,approval,recycle_bin)"
+                "aux(human_name,approval,recycle_bin)"
             ], ","),
         },
         headers: {

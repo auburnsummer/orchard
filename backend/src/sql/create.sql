@@ -71,7 +71,8 @@ create table orchard.level_author (
 create table orchard.aux (
     sha256              varchar (44)    references orchard.level(sha256)    on delete cascade,
     download_url        text            not null,
-    submission_method   text            not null, -- e.g. 'discord', 'steam_workshop', etc
+    submission_method   text            not null, -- driver-generated name
+    human_name          text            not null, -- human name 
     submission_info     jsonb,          -- optional submission-specific data inserted by the driver.
     iid                 text            not null, -- a submission method specific id.
 

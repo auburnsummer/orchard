@@ -12,9 +12,10 @@ const promiseUtils = require("../utils/promises");
  *                    It's always a direct link.
  * @param submissionMethod A string of the submission method. This needs to be unique.
  * @param iid The driver-specific individual id
+ * @param humanName Human name of the driver ("group") for display purposes.
  * @param driverData driver-specific data which just gets dumped in the submission_info field.
  */
-const addLevel = (data, downloadURL, submissionMethod, iid, driverData) => {
+const addLevel = (data, downloadURL, submissionMethod, iid, humanName, driverData) => {
 	// level. direct from data except the "tags" and "authors".
 	const level = _.pick(data, _.difference(_.keys(data), ["tags", "authors"]));
 
@@ -22,6 +23,7 @@ const addLevel = (data, downloadURL, submissionMethod, iid, driverData) => {
 	const aux = {
 		sha256: data.sha256,
 		submission_method: submissionMethod,
+		human_name: humanName,
 		iid: iid,
 		download_url: downloadURL,
 		submission_info: JSON.stringify(driverData)

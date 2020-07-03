@@ -20,7 +20,7 @@ console.error(process.env);
 	const failedDrivers = [];
 	for (const entry of entries) {
 		try {
-			await populate.runDriver(entry.driver, entry.args);
+			await populate.runDriver(entry.driver, entry.humanName, entry.args);
 		}
 		catch (err) {
 			log("!entry", err.toString());

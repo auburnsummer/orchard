@@ -14,16 +14,16 @@ const SIMUTANEOUS_PROCESSING = 2;
  * @param {*} driver
  * @param {*} iid
  */
-const processIid = async (driver, iid) => {
+const processIid = async (driver, humanName, iid) => {
 	try {
-		log(":driver", `Processing ${driver.serialise()} iid ${iid}...`);
+		log(":driver", `Processing ${driver.serialise()} (${humanName}) iid ${iid}...`);
 		const profile = "all";
 		const rdzip = await driver.get(iid);
 		const [vitalsData, driverData] = await Promise.all([vitals.analyse(rdzip, profile), driver.expand(iid)]);
 		// if rehost, it's ipfs:// + the hash, otherwise it's the driver-specific URL
 		const downloadURL = driver.rehost ? "ipfs://" + vitalsData.rdzip_ipfs : _.get(driverData, driver.urlPath);
 		log(":driver", `Uploading ${driver.serialise()} iid ${iid}...`);
-		await client.addLevel(vitalsData, downloadURL, driver.serialise(), iid, driverData);
+		await client.addLevel(vitalsData, downloadURL, driver.serialise(), iid, humanName, driverData);
 		return Promise.resolve(true);
 	} catch(err) {
 		log("!driver", `Error occured when processing ${driver.serialise()} iid ${iid}`);
@@ -68,14 +68,14 @@ const getIidGroups = async (method, iids) => {
  * @param {*} driverName
  * @param {*} args
  */
-const runDriver = async (driverName, args) => {
+const runDriver = async (driverName, humanName, args) => {
 	const Driver = require(`./drivers/${driverName}`);
 
 	const driver = new Driver(args);
 
 	let data;
 	try {
-		log(":driver", `Initialising driver ${driver.serialise()}...`);
+		log(":driver", `Initialising driver ...`);
 
 
 		await driver.init();
@@ -94,7 +94,7 @@ const runDriver = async (driverName, args) => {
 		// do the bins as well
 		const binResult =  await client.recycleBin(driver.serialise(), bin, true);
 		const unbinResult = await client.recycleBin(driver.serialise(), unbin, false);
-		const addResult = await promiseUtils.mapSeries(add, iid => processIid(driver, iid), SIMUTANEOUS_PROCESSING);
+		const addResult = await promiseUtils.mapSeries(add, iid => processIid(driver, humanName, iid), SIMUTANEOUS_PROCESSING);
 
 
 		data = {binResult, unbinResult, addResult};

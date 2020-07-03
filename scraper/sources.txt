@@ -7,13 +7,13 @@
 #   - args is a JSON Lines formatted string (http://jsonlines.org/), but with implicit leading and ending braces.
 
 # Mock google drive for testing, don't actually play any of these levels
-gdrive :: "folderID" : "11v84dOUiwtUM9zMUpFgs4ubJtXB1kJ1J"
+gdrive [Mock Google Drive] :: "folderID" : "11v84dOUiwtUM9zMUpFgs4ubJtXB1kJ1J"
 
 # Test with local JSON data
-test :: "submissionMethod": "Test", "rehost": true
+test [Local JSON Test] :: "submissionMethod": "Test", "rehost": true
 
 # Lugi's levels on that random github repository
-git :: "cloneURL" : "https://github.com/1ug1a/rd-levels.git"
+git [Lugi's Levels]:: "cloneURL" : "https://github.com/1ug1a/rd-levels.git"
 
 # Driver for the old spreadsheet
-legacySheet :: 
+legacySheet [Old Spreadsheet] :: 

@@ -2,25 +2,39 @@ const _ = require("lodash");
 const fs = require("fs");
 const Promise = require("bluebird");
 
+/*
+(\w+) 		// match the driver part
+ ?    		// optional space before the human name
+\[(.+)\]	// match the human name
+ ?			// optional space again
+::			// indicates start of the JSONish section
+(.+)		// match the rest of the line
+*/
+const regex = /(\w+) ?\[(.+)\] ?::(.+)/;
+
 const parse = async (fileName) => {
 	const text = await Promise.promisify(fs.readFile)(fileName, "utf8");
 	const lines = _.split(text, "\n");
 
 	return _.filter(_.map(lines, (line) => {
 		// comment or empty line.
-		if (line[0] === "#" || line[0] === " ") {
+		if (line[0] === "#" || line[0] === " " || line === "") {
 			return false;
 		}
 
-		const tokens = _.split(line, "::");
-		const driver = _.head(tokens).trim();
+		const re = new RegExp(regex);
+		const result = re.exec(line);
+		console.log(line);
+		console.log(result);
+		const [, driver, humanName, argString] = result;
 
-		// rejoin (if there's :: in the body, for instance), then add the implicit braces
-		const argString = "{" + _.join(_.tail(tokens), "::") + "}";
+		// add the implicit braces
+		const jsonString = "{" + argString + "}";
 
 		return {
-			driver: driver,
-			args: JSON.parse(argString)
+			driver,
+			humanName,
+			args: JSON.parse(jsonString)
 		};
 	}),
 	// filter on driver existing and not being an empty string
