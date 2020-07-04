@@ -47,18 +47,18 @@ const getIidGroups = async (method, iids) => {
 
 	// things in the request that are not in the database
 	const add = _.map(_.filter(levels,
-		(level) => !_.isNull(level.proposed_iid) && _.isNull(level.iid)),
+		(level) => !_.isNull(level.proposed_iid) && _.isNull(level.submission_iid)),
 	(level) => level.proposed_iid);
 
 	// things that are not in the request but are in the database AND are not already binned
 	const bin = _.map(_.filter(levels,
-		(level) => !_.isNull(level.iid) && (!level.recycle_bin)),
-	(level) => level.iid);
+		(level) => !_.isNull(level.submission_iid) && (!level.recycle_bin)),
+	(level) => level.submission_iid);
 
 	// things that are in the request and also in the database, but are currently binned
 	const unbin = _.map(_.filter(levels,
-		(level) => level.iid === level.proposed_iid && level.recycle_bin),
-	(level) => level.iid);
+		(level) => level.submission_iid === level.proposed_iid && level.recycle_bin),
+	(level) => level.submission_iid);
 
 	return {add, bin, unbin};
 };

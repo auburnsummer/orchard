@@ -16,17 +16,25 @@ const promiseUtils = require("../utils/promises");
  * @param driverData driver-specific data which just gets dumped in the submission_info field.
  */
 const addLevel = (data, downloadURL, submissionMethod, iid, humanName, driverData) => {
-	// level. direct from data except the "tags" and "authors".
-	const level = _.pick(data, _.difference(_.keys(data), ["tags", "authors"]));
+	// level. direct from data except the "tags" and "authors", then add some
+	// of the other things as well
+
+	const levelPartial = _.pick(data, _.difference(_.keys(data), ["tags", "authors"]))
+
+	const level = _.merge(
+		levelPartial,
+		{
+			submission_method: submissionMethod,
+			human_name: humanName,
+			submission_iid: iid,
+			download_url: downloadURL,
+			submission_info: JSON.stringify(driverData)
+		}
+	);
 
 	// aux data
 	const aux = {
-		sha256: data.sha256,
-		submission_method: submissionMethod,
-		human_name: humanName,
-		iid: iid,
-		download_url: downloadURL,
-		submission_info: JSON.stringify(driverData)
+		sha256: data.sha256
 	};
 
 	const dataToSend = {

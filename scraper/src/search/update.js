@@ -31,10 +31,11 @@ const moment = require('moment');
                 "has_squareshots",
                 "has_swing",
                 "has_freetimes",
+                "human_name",
                 "has_holds",
                 "level_tag(tag,seq)",
                 "level_author(author,seq)",
-                "aux(human_name,approval,recycle_bin)"
+                "aux(approval,recycle_bin)"
             ], ","),
         },
         headers: {
@@ -42,7 +43,10 @@ const moment = require('moment');
         }
     });
     // console.log(levelResponse.data);
-    const normalised = _.map(levelResponse.data, (level) => {
+
+    const filtered = _.filter(levelResponse.data, (level) => level.aux[0].recycle_bin === false);
+
+    const normalised = _.map(filtered, (level) => {
         const thingsWeChanged = [
             "last_updated", //timestamp instead of ISO
             "level_tag", // direct array
@@ -57,13 +61,17 @@ const moment = require('moment');
 
         const tags = _.map(_.sortBy(level.level_tag, (tag) => tag.seq), (tag) => tag.tag);
         const authors = _.map(_.sortBy(level.level_author, (a) => a.seq), (a) => a.author);
+
+        const aux = {
+            approval: level.aux[0].approval
+        }
         
         return {
             last_updated,
             tags,
             authors,
             ...direct,
-            ...level.aux[0]
+            ...aux
         }
     })
     // yeet it into meilisearch
