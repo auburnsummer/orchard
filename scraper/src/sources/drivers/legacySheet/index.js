@@ -46,7 +46,11 @@ module.exports = class {
 
 	// Given an IID, return a full driver-specific object.
 	async expand(iid) {
-        return {iid};
+		const fullObject = _.find(this.data, (x) => x.download_url === iid);
+		return {
+			iid: fullObject.download_url,
+			approved: fullObject.verified || false
+		};
 	}
 
 	// Given an IID, return the rdzip that maps to that IID as an arraybuffer (i.e. download the level)
