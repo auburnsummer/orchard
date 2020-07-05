@@ -14,13 +14,13 @@ const _ = require("lodash");
 console.error(process.env);
 
 ( async () => {
-	const sourcePath = process.argv[2] || "sources.txt";
+	const sourcePath = process.argv[2] || "sources.yml";
 	const entries = await parseSources.parse(sourcePath);
 	console.error(entries);
 	const failedDrivers = [];
 	for (const entry of entries) {
 		try {
-			await populate.runDriver(entry.driver, entry.humanName, entry.args);
+			await populate.runDriver(entry.driver, entry.name, entry.args);
 		}
 		catch (err) {
 			log("!entry", err.toString());

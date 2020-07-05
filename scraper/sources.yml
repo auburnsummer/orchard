@@ -1,0 +1,24 @@
+- name: "Mock Google Drive"
+  driver: "gdrive"
+  website: null
+  description: |
+    Mock Google Drive for testing. Most of these levels are just made for
+    testing purposes and aren't actually playable in any capacity.
+  args:
+    folderID: "11v84dOUiwtUM9zMUpFgs4ubJtXB1kJ1J"
+- name: "Local JSON Test"
+  driver: "test"
+  website: null
+  description: |
+    Test with some local JSON data
+  args:
+    rehost: true
+- name: "Lugi's Levels"
+  driver: "git"
+  website: "https://github.com/1ug1a/rd-levels"
+  description: |
+    Levels that lugia put on github a long time ago, before the website
+    existed. I'm using it for testing, but I'm not really expecting anyone
+    to actually put their levels on git...
+  args:
+    cloneURL: "https://github.com/1ug1a/rd-levels.git"
