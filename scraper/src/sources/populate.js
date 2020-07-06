@@ -75,7 +75,7 @@ const runDriver = async (driverName, humanName, args) => {
 
 	let data;
 	try {
-		log(":driver", `Initialising driver ...`);
+		log(":driver", "Initialising driver ...");
 
 
 		await driver.init();

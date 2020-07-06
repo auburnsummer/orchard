@@ -17,21 +17,21 @@ console.error(process.env);
 	const sourcePath = process.argv[2] || "sources.yml";
 	const entries = await parseSources.parse(sourcePath);
 	console.error(entries);
-	const failedDrivers = [];
-	for (const entry of entries) {
-		try {
-			await populate.runDriver(entry.driver, entry.name, entry.args);
-		}
-		catch (err) {
-			log("!entry", err.toString());
-			failedDrivers.push(entry);
-		}
-	}
-	// log which ones didn't work
-	if (!_.isEmpty(failedDrivers)) {
-		log("!entry", "These ones failed:");
-		for (const entry of failedDrivers) {
-			log("!entry", JSON.stringify(entry));
-		}
-	}
+	// const failedDrivers = [];
+	// for (const entry of entries) {
+	// 	try {
+	// 		await populate.runDriver(entry.driver, entry.name, entry.args);
+	// 	}
+	// 	catch (err) {
+	// 		log("!entry", err.toString());
+	// 		failedDrivers.push(entry);
+	// 	}
+	// }
+	// // log which ones didn't work
+	// if (!_.isEmpty(failedDrivers)) {
+	// 	log("!entry", "These ones failed:");
+	// 	for (const entry of failedDrivers) {
+	// 		log("!entry", JSON.stringify(entry));
+	// 	}
+	// }
 })();

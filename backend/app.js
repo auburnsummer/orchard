@@ -8,7 +8,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 
-const db = require('./middleware/db');
+const db = require("./middleware/db");
 
 const indexRouter = require("./routes/index");
 const groupsRouter = require("./routes/groups");
@@ -27,7 +27,7 @@ app.use("/groups", groupsRouter);
 app.use("/levels", levelsRouter);
 
 
-app.use(require('./errors/conflict'));
-app.use(require('./errors/default'));
+app.use(require("./errors/conflict"));
+app.use(require("./errors/default"));
 
 module.exports = app;

@@ -22,10 +22,10 @@ create schema orchard;
 
 -- A group is an individual community of level creators.
 create table orchard.group (
-    id              serial  primary key,
-    name            text    not null,  -- human name for the group.
-    website         text    ,          -- optional website / link
-    description     text               -- optional description of the group
+    id              text    primary key,    -- serialised from driver + args
+    name            text    not null,       -- human name for the group.
+    website         text    ,               -- optional website / link
+    description     text                    -- optional description of the group
 );
 
 -- level table.

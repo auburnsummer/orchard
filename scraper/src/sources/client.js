@@ -19,7 +19,7 @@ const addLevel = (data, downloadURL, submissionMethod, iid, humanName, driverDat
 	// level. direct from data except the "tags" and "authors", then add some
 	// of the other things as well
 
-	const levelPartial = _.pick(data, _.difference(_.keys(data), ["tags", "authors"]))
+	const levelPartial = _.pick(data, _.difference(_.keys(data), ["tags", "authors"]));
 
 	const level = _.merge(
 		levelPartial,
