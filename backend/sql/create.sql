@@ -22,10 +22,10 @@ create schema orchard;
 
 -- A group is an individual community of level creators.
 create table orchard.group (
-    id              text    primary key,    -- serialised from driver + args
-    name            text    not null,       -- human name for the group.
-    website         text    ,               -- optional website / link
-    description     text                    -- optional description of the group
+    id              char(36)    primary key,    -- UUID
+    name            text        not null,       -- human name for the group.
+    website         text        ,               -- optional website / link
+    description     text                        -- optional description of the group
 );
 
 -- level table.
@@ -52,7 +52,7 @@ create table orchard.level (
     has_freetimes       boolean          not null,
     has_holds           boolean          not null,
     icon_ipfs           text             ,-- levels don't have to have an icon
-    group_id            integer          references orchard.group(id) on delete cascade,
+    group_id            char(36)         references orchard.group(id) on delete cascade,
     group_iid           text             not null,
     aux                 jsonb            -- any additional data that's submission-specific
 );

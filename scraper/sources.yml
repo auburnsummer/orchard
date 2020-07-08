@@ -1,4 +1,5 @@
 - name: "Mock Google Drive"
+  id: "4a69bed8-76e5-4144-b5af-d87a6ba2bc51"
   driver: "gdrive"
   website: null
   description: |
@@ -7,6 +8,7 @@
   args:
     folderID: "11v84dOUiwtUM9zMUpFgs4ubJtXB1kJ1J"
 - name: "Local JSON Test"
+  id: "19c1ae9e-05c5-4a2b-a7cc-d1aa1990bc30"
   driver: "test"
   website: null
   description: |
@@ -14,6 +16,7 @@
   args:
     rehost: true
 - name: "Lugi's Levels"
+  id: "c4552920-7dcd-4f2e-b343-ec9c4411cdd4"
   driver: "git"
   website: "https://github.com/1ug1a/rd-levels"
   description: |

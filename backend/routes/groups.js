@@ -3,6 +3,7 @@ const router = express.Router();
 
 const _ = require("lodash");
 
+// get the groups
 router.get("/", (req, res) => {
 	const {knex} = req;
 	const query = knex
@@ -15,20 +16,37 @@ router.get("/", (req, res) => {
 		});
 });
 
-router.post("/", (req, res, next) => {
+// upsert groups
+router.put("/", async (req, res, next) => {
 	const {knex, body} = req;
-	const query = knex("orchard.group")
-		.insert(body)
-		.returning("*");
 
-	return query
+	const existingIds1 = await knex
+		.select("id")
+		.from("orchard.group");
+	
+	
+	const existingIds = existingIds1.map(i => i.id);
+
+
+	return Promise.all(_.map(body, (group) => {
+		// does the group exist?
+		if (_.includes(existingIds, group.id)) {
+			// update
+			return knex("orchard.group")
+				.where({id: group.id})
+				.update(group)
+				.returning("*");
+		} else {
+			// insert
+			return knex("orchard.group")
+				.insert(group)
+				.returning("*");
+		}
+	}))
 		.then( (rows) => {
 			res.status(201).json(rows);
 		})
-		.catch( (err) => {
-			next(err);
-		});
+		.catch(next);
 });
-
 
 module.exports = router;

@@ -4,6 +4,18 @@ const log = require("../utils/log");
 
 const promiseUtils = require("../utils/promises");
 
+
+const addGroups = (data) => {
+	const dataToSend = _.map(data, (group) => {
+		return _.pick(group, ["name", "id", "website", "description"]);
+	});
+	return axios({
+		method: 'PUT',
+		url: `${process.env.SERVER}/groups`,
+		data: dataToSend
+	});
+}
+
 /**
  * Add a level to the database.
  *
@@ -110,5 +122,6 @@ const recycleBin = (method, iids, bin) => {
 module.exports = {
 	addLevel,
 	getIidDiffs,
-	recycleBin
+	recycleBin,
+	addGroups
 };

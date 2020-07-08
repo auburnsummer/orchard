@@ -10,6 +10,7 @@ const parseSources = require("./sources/parseSources.js");
 const populate = require("./sources/populate.js");
 const log = require("./utils/log.js");
 const _ = require("lodash");
+const client = require('./sources/client.js');
 
 console.error(process.env);
 
@@ -17,6 +18,7 @@ console.error(process.env);
 	const sourcePath = process.argv[2] || "sources.yml";
 	const entries = await parseSources.parse(sourcePath);
 	console.error(entries);
+	const groups = await client.addGroups(entries);
 	// const failedDrivers = [];
 	// for (const entry of entries) {
 	// 	try {
