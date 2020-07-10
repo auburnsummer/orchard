@@ -14,6 +14,44 @@ const vitals = require("@auburnsummer/vitals");
 const removeKeys = (obj, keys) => _.pick(obj, _.difference(_.keys(obj), keys));
 
 /**
+ * get the levels.
+ */
+router.get("/", (req, res, next) => {
+	const {knex, query} = req;
+	console.log(query);
+	const order = query.order || 'song';
+	const dir = query.dir || 'asc';
+	const limit = query.limit || 20;
+	const offset = query.offset || 0;
+
+	const levels = knex("orchard.level")
+		.select("*")
+		.orderBy(order, dir)
+		.limit(limit)
+		.offset(offset)
+		.as('i');
+
+	return knex
+		.select("*")
+		.from(levels)
+		.then( (rows) => {
+			return res.status(200).json(rows);
+		})
+		.catch(next);
+
+	// return knex("orchard.level")
+	// 	.select("*")
+	// 	.orderBy(order, dir)
+	// 	.limit(limit)
+	// 	.offset(offset)
+	// 	.leftJoin("orchard.level_tag", "orchard.level_tag.sha256", "orchard.level.sha256")
+	// 	.then( (rows) => {
+	// 		return res.status(200).json(rows);
+	// 	})
+	// 	.catch(next);
+})
+
+/**
  * run vitals on an rdzip without anything else.
  */
 router.post("/inspect", upload.single("rdzip"), (req, res, next) => {
@@ -33,6 +71,7 @@ router.post("/inspect", upload.single("rdzip"), (req, res, next) => {
  */
 router.post("/", upload.single("rdzip"), (req, res, next) => {
 	const {knex, file, body} = req;
+	console.log(file);
 
 	return vitals.analyse(file.buffer, "all")
 		.then( (vitalsData) => {
@@ -42,7 +81,7 @@ router.post("/", upload.single("rdzip"), (req, res, next) => {
 				...removeKeys(vitalsData, ["tags", "authors"]),
 				group_id: body.group_id,
 				group_iid: body.group_iid,
-				aux: removeKeys(body, "group_id")
+				aux: JSON.parse(body.aux)
 			};
 
 			return knex.transaction( (trx) => {

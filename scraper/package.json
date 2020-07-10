@@ -14,6 +14,7 @@
     "del": "^5.1.0",
     "dotenv-defaults": "^1.1.1",
     "find-config": "^1.0.0",
+    "form-data": "^3.0.0",
     "google-auth-library": "^6.0.2",
     "googleapis": "^52.1.0",
     "isomorphic-git": "^1.5.0",

@@ -25,3 +25,11 @@
     to actually put their levels on git...
   args:
     cloneURL: "https://github.com/1ug1a/rd-levels.git"
+- name: "Rhythm Doctor Lounge (old sheet)"
+  id: "40b06174-7b5a-4fe4-a8df-c3a91fd1ebba"
+  driver: "legacySheet"
+  website: "https://discord.gg/rhythmdr"
+  description: |
+    RDL is the official server for 7th Beat Games. These are levels from
+    the old website
+  args: {}

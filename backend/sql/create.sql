@@ -57,6 +57,8 @@ create table orchard.level (
     aux                 jsonb            -- any additional data that's submission-specific
 );
 
+create index idx_last_updated on orchard.level(last_updated);
+
 -- level tags, which are just strings. these are from the rdzip, so we don't make any more assumptions
 create table orchard.level_tag (
     sha256  varchar (44)    references orchard.level(sha256)    on delete cascade,
