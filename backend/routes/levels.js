@@ -24,31 +24,43 @@ router.get("/", (req, res, next) => {
 	const limit = query.limit || 20;
 	const offset = query.offset || 0;
 
-	const levels = knex("orchard.level")
-		.select("*")
-		.orderBy(order, dir)
-		.limit(limit)
-		.offset(offset)
-		.as('i');
-
 	return knex
+	.select("a.*", "b.tag", "b.seq as tag_seq", "c.author", "c.seq as author_seq", "g.name as group", "s.approval")
+	.from(
+		knex("orchard.level")
 		.select("*")
-		.from(levels)
-		.then( (rows) => {
-			return res.status(200).json(rows);
-		})
-		.catch(next);
+		.limit(limit)
+		.orderBy(order, dir)
+		.offset(offset)
+		.as("a")
+	)
+	.leftJoin("orchard.level_tag as b", "a.sha256", "b.sha256")
+	.leftJoin("orchard.level_author as c", "a.sha256", "c.sha256")
+	.leftJoin("orchard.group as g", "a.group_id", "g.id")
+	.leftJoin("orchard.status as s", "a.sha256", "s.sha256")
+	.then( (rows) => {
+		// turn into documents rather than lots of duplicated container rows.
+		// group by sha256...
+		const groups = _.groupBy(rows, _.property("sha256"));
+		// for each group...
+		const combined = _.map(_.keys(groups), (sha256) => {
+			const group = groups[sha256];
 
-	// return knex("orchard.level")
-	// 	.select("*")
-	// 	.orderBy(order, dir)
-	// 	.limit(limit)
-	// 	.offset(offset)
-	// 	.leftJoin("orchard.level_tag", "orchard.level_tag.sha256", "orchard.level.sha256")
-	// 	.then( (rows) => {
-	// 		return res.status(200).json(rows);
-	// 	})
-	// 	.catch(next);
+			// monstrosity of a one liner, it does this:
+			// unique by the sequence, sort by the sequence, map the sequence to tags
+			const p = _.property;
+			const tags = _.map(_.sortBy(_.uniqBy(group, p("tag_seq")), p("tag_seq")), p("tag"));
+			const authors = _.map(_.sortBy(_.uniqBy(group, p("author_seq")), p("author_seq")), p("author"));
+
+			return {
+				...(removeKeys(group[0], ["tag", "tag_seq", "author", "author_seq"])),
+				tags,
+				authors
+			}
+		})
+		return res.status(200).json(combined);
+	})
+	.catch(next);
 })
 
 /**
