@@ -5,6 +5,14 @@ const log = require("../utils/log");
 const promiseUtils = require("../utils/promises");
 const FormData = require('form-data');
 
+const getIidDiffs = (group_id, proposed_iids) => {
+	return axios({
+		method: 'POST',
+		url: `${process.env.SERVER}/levels/diff`,
+		data: {group_id, proposed_iids}
+	});
+}
+
 const addGroups = (data) => {
 	const dataToSend = _.map(data, (group) => {
 		return _.pick(group, ["name", "id", "website", "description"]);
@@ -86,25 +94,6 @@ const addLevel = (group_id, rdzip, group_iid, aux) => {
 // 		}
 // 	});
 // };
-
-const getIidDiffs = (method, iids) => {
-	const endpoint = `${process.env.POSTGREST_SERVER}/rpc/get_iid_diffs`;
-
-	return axios({
-		method: "POST",
-		url: endpoint,
-		data: {
-			method: method,
-			iids: iids
-		},
-		headers: {
-			authorization: `Bearer ${process.env.POSTGREST_TOKEN}`
-		}
-	})
-		.then( (resp) => {
-			return resp.data;
-		});
-};
 
 /**
  * Recycle bin some levels

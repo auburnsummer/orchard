@@ -18,7 +18,6 @@ const removeKeys = (obj, keys) => _.pick(obj, _.difference(_.keys(obj), keys));
  */
 router.get("/", (req, res, next) => {
 	const {knex, query} = req;
-	console.log(query);
 	const order = query.order || 'song';
 	const dir = query.dir || 'asc';
 	const limit = query.limit || 20;
@@ -61,7 +60,62 @@ router.get("/", (req, res, next) => {
 		return res.status(200).json(combined);
 	})
 	.catch(next);
+});
+
+
+/**
+ * Update a level
+ */
+router.patch("/status/:sha256", (req, res, next) => {
+	const {knex, params, body} = req;
+	console.log(params);
+
+	return knex("orchard.status")
+		.where(params)
+		.update(body)
+		.returning("*")
+		.then( (rows) => {
+			return res.status(200).json(rows[0]);
+		})
+		.catch(next);
 })
+
+/**
+ * perform an iid diffing operation
+ */
+router.post("/diff", async (req, res, next) => {
+	const {knex, body} = req;
+	const {group_id, proposed_iids} = body;
+	console.log(proposed_iids);
+	const rows = await knex
+		.select("i.sha256", "group_iid", "recycle_bin", "proposed_iid")
+		.from("orchard.level as i")
+		.leftJoin("orchard.status as k", "i.sha256", "k.sha256")
+		.fullOuterJoin(
+			knex.raw("unnest(?::text[]) as j(proposed_iid)", [proposed_iids]),
+			"i.group_iid",
+			"j.proposed_iid"
+		)
+		.where((builder) => builder.where({group_id}).orWhereNull("i.group_id"));
+	
+	// levels we need to bin 
+	const toBin = _.filter(rows, (row) => !_.isNull(row.group_iid) && _.isNull(row.proposed_iid) && !row.recycle_bin);
+	// levels we need to unbin
+	const toUnbin = _.filter(rows, (row) => !_.isNull(row.group_iid) && !_.isNull(row.proposed_iid) && row.recycle_bin);
+	// levels we need to add
+	const toAdd = _.filter(rows, (row) => _.isNull(row.group_iid) && !_.isNull(row.proposed_iid));
+
+	// bin operation
+	await Promise.all([
+		knex("orchard.status")
+			.whereIn("sha256", _.map(toBin, _.property("sha256")))
+			.update({recycle_bin: true}),
+		knex("orchard.status")
+			.whereIn("sha256", _.map(toUnbin, _.property("sha256")))
+			.update({recycle_bin: false})
+	]);
+	return res.status(200).json({toBin, toUnbin, toAdd});
+});
 
 /**
  * run vitals on an rdzip without anything else.

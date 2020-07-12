@@ -28,7 +28,13 @@ const processGroup = async ({id, driver, args}) => {
 
 		// Get the iids...
 		const iids = await drive.getIids();
-		const addResult = await promiseUtils.mapSeries(iids, async (iid) => {
+
+		// which ones do we need to add?
+		const {toAdd} = (await client.getIidDiffs(id, iids)).data;
+		log(":driver", `Out of ${iids.length} levels, we're adding ${toAdd.length}`);
+		const iidsToAdd = _.map(toAdd, _.property("proposed_iid"));
+
+		const addResult = await promiseUtils.mapSeries(iidsToAdd, async (iid) => {
 			try {
 				log(":driver", `Fetching iid ${iid}...`);
 				const rdzip = await drive.get(iid);
