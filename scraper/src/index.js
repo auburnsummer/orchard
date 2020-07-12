@@ -66,7 +66,7 @@ const processGroup = async ({id, driver, args}) => {
 }
 
 ( async () => {
-	const sourcePath = process.argv[2] || "sources.yml";
+	const sourcePath = process.argv[2] || "/var/conf/sources.yml";
 	const entries = await parseSources.parse(sourcePath);
 	const groups = (await client.addGroups(entries)).data;
 	
