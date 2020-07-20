@@ -66,31 +66,37 @@ const processGroup = async ({id, driver, args}) => {
 }
 
 ( async () => {
-	const sourcePath = process.argv[2] || "/var/conf/sources.yml";
-	const entries = await parseSources.parse(sourcePath);
-	const groups = (await client.addGroups(entries)).data;
-	
-	const results = promiseUtils.mapSeries(entries, async (entry) => {
-		return processGroup(entry)
-			.catch(err => {
-				log("!driver", err);
-			});
-	}, 2);
-	// const failedDrivers = [];
-	// for (const entry of entries) {
-	// 	try {
-	// 		await populate.runDriver(entry.driver, entry.name, entry.args);
-	// 	}
-	// 	catch (err) {
-	// 		log("!entry", err.toString());
-	// 		failedDrivers.push(entry);
-	// 	}
-	// }
-	// // log which ones didn't work
-	// if (!_.isEmpty(failedDrivers)) {
-	// 	log("!entry", "These ones failed:");
-	// 	for (const entry of failedDrivers) {
-	// 		log("!entry", JSON.stringify(entry));
-	// 	}
-	// }
+	// wait for it to connect....
+	log(":connect", "Waiting for a connection...");
+	while (true) {
+		try {
+			const up = await client.serverUp();
+			if (up) {
+				break;
+			}
+		}
+		catch (err) {
+			continue;
+		}
+	}
+	log(":connect", "Connected!");
+
+	while (true) {
+		const sourcePath = process.argv[2] || "/var/conf/sources.yml";
+		const entries = await parseSources.parse(sourcePath);
+		const groups = (await client.addGroups(entries)).data;
+		
+		const results = await promiseUtils.mapSeries(entries, async (entry) => {
+			return processGroup(entry)
+				.catch(err => {
+					log("!driver", err);
+				});
+		}, 2);
+		log(":sync", `Syncing search...`);
+		await client.sync();
+		log(":sync", `Synced!`);
+
+		log(":wait", `Waiting ${process.env.TIME_TO_WAIT_BETWEEN_INVOCATIONS} seconds before the next index...`);
+		await new Promise( (resolve) => setTimeout(resolve, parseInt(process.env.TIME_TO_WAIT_BETWEEN_INVOCATIONS)*1000) );
+	}
 })();
