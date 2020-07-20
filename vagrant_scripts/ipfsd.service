@@ -1,9 +1,0 @@
-[Unit]
-Description=IPFS daemon
-After=network.target
-
-[Service]
-ExecStart=/usr/local/bin/ipfs daemon
-
-[Install]
-WantedBy=multiuser.target
