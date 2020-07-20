@@ -76,7 +76,6 @@ router.post("/inspect", upload.single("rdzip"), (req, res, next) => {
  */
 router.post("/", requireAuth, upload.single("rdzip"), (req, res, next) => {
 	const {knex, file, body} = req;
-	console.log(file);
 
 	return levels.uploadBuffer(knex, file.buffer, body)
 	.then( (data) => {

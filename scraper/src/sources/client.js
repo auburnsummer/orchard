@@ -22,6 +22,9 @@ const getIidDiffs = (group_id, proposed_iids) => {
 	return axios({
 		method: 'POST',
 		url: `${process.env.SERVER}/levels/diff`,
+		headers: {
+			Authorization: `Bearer ${process.env.SERVER_API_KEY}`
+		},
 		data: {group_id, proposed_iids}
 	});
 }
@@ -33,6 +36,9 @@ const addGroups = (data) => {
 	return axios({
 		method: 'PUT',
 		url: `${process.env.SERVER}/groups`,
+		headers: {
+			Authorization: `Bearer ${process.env.SERVER_API_KEY}`
+		},
 		data: dataToSend
 	});
 }
@@ -46,7 +52,10 @@ const addLevel = (group_id, rdzip, group_iid, aux) => {
 
 	const formHeaders = form.getHeaders();
 	return axios.post(`${process.env.SERVER}/levels`, form.getBuffer(), {
-		headers: formHeaders,
+		headers: {
+			...formHeaders,
+			Authorization: `Bearer ${process.env.SERVER_API_KEY}`
+		},
 		maxContentLength: Infinity,
 		maxBodyLength: Infinity,
 	});
@@ -54,7 +63,9 @@ const addLevel = (group_id, rdzip, group_iid, aux) => {
 }
 
 const sync = () => {
-	return axios.post(`${process.env.SERVER}/sync`)
+	return axios.post(`${process.env.SERVER}/sync`, {headers: {
+		Authorization: `Bearer ${process.env.SERVER_API_KEY}`
+	}});
 }
 
 module.exports = {
