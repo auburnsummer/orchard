@@ -13,6 +13,8 @@ const db = require("./middleware/db");
 const indexRouter = require("./routes/index");
 const groupsRouter = require("./routes/groups");
 const levelsRouter = require("./routes/levels");
+const syncRouter = require("./routes/sync");
+const searchRouter = require("./routes/search");
 
 const app = express();
 
@@ -25,7 +27,8 @@ app.use(db);
 app.use("/", indexRouter);
 app.use("/groups", groupsRouter);
 app.use("/levels", levelsRouter);
-
+app.use("/sync", syncRouter);
+app.use("/search", searchRouter);
 
 app.use(require("./errors/conflict"));
 app.use(require("./errors/default"));

@@ -128,3 +128,4 @@ debug_log
 secret.json
 
 contrib/import_export_sql/dump.sql
+.db-data

@@ -1,0 +1,55 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:13-alpine
+    expose:
+      - "5432"
+    environment:
+      POSTGRES_PASSWORD:
+    volumes:
+      - "dbdata:/var/lib/postgresql/data"
+      - "./backend/sql:/docker-entrypoint-initdb.d"
+  backend:
+    build:
+      context: ./backend
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DATABASE: postgres
+      POSTGRES_HOST: db
+      POSTGRES_PORT: "5432"
+      DEBUG: "backend:*"
+      POSTGRES_PASSWORD:
+      IPFS_URL: "http://ipfs:5001/api/v0"
+    ports:
+      - "3000:3000"
+  scraper:
+    build:
+      context: ./scraper
+    environment:
+      TIME_TO_WAIT_BETWEEN_INVOCATIONS: "120"
+      SERVER: http://backend:3000
+      GOOGLE_APPLICATION_CREDENTIALS: "/var/conf/secret.json"
+    volumes:
+      - "./scraper/conf:/var/conf"
+  ipfs:
+    image: "ipfs/go-ipfs:v0.6.0"
+    environment:
+      IPFS_PROFILE: server
+    ports:
+      - "4001:4001"
+      - "4001:4001/udp"
+      - "127.0.0.1:8080:8080"
+      - "127.0.0.1:5001:5001"
+    volumes:
+      - "ipfs_staging:/export"
+      - "ipfs_data:/data/ipfs"
+  meilisearch:
+    image: "getmeili/meilisearch"
+    ports:
+      - "7700:7700"
+    environment:
+      MEILI_HTTP_PAYLOAD_SIZE_LIMIT: 1048576000
+volumes:
+  dbdata:
+  ipfs_staging:
+  ipfs_data:
