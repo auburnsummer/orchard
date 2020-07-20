@@ -16,7 +16,7 @@ router.get("/", async (req, res, next) => {
         }
         return prev;
     }, {});
-    const result = await search.doSearch(req.knex, query.q, searchQueries);
+    const result = await search.doSearch(knex, query.q, searchQueries);
     return res.status(200).json(result);
 });
 

@@ -3,6 +3,8 @@ const router = express.Router();
 
 const _ = require("lodash");
 
+const requireAuth = require("../middleware/auth.js");
+
 // get the groups
 router.get("/", (req, res) => {
 	const {knex} = req;
@@ -17,7 +19,7 @@ router.get("/", (req, res) => {
 });
 
 // upsert groups
-router.put("/", async (req, res, next) => {
+router.put("/", requireAuth, async (req, res, next) => {
 	const {knex, body} = req;
 
 	const existingIds1 = await knex

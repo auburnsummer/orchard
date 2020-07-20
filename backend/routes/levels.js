@@ -7,6 +7,7 @@ const upload = multer({storage: storage});
 
 const levels = require("../lib/levels.js");
 
+const requireAuth = require("../middleware/auth.js");
 
 /**
  * get the levels.
@@ -29,7 +30,7 @@ router.get("/", (req, res, next) => {
 /**
  * Update a level
  */
-router.patch("/status/:sha256", (req, res, next) => {
+router.patch("/status/:sha256", requireAuth, (req, res, next) => {
 	const {knex, params, body} = req;
 	console.log(params);
 
@@ -46,7 +47,7 @@ router.patch("/status/:sha256", (req, res, next) => {
 /**
  * perform an iid diffing operation
  */
-router.post("/diff", async (req, res, next) => {
+router.post("/diff", requireAuth, async (req, res, next) => {
 	const {knex, body} = req;
 	const {group_id, proposed_iids} = body;
 
@@ -73,7 +74,7 @@ router.post("/inspect", upload.single("rdzip"), (req, res, next) => {
 /**
  * upload an rdzip to the database and all that jazz
  */
-router.post("/", upload.single("rdzip"), (req, res, next) => {
+router.post("/", requireAuth, upload.single("rdzip"), (req, res, next) => {
 	const {knex, file, body} = req;
 	console.log(file);
 

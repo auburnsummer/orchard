@@ -6,7 +6,9 @@ const _ = require("lodash");
 const levels = require("../lib/levels.js");
 const sync = require("../lib/search/search.js");
 
-router.post("/", async (req, res, next) => {
+const requireAuth = require("../middleware/auth.js");
+
+router.post("/", requireAuth, async (req, res, next) => {
     const {knex} = req;
     const order = "sha256";
 
