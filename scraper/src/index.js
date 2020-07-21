@@ -10,7 +10,7 @@ const parseSources = require("./sources/parseSources.js");
 const populate = require("./sources/populate.js");
 const log = require("./utils/log.js");
 const _ = require("lodash");
-const client = require('./sources/client.js');
+const client = require("./sources/client.js");
 
 const promiseUtils = require("./utils/promises");
 
@@ -63,7 +63,7 @@ const processGroup = async ({id, driver, args}) => {
 		}
 	}
 
-}
+};
 
 ( async () => {
 	// wait for it to connect....
@@ -85,16 +85,16 @@ const processGroup = async ({id, driver, args}) => {
 		const sourcePath = process.argv[2] || "/var/conf/sources.yml";
 		const entries = await parseSources.parse(sourcePath);
 		const groups = (await client.addGroups(entries)).data;
-		
+
 		const results = await promiseUtils.mapSeries(entries, async (entry) => {
 			return processGroup(entry)
 				.catch(err => {
 					log("!driver", err);
 				});
 		}, 2);
-		log(":sync", `Syncing search...`);
+		log(":sync", "Syncing search...");
 		await client.sync();
-		log(":sync", `Synced!`);
+		log(":sync", "Synced!");
 
 		log(":wait", `Waiting ${process.env.TIME_TO_WAIT_BETWEEN_INVOCATIONS} seconds before the next index...`);
 		await new Promise( (resolve) => setTimeout(resolve, parseInt(process.env.TIME_TO_WAIT_BETWEEN_INVOCATIONS)*1000) );

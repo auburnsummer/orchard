@@ -3,8 +3,8 @@
  *
  */
 
-const _ = require('lodash');
-const Ajv = require('ajv');
+const _ = require("lodash");
+const Ajv = require("ajv");
 
 const ajv = new Ajv();
 const not = x => !x;

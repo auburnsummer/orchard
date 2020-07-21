@@ -14,8 +14,8 @@ const requireAuth = require("../middleware/auth.js");
  */
 router.get("/", (req, res, next) => {
 	const {knex, query} = req;
-	const order = query.order || 'song';
-	const dir = query.dir || 'asc';
+	const order = query.order || "song";
+	const dir = query.dir || "asc";
 	const limit = query.limit || 20;
 	const offset = query.offset || 0;
 
@@ -42,7 +42,7 @@ router.patch("/status/:sha256", requireAuth, (req, res, next) => {
 			return res.status(200).json(rows[0]);
 		})
 		.catch(next);
-})
+});
 
 /**
  * perform an iid diffing operation
@@ -78,10 +78,10 @@ router.post("/", requireAuth, upload.single("rdzip"), (req, res, next) => {
 	const {knex, file, body} = req;
 
 	return levels.uploadBuffer(knex, file.buffer, body)
-	.then( (data) => {
-		return res.status(201).json(data)
-	})
-	.catch(next);
+		.then( (data) => {
+			return res.status(201).json(data);
+		})
+		.catch(next);
 
 });
 

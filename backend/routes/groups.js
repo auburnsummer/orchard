@@ -25,8 +25,8 @@ router.put("/", requireAuth, async (req, res, next) => {
 	const existingIds1 = await knex
 		.select("id")
 		.from("orchard.group");
-	
-	
+
+
 	const existingIds = existingIds1.map(i => i.id);
 
 
