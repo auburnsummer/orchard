@@ -63,9 +63,13 @@ const addLevel = (group_id, rdzip, group_iid, aux) => {
 }
 
 const sync = () => {
-	return axios.post(`${process.env.SERVER}/sync`, {headers: {
-		Authorization: `Bearer ${process.env.SERVER_API_KEY}`
-	}});
+	return axios({
+		method: 'POST',
+		url: `${process.env.SERVER}/sync`,
+		headers: {
+			Authorization: `Bearer ${process.env.SERVER_API_KEY}`
+		}
+	});
 }
 
 module.exports = {

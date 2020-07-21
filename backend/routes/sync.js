@@ -12,13 +12,6 @@ const schema = require("../middleware/schema.js");
 
 router.post(
     "/",
-    schema({
-        body: {
-            type: "object",
-            properties: {},
-            additionalProperties: false
-        }
-    }),
     requireAuth,
     async (req, res, next) => {
         try {
