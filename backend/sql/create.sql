@@ -1,15 +1,5 @@
-/*
-Creation script for the PostgreSQL tables.
-
-Running this script will create the tables and required users.
-
-Run it like:
-
- # sh create.sh
-*/
-
--- create the named schema for PostgREST
-drop schema if exists orchard cascade;
+-- run this command to drop everything:
+-- drop schema if exists orchard cascade;
 
 
 create schema orchard;

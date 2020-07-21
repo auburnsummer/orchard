@@ -10,7 +10,7 @@ const parseSources = require("./sources/parseSources.js");
 const populate = require("./sources/populate.js");
 const log = require("./utils/log.js");
 const _ = require("lodash");
-const client = require('./sources/client.js');
+const client = require("./sources/client.js");
 
 const promiseUtils = require("./utils/promises");
 
@@ -30,8 +30,8 @@ const processGroup = async ({id, driver, args}) => {
 		const iids = await drive.getIids();
 
 		// which ones do we need to add?
-		const {toAdd} = (await client.getIidDiffs(id, iids)).data;
-		log(":driver", `Out of ${iids.length} levels, we're adding ${toAdd.length}`);
+		const {toAdd, toBin, toUnbin} = (await client.getIidDiffs(id, iids)).data;
+		log(":driver", `${iids.length} levels: adding ${toAdd.length}, binned ${toBin.length}, unbinned ${toUnbin.length}`);
 		const iidsToAdd = _.map(toAdd, _.property("proposed_iid"));
 
 		const addResult = await promiseUtils.mapSeries(iidsToAdd, async (iid) => {
@@ -63,34 +63,40 @@ const processGroup = async ({id, driver, args}) => {
 		}
 	}
 
-}
+};
 
 ( async () => {
-	const sourcePath = process.argv[2] || "sources.yml";
-	const entries = await parseSources.parse(sourcePath);
-	const groups = (await client.addGroups(entries)).data;
-	
-	const results = promiseUtils.mapSeries(entries, async (entry) => {
-		return processGroup(entry)
-			.catch(err => {
-				log("!driver", err);
-			});
-	}, 2);
-	// const failedDrivers = [];
-	// for (const entry of entries) {
-	// 	try {
-	// 		await populate.runDriver(entry.driver, entry.name, entry.args);
-	// 	}
-	// 	catch (err) {
-	// 		log("!entry", err.toString());
-	// 		failedDrivers.push(entry);
-	// 	}
-	// }
-	// // log which ones didn't work
-	// if (!_.isEmpty(failedDrivers)) {
-	// 	log("!entry", "These ones failed:");
-	// 	for (const entry of failedDrivers) {
-	// 		log("!entry", JSON.stringify(entry));
-	// 	}
-	// }
+	// wait for it to connect....
+	log(":connect", "Waiting for a connection...");
+	while (true) {
+		try {
+			const up = await client.serverUp();
+			if (up) {
+				break;
+			}
+		}
+		catch (err) {
+			continue;
+		}
+	}
+	log(":connect", "Connected!");
+
+	while (true) {
+		const sourcePath = process.argv[2] || "/var/conf/sources.yml";
+		const entries = await parseSources.parse(sourcePath);
+		const groups = (await client.addGroups(entries)).data;
+
+		const results = await promiseUtils.mapSeries(entries, async (entry) => {
+			return processGroup(entry)
+				.catch(err => {
+					log("!driver", err);
+				});
+		}, 2);
+		log(":sync", "Syncing search...");
+		await client.sync();
+		log(":sync", "Synced!");
+
+		log(":wait", `Waiting ${process.env.TIME_TO_WAIT_BETWEEN_INVOCATIONS} seconds before the next index...`);
+		await new Promise( (resolve) => setTimeout(resolve, parseInt(process.env.TIME_TO_WAIT_BETWEEN_INVOCATIONS)*1000) );
+	}
 })();

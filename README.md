@@ -22,17 +22,7 @@ queried and searched. I want level makers to be free to decide where and how the
 being forced to use my system. For the time being, I plan on supporting Discord, Steam Workshop, and Google Drive
 sources, with the possibility of implementing more as they emerge.
 
-Architecture wise, Orchard will probably consist of a few different parts:
+## Contact
 
- - A [PostgreSQL database schema](src/db/create.sql) that uses the [PostgREST](https://github.com/PostgREST/postgrest) API wrapper
-    - Ideally, I'd like to expose all required database functions as PostgREST RPC calls and never resort to raw SQL
-    - At this point, I'm still unsure about how to do search. I might just end up using `pg_trgm` like chorus does
- - A set of drivers which interact with data sources with a common interface
-    - Basically the same thing as chorus's drivers
-    - Some of these drivers have their own projects (e.g. [bluebell](https://github.com/auburnsummer/bluebell/) to interact with Steam Workshop)
- - A script which periodically scrapes the drivers to add levels to the database
- - A front-end that uses the PostgREST API to show levels
-    - I want to do real fancy web design that looks like RD instead of the current system
-
-...so yeah, that's a bit of work. I have time, since I think it will still be some time before the existing
-level website starts becoming overloaded.
+The best place to reach me is to ping me @auburnsummer on the Rhythm Doctor Lounge discord server. Or you could
+drop an issue on this repository. 

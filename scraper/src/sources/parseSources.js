@@ -1,5 +1,5 @@
 const YAML = require("js-yaml");
-const fs = require('fs');
+const fs = require("fs");
 const fsp = fs.promises;
 
 // todo: verify with a schema

@@ -33,12 +33,6 @@
             "error",
             "always"
         ],
-        "camelcase": [
-            "error",
-            {
-                "properties": "never"
-            }
-        ],
         "no-var": [
             "error"
         ],
@@ -53,6 +47,12 @@
         ],
         "eol-last": [
             "error"
+        ],
+        "no-unused-vars": [
+            "off"
+        ],
+        "no-constant-condition": [
+            "off"
         ]
     }
 }

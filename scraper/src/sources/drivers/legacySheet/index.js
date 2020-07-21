@@ -41,7 +41,7 @@ module.exports = class {
 	// however, you can edit Steam Workshop levels, so for Workshop the IID needs to be a combination of
 	// the last updated date and the level ID.
 	async getIids() {
-        return _.map(this.data, (x) => x.download_url);
+        return _.map(_.filter(this.data, _.property("verified")), (x) => x.download_url);
 	}
 
 	// Given an IID, return a full driver-specific object.
