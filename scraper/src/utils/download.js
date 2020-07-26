@@ -9,8 +9,8 @@
 
 const {Curl, CurlFeature} = require("node-libcurl");
 
-
-module.exports = (URL) => {
+// 3 minute timeout
+module.exports = (URL, timeout=180) => {
 
 
     return new Promise((resolve, reject) => {
@@ -19,6 +19,7 @@ module.exports = (URL) => {
         curl.enable(CurlFeature.NoDataParsing);
         curl.setOpt(Curl.option.NOPROGRESS, 0);
         curl.setOpt(Curl.option.FOLLOWLOCATION, 1);
+        curl.setOpt(Curl.option.TIMEOUT, timeout);
 
         curl.setOpt(Curl.option.URL, URL);
 

@@ -68,9 +68,14 @@ const getAllLevels = ({knex}) => {
 const getLevelsFromHashes = ({knex, hashes}) => {
 	return _getLevels(
 		knex,
-		knex("orchard.level")
-			.select("*")
-			.whereIn("sha256", hashes)
+		knex.select("i2.*")
+			.from("orchard.level as i2")
+			.innerJoin(
+				knex.raw("unnest(?::varchar(44)[]) with ordinality as j2(sha256, ord)", [hashes]),
+				"i2.sha256",
+				"j2.sha256"
+			)
+			.orderBy("j2.ord")
 	);
 };
 
