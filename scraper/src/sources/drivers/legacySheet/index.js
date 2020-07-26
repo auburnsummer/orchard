@@ -1,6 +1,7 @@
 
 const axios = require("axios");
 const _ = require("lodash");
+const DL = require("../../../utils/download");
 
 const API_URL = "https://script.google.com/macros/s/AKfycbzm3I9ENulE7uOmze53cyDuj7Igi7fmGiQ6w045fCRxs_sK3D4/exec";
 
@@ -55,11 +56,7 @@ module.exports = class {
 
 	// Given an IID, return the rdzip that maps to that IID as an arraybuffer (i.e. download the level)
 	async get(iid) {
-        const resp = await axios({
-			method: "get",
-			url: iid,
-			responseType: "arraybuffer"
-		});
+        const resp = await DL(iid);
 		return resp.data;
 	}
 

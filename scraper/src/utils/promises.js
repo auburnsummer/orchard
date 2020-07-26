@@ -12,9 +12,10 @@ const _ = require("lodash");
  */
 const mapSeries = async (arr, func, throttle=1) => {
 	const chunks = _.chunk(arr, throttle);
-	return _.reduce(chunks, async (prev, curr) => {
+	return _.reduce(chunks, async (prev, curr, chunkIndex) => {
 		const soFar = await prev;
-		const next = await Promise.all(_.map(curr, c => func(c)));
+		// index is: chunk index multiplied by chunk size + inner index
+		const next = await Promise.all(_.map(curr, (c, idx) => func(c, chunkIndex * throttle + idx)));
 		return _.concat(soFar, next);
 	}, Promise.resolve([]));
 };

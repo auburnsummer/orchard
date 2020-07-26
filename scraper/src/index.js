@@ -7,7 +7,6 @@ Entry point for the indexing script.
 */
 
 const parseSources = require("./sources/parseSources.js");
-const populate = require("./sources/populate.js");
 const log = require("./utils/log.js");
 const _ = require("lodash");
 const client = require("./sources/client.js");
@@ -34,9 +33,9 @@ const processGroup = async ({id, driver, args}) => {
 		log(":driver", `${iids.length} levels: adding ${toAdd.length}, binned ${toBin.length}, unbinned ${toUnbin.length}`);
 		const iidsToAdd = _.map(toAdd, _.property("proposed_iid"));
 
-		const addResult = await promiseUtils.mapSeries(iidsToAdd, async (iid) => {
+		const addResult = await promiseUtils.mapSeries(iidsToAdd, async (iid, idx) => {
 			try {
-				log(":driver", `Fetching iid ${iid}...`);
+				log(":driver", `(${idx}/${iids.length}) {Fetching iid ${iid}...`);
 				const rdzip = await drive.get(iid);
 				const aux = await drive.expand(iid);
 				log(":driver", `Uploading iid ${iid}...`);
@@ -91,7 +90,7 @@ const processGroup = async ({id, driver, args}) => {
 				.catch(err => {
 					log("!driver", err);
 				});
-		}, 2);
+		}, 1);
 		log(":sync", "Syncing search...");
 		await client.sync();
 		log(":sync", "Synced!");
