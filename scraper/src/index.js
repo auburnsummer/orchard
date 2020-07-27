@@ -15,7 +15,8 @@ const promiseUtils = require("./utils/promises");
 
 console.error(process.env);
 
-const processGroup = async ({id, driver, args}) => {
+const processGroup = async (entry, entryIndex, entries) => {
+	const {id, driver, args} = entry;
 	const Driver = require(`./sources/drivers/${driver}`);
 	const drive = new Driver(args);
 
@@ -39,9 +40,35 @@ const processGroup = async ({id, driver, args}) => {
 				const rdzip = await drive.get(iid);
 				const aux = await drive.expand(iid);
 				log(":driver", `Uploading iid ${iid}...`);
-				const req = await client.addLevel(id, rdzip, iid, aux);
-				log("!JSON", JSON.stringify(req.data));
-				return req.data;
+				let resp;
+				try {
+					resp = await client.addLevel(id, rdzip, iid, aux);
+				}
+				catch (err) {
+					if (err.response.status === 300) {
+						// 300 means it already exists in the database. if our group is higher prio
+						// we can just change the group_id, otherwise leave it alone
+						const data = err.response.data;
+						log(":driver", "Conflict:");
+						log(":driver", JSON.stringify(data));
+						const theirIndex = _.findIndex(entries, entry => entry.id === data.group_id);
+						if (entryIndex < theirIndex) {
+							log(":driver", "We're higher prio!");
+							const updateResponse = await client.updateLevel(data.sha256, {
+								group_id: id,
+								group_iid: iid
+							});
+							log(":driver", JSON.stringify(updateResponse.data));
+						} else {
+							log(":driver", "Leaving it alone...");
+						}
+					} else {
+						throw err;
+					}
+				}
+
+				log("!JSON", JSON.stringify(resp.data));
+				return resp.data;
 			}
 			catch (err) {
 				log("!driver", err);
@@ -85,8 +112,8 @@ const processGroup = async ({id, driver, args}) => {
 		const entries = await parseSources.parse(sourcePath);
 		const groups = (await client.addGroups(entries)).data;
 
-		const results = await promiseUtils.mapSeries(entries, async (entry) => {
-			return processGroup(entry)
+		const results = await promiseUtils.mapSeries(entries, async (entry, idx, entries) => {
+			return processGroup(entry, idx, entries)
 				.catch(err => {
 					log("!driver", err);
 				});

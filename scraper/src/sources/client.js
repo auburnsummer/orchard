@@ -18,6 +18,17 @@ const serverUp = () => {
 		});
 };
 
+const updateLevel = (sha256, data) => {
+	return axios({
+		method: "PATCH",
+		url: `${process.env.SERVER}/levels/${sha256}`,
+		headers: {
+			Authorization: `Bearer ${process.env.SERVER_API_KEY}`
+		},
+		data
+	});
+}
+
 const getIidDiffs = (group_id, proposed_iids) => {
 	return axios({
 		method: "POST",
@@ -77,5 +88,6 @@ module.exports = {
 	serverUp,
 	getIidDiffs,
 	addGroups,
-	sync
+	sync,
+	updateLevel
 };

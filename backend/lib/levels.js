@@ -80,6 +80,17 @@ const getLevelsFromHashes = ({knex, hashes}) => {
 };
 
 /**
+ * This one gets just one level.
+ */
+const getLevelFromHash = ({knex, hash}) => {
+	return _getLevels(
+		knex,
+		knex.select("*").from("orchard.level").where({sha256: hash})
+	)
+		.then(_.head);
+}
+
+/**
  * do IID diffing -- this is where we compare the list of iids that a driver offers
  * with the list of iids we have stored. we bin/unbin when we can, then give back a list
  * of iids we don't know about yet.
@@ -128,8 +139,16 @@ const runVitals = (buffer) => {
  */
 const uploadBuffer = (knex, buffer, {group_id, group_iid, aux}) => {
 	return vitals.analyse(buffer, "all")
-		.then( (vitalsData) => {
+		.then( async (vitalsData) => {
 			const sha256 = vitalsData.sha256;
+
+			// first..... does it exist already?
+			const couldBeLevel = await getLevelFromHash({knex, hash: sha256});
+			if (couldBeLevel) {
+				// throw the group_id and the group_iid of the offending party.
+				throw _.pick(couldBeLevel, ['sha256', 'group_id', 'group_iid']);
+			}
+			
 
 			const dataToInsert = {
 				...removeKeys(vitalsData, ["tags", "authors"]),
@@ -164,6 +183,15 @@ const uploadBuffer = (knex, buffer, {group_id, group_iid, aux}) => {
 						.from("orchard.level")
 						.where({sha256});
 				});
+		})
+		.catch( (obj) => {
+			if (_.has(obj, "sha256")) {
+				// it's a conflict type error. add an "already exists" flag
+				obj.alreadyExists = true;
+				return obj;
+			}
+			// something in vitals. pass it on.
+			throw obj;
 		});
 };
 
@@ -173,5 +201,6 @@ module.exports = {
 	runVitals,
 	uploadBuffer,
 	getAllLevels,
-	getLevelsFromHashes
+	getLevelsFromHashes,
+	getLevelFromHash
 };

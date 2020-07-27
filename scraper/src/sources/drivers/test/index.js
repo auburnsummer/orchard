@@ -17,7 +17,6 @@ module.exports = class {
 	}
 
 	async init() {
-		throw "lalalalalalalalalalalalala";
 		this.testData = require("./testData.json");
 	}
 

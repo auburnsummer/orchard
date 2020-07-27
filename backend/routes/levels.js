@@ -26,6 +26,22 @@ router.get("/", (req, res, next) => {
 		.catch(next);
 });
 
+/**
+ * Get ONE Level
+ */
+router.get("/:sha256", (req, res, next) => {
+	const {knex, params} = req;
+	return levels.getLevelFromHash({knex, hash: params.sha256})
+		.then( (level) => {
+			if (level) {
+				return res.status(200).json(level);
+			} else {
+				return res.status(404).json({error: true, message: "Not found."});
+			}
+		})
+		.catch(next);
+});
+
 
 /**
  * Update a level
@@ -43,6 +59,19 @@ router.patch("/status/:sha256", requireAuth, (req, res, next) => {
 		})
 		.catch(next);
 });
+
+router.patch("/:sha256", requireAuth, (req, res, next) => {
+	const {knex, params, body} = req;
+
+	return knex("orchard.level")
+		.where(params)
+		.update(body)
+		.returning("*")
+		.then( (rows) => {
+			return res.status(200).json(rows[0]);
+		})
+		.catch(next);
+})
 
 /**
  * perform an iid diffing operation
@@ -79,7 +108,9 @@ router.post("/", requireAuth, upload.single("rdzip"), (req, res, next) => {
 
 	return levels.uploadBuffer(knex, file.buffer, body)
 		.then( (data) => {
-			return res.status(201).json(data);
+			// already exists flag? we give you the 300
+			const status = data.alreadyExists ? 300 : 201;
+			return res.status(status).json(data);
 		})
 		.catch(next);
 

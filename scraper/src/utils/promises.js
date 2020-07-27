@@ -15,7 +15,7 @@ const mapSeries = async (arr, func, throttle=1) => {
 	return _.reduce(chunks, async (prev, curr, chunkIndex) => {
 		const soFar = await prev;
 		// index is: chunk index multiplied by chunk size + inner index
-		const next = await Promise.all(_.map(curr, (c, idx) => func(c, chunkIndex * throttle + idx)));
+		const next = await Promise.all(_.map(curr, (c, idx) => func(c, chunkIndex * throttle + idx, arr)));
 		return _.concat(soFar, next);
 	}, Promise.resolve([]));
 };
