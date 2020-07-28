@@ -4,6 +4,8 @@ COPY . /src
 
 WORKDIR /src
 
+RUN apk add ca-certificates
+
 RUN mkdir /var/conf 
 
 RUN npm install

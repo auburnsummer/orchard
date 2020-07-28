@@ -4,7 +4,7 @@ const _ = require("lodash");
 const levels = require("../levels");
 
 const client = new MeiliSearch({
-	host: "http://127.0.0.1:7700"
+	host: process.env.MEILISEARCH_SERVER
 });
 
 const INDEX_NAME = "levels";
