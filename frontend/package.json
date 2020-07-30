@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "build": "preact build",
+    "build": "NODE_ENV=production preact build",
     "serve": "sirv build --port 8080 --cors --single",
     "dev": "preact watch",
     "lint": "eslint src"
@@ -25,6 +25,7 @@
   "dependencies": {
     "lodash": "^4.17.19",
     "preact": "^10.1.0",
+    "preact-cli-postcss": "^1.1.1",
     "preact-render-to-string": "^5.1.2",
     "tailwindcss": "^1.6.0"
   }
