@@ -19,7 +19,7 @@ export default function LevelHorizontal ({level, _class=""}) {
                 </div>
             </div>
             <div class="p-4 bg-white _levelBox">
-                <h5 class="text-sm leading-tight text-gray-700">{level.artist}</h5>
+                <h5 class="text-xs leading-none text-gray-700">{level.artist}</h5>
                 <h4 class="font-semibold">{level.song}</h4>
 
                 <Authors {...level} _class="mt-1" />
