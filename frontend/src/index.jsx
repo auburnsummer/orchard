@@ -2,7 +2,7 @@ import preact, {h} from 'preact';
 
 import style from "./style.css";
 
-import LevelHorizontal from "./components/LevelHorizontal";
+import LevelHorizontal from "./components/levels/LevelHorizontal";
 
 export default function App () {
     const level = {
@@ -48,11 +48,13 @@ export default function App () {
           "Fancybread"
         ]
       };
+    const level2 = {"sha256":"4BMBjAikT6EM4aHFSVrfH5gQR1d8brwAWWixjCiDRZvA","artist":"dull machine","song":"september","difficulty":0,"seizure_warning":false,"description":"just like that, summer falls into september.","max_bpm":94,"min_bpm":94,"last_updated":"2019-08-31T21:20:30.000Z","single_player":true,"two_player":false,"image_ipfs":"bafkreibdedbdjeo3qsbkccqq5hkwhcfrwmdez2oasxhyjjkoiaxgo7j6fy","rdzip_ipfs":"bafybeiakx4u3x27bnlqev2ycusesnh5luar27hraw5ycaxp4n4avhwbf7a","hue":0.8,"has_classics":true,"has_oneshots":false,"has_squareshots":false,"has_swing":true,"has_freetimes":true,"has_holds":false,"icon_ipfs":"bafkreibimjaqpuze3z2ext2myw5iubbjzpgt3y26rkj65laa4rxozbaica","group_id":"c4552920-7dcd-4f2e-b343-ec9c4411cdd4","group_iid":"d67af58d07acf6903f1e5bfd457f0fcc4d05d7f7","aux":{"oid":"d67af58d07acf6903f1e5bfd457f0fcc4d05d7f7","filepath":"rdzips/dull machine - september.rdzip"},"group":"Lugi's Levels","approval":0,"tags":["slow","indie","1p"],"authors":["lugi"]};
     
     return (
-        <div>
+        <div class="flex flex-col justify-center max-w-3xl min-h-screen p-8 bg-gray-200">
             <h1>Hello, World!</h1>
             <LevelHorizontal level={level}/>
+            <LevelHorizontal level={level2} _class="mt-8" />
         </div>
     )
 }
