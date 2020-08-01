@@ -13,6 +13,9 @@ module.exports = {
         '2xs': '0.625rem'
       }
     },
+    fontFamily: {
+      'sans': '\'Public Sans\', sans-serif'
+    }
   },
   variants: {},
   plugins: [
