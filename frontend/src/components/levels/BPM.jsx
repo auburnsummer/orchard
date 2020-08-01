@@ -1,14 +1,10 @@
 /**
  * Render a BPM icon and text
  */
-
- /**
- * Render the "group" of the level with an icon + text. 
- */
 import _ from "lodash";
 import cm from "classnames";
 
-export default function Group({max_bpm, min_bpm, _class}) {
+export default function BPM({max_bpm, min_bpm, _class}) {
 
     const makeBPMText = (max_bpm, min_bpm) => max_bpm === min_bpm ? `${max_bpm} BPM` : `${min_bpm}-${max_bpm} BPM`;
 

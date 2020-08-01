@@ -1,5 +1,5 @@
 /**
- * A difficulty decoration. A little different from the plain icon + text
+ * A difficulty decoration. Intended for the top corner of the levelbox typically
  */
 
 import cm from "classnames";
