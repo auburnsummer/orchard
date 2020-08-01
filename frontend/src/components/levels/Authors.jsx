@@ -1,11 +1,11 @@
 /**
- * Assorted bits and bobs
+ * Render authors with icon and proper spacing etc
  */
 
 import _ from "lodash";
 import cm from "classnames";
 
-export function Authors({authors, _class}) {
+export default function Authors({authors, _class}) {
 
     // show a single pencil if it's only one author
     function Icon({_class}) {
@@ -18,8 +18,8 @@ export function Authors({authors, _class}) {
 
     return (
         <div class={cm("flex flex-row items-center", _class)}>
-            <Icon _class="w-3 h-3 text-gray-700" />
-            <ul class="leading-none">
+            <Icon _class="flex-none w-3 h-3 text-gray-700" />
+            <ul class="flex flex-row items-center leading-none">
                 {
                     authors.map((author, idx, arr) => {
                         const message = _.cond([
