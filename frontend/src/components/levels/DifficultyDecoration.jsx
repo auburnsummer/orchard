@@ -7,10 +7,10 @@ import cm from "classnames";
 const DIFFICULTIES = ["Easy", "Medium", "Tough", "Very Tough"];
 
 const DIFFICULTY_CLASSES = [
-    "bg-green-300 text-green-800",
-    "bg-orange-300 text-orange-800",
-    "bg-red-400 text-red-800",
-    "bg-purple-400 text-purple-800"
+    "bg-green-200 text-green-800",
+    "bg-orange-200 text-orange-800",
+    "bg-red-300 text-red-800",
+    "bg-purple-300 text-purple-800"
 ];
 
 export default function DifficultyDecoration ({difficulty, _class}) {
