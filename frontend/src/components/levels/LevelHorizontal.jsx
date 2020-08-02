@@ -12,6 +12,7 @@ import Players from "./Players";
 import Tags from "./Tags";
 
 import DifficultyDecoration from "./DifficultyDecoration";
+import UnrankedMessage from "./UnrankedMessage";
 
 export default function LevelHorizontal ({level, _class=""}) {
     const imgUrl = getRandomGateway() + level.image_ipfs;
@@ -22,7 +23,8 @@ export default function LevelHorizontal ({level, _class=""}) {
             {/* image on the left */}
             <div class="flex-none w-2/5 max-w-md bg-red-500">
                 <div class="relative h-full bg-blue-500 pb-9/16">
-                    <img class="absolute top-0 object-cover w-full h-full" src={imgUrl}></img>
+                    <img class="absolute top-0 z-10 object-cover w-full h-full" src={imgUrl}></img>
+                    <UnrankedMessage {...level} _class="absolute z-20" />
                 </div>
             </div>
             
