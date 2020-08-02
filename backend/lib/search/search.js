@@ -12,9 +12,14 @@ const INDEX_NAME = "levels";
 const waitForUpdate = async (index, updateId) => {
 	while (true) {
 		const result = await index.getUpdateStatus(updateId);
+		console.log(result);
 		if (result.status === "processed") {
 			return result;
-		} else {
+		}
+		else if (result.status === "failed") {
+			throw result;
+		}
+		else {
 			await new Promise( (resolve) => setTimeout(resolve, 200));
 		}
 	}
@@ -25,11 +30,11 @@ const updateConfig = async () => {
 	const levelIndex = await client.getOrCreateIndex(INDEX_NAME);
 	let info = await levelIndex.show();
 
-	// is the primary key set to sha256?
-	if (info.primaryKey !== "sha256") {
+	// is the primary key set to id?
+	if (info.primaryKey !== "id") {
 		// update it.
 		console.log("updating index pk!");
-		await levelIndex.updateIndex({primaryKey: "sha256"});
+		await levelIndex.updateIndex({primaryKey: "id"});
 		info = await levelIndex.show();
 	}
 
@@ -50,8 +55,8 @@ const doSearch = async (knex, query, searchParams) => {
 	const levelIndex = await client.getIndex(INDEX_NAME);
 	const searchResults = await levelIndex.search(query, searchParams);
 
-	const hashes = _.map(searchResults.hits, _.property("sha256"));
-	const resolvedHashes = await levels.getLevelsFromHashes({knex, hashes});
+	const ids = _.map(searchResults.hits, _.property("id"));
+	const resolvedHashes = await levels.getLevelsFromIds({knex, ids});
 	return {
 		...searchResults,
 		hits: resolvedHashes

@@ -6,6 +6,7 @@ const storage = multer.memoryStorage();
 const upload = multer({storage: storage});
 
 const levels = require("../lib/levels.js");
+const _ = require("lodash");
 
 const requireAuth = require("../middleware/auth.js");
 
@@ -14,12 +15,13 @@ const requireAuth = require("../middleware/auth.js");
  */
 router.get("/", (req, res, next) => {
 	const {knex, query} = req;
-	const order = query.order || "song";
-	const dir = query.dir || "asc";
+
+	const orders = _.map(_.split(query.order, ","), (token) => _.split(token, "."));
+
 	const limit = query.limit || 20;
 	const offset = query.offset || 0;
 
-	return levels.getLevels({knex, order, dir, limit, offset})
+	return levels.getLevels({knex, orders, limit, offset})
 		.then( (levels) => {
 			return res.status(200).json(levels);
 		})
@@ -29,9 +31,9 @@ router.get("/", (req, res, next) => {
 /**
  * Get ONE Level
  */
-router.get("/:sha256", (req, res, next) => {
+router.get("/:id", (req, res, next) => {
 	const {knex, params} = req;
-	return levels.getLevelFromHash({knex, hash: params.sha256})
+	return levels.getLevelFromId({knex, ...params})
 		.then( (level) => {
 			if (level) {
 				return res.status(200).json(level);
@@ -46,7 +48,7 @@ router.get("/:sha256", (req, res, next) => {
 /**
  * Update a level
  */
-router.patch("/status/:sha256", requireAuth, (req, res, next) => {
+router.patch("/status/:id", requireAuth, (req, res, next) => {
 	const {knex, params, body} = req;
 	console.log(params);
 
@@ -60,7 +62,7 @@ router.patch("/status/:sha256", requireAuth, (req, res, next) => {
 		.catch(next);
 });
 
-router.patch("/:sha256", requireAuth, (req, res, next) => {
+router.patch("/:id", requireAuth, (req, res, next) => {
 	const {knex, params, body} = req;
 
 	return knex("orchard.level")

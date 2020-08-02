@@ -21,7 +21,7 @@ create table orchard.group (
 -- level table.
 create table orchard.level (
     -- FROM THE RDZIP
-    sha256              varchar (44)     primary key, -- base58btc encoded sha256 hash of the level
+    id                  varchar(24)      primary key,  -- base58 encoded
     artist              text             not null,
     song                text             not null,
     "difficulty"        int              not null, -- Medium
@@ -51,23 +51,26 @@ create index idx_last_updated on orchard.level(last_updated);
 
 -- level tags, which are just strings. these are from the rdzip, so we don't make any more assumptions
 create table orchard.level_tag (
-    sha256  varchar (44)    references orchard.level(sha256)    on delete cascade,
+    id      varchar (24)    references orchard.level(id)    on delete cascade,
     tag     text            not null,
     seq     int             not null, -- index of this tag
-    primary key (sha256, tag, seq)
+    primary key (id, tag, seq)
 );
 
 -- a level author, same thing
 create table orchard.level_author (
-    sha256  varchar (44)    references orchard.level(sha256)    on delete cascade,
+    id      varchar (24)    references orchard.level(id)    on delete cascade,
     author  text            not null,
     seq     int             not null, -- index of this author in the list
-    primary key (sha256, author, seq)
+    primary key (id, author, seq)
 );
 
 -- persistent data related to a level.
 create table orchard.status (
-    sha256              varchar (44)    references orchard.level(sha256)    on delete cascade,
+    id                  varchar (24)    references orchard.level(id)    on delete cascade,
+
+    -- datetime the level was scraped.
+    uploaded        timestamp       not null,
 
     -- The "approval level" of the level. Higher levels imply passing lower levels.
     -- -1: Level -1 is when a level's been reviewed by someone and they've decided it doesn't pass the competency test.
@@ -83,5 +86,8 @@ create table orchard.status (
     -- True if the level has been "deleted"
     recycle_bin         boolean         not null default false,
 
-    primary key (sha256)
+    primary key (id)
 );
+
+create view orchard.levelv as
+    select a.*, uploaded, approval, approval_message, recycle_bin from orchard.level as a inner join orchard.status as b on a.id = b.id;

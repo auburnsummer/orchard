@@ -5,22 +5,21 @@ const vitals = require("@auburnsummer/vitals");
 // internal function.
 const _getLevels = (knex, subquery) => {
 	return knex
-		.select("a.*", "b.tag", "b.seq as tag_seq", "c.author", "c.seq as author_seq", "g.name as group", "s.approval")
+		.select("a.*", "b.tag", "b.seq as tag_seq", "c.author", "c.seq as author_seq", "g.name as group")
 		.from(subquery.as("a"))
-		.leftJoin("orchard.level_tag as b", "a.sha256", "b.sha256")
-		.leftJoin("orchard.level_author as c", "a.sha256", "c.sha256")
+		.leftJoin("orchard.level_tag as b", "a.id", "b.id")
+		.leftJoin("orchard.level_author as c", "a.id", "c.id")
 		.leftJoin("orchard.group as g", "a.group_id", "g.id")
-		.leftJoin("orchard.status as s", "a.sha256", "s.sha256")
 		.then( (rows) => {
-		// turn into documents rather than lots of duplicated container rows.
-		// group by sha256...
-			const groups = _.groupBy(rows, _.property("sha256"));
+			// turn into documents rather than lots of duplicated container rows.
+			// group by id...
+			const groups = _.groupBy(rows, _.property("id"));
 			// for each group...
-			const combined = _.map(_.keys(groups), (sha256) => {
-				const group = groups[sha256];
+			const combined = _.map(_.keys(groups), (id) => {
+				const group = groups[id];
 
 				// monstrosity of a one liner, it does this:
-				// unique by the sequence, sort by the sequence, map the sequence to tags
+				// unique by seq, sort by seq, map seq to the tags
 				const p = _.property;
 				const tags = _.map(_.sortBy(_.uniqBy(group, p("tag_seq")), p("tag_seq")), p("tag"));
 				const authors = _.map(_.sortBy(_.uniqBy(group, p("author_seq")), p("author_seq")), p("author"));
@@ -33,22 +32,18 @@ const _getLevels = (knex, subquery) => {
 			});
 			return combined;
 		});
-
 };
 
 /**
  * Get the levels. There's a few different variants:
  *  - this one lets you specify order, direction, limit, etc. it's for pagination
  */
-const getLevels = ({knex, order, dir, limit, offset}) => {
-	return _getLevels(
-		knex,
-		knex("orchard.level")
-			.select("*")
-			.limit(limit)
-			.orderBy(order, dir)
-			.offset(offset)
-	);
+const getLevels = ({knex, orders, limit, offset}) => {
+
+	const base = knex("orchard.levelv").limit(limit).offset(offset);
+	const subquery = _.reduce(orders, (prev, curr) => prev.orderBy(...curr), base);
+	
+	return _getLevels(knex, subquery);
 };
 
 /**
@@ -57,23 +52,23 @@ const getLevels = ({knex, order, dir, limit, offset}) => {
 const getAllLevels = ({knex}) => {
 	return _getLevels(
 		knex,
-		knex("orchard.level")
+		knex("orchard.levelv")
 			.select("*")
 	);
 };
 
 /**
- * - This one gets a list of sha256 hashes and looks them up.
+ * - This one gets a list of ids and looks them up.
  */
-const getLevelsFromHashes = ({knex, hashes}) => {
+const getLevelsFromIds = ({knex, ids}) => {
 	return _getLevels(
 		knex,
 		knex.select("i2.*")
-			.from("orchard.level as i2")
+			.from("orchard.levelv as i2")
 			.innerJoin(
-				knex.raw("unnest(?::varchar(44)[]) with ordinality as j2(sha256, ord)", [hashes]),
-				"i2.sha256",
-				"j2.sha256"
+				knex.raw("unnest(?::varchar(44)[]) with ordinality as j2(id, ord)", [ids]),
+				"i2.id",
+				"j2.id"
 			)
 			.orderBy("j2.ord")
 	);
@@ -82,10 +77,10 @@ const getLevelsFromHashes = ({knex, hashes}) => {
 /**
  * This one gets just one level.
  */
-const getLevelFromHash = ({knex, hash}) => {
+const getLevelFromId = ({knex, id}) => {
 	return _getLevels(
 		knex,
-		knex.select("*").from("orchard.level").where({sha256: hash})
+		knex.select("*").from("orchard.levelv").where({id})
 	)
 		.then(_.head);
 }
@@ -97,9 +92,8 @@ const getLevelFromHash = ({knex, hash}) => {
  */
 const iidDiff = async ({knex, group_id, proposed_iids}) => {
 	const rows = await knex
-		.select("i.sha256", "group_iid", "recycle_bin", "proposed_iid")
-		.from("orchard.level as i")
-		.leftJoin("orchard.status as k", "i.sha256", "k.sha256")
+		.select("id", "group_iid", "recycle_bin", "proposed_iid")
+		.from("orchard.levelv as i")
 		.fullOuterJoin(
 			knex.raw("unnest(?::text[]) as j(proposed_iid)", [proposed_iids]),
 			"i.group_iid",
@@ -117,10 +111,10 @@ const iidDiff = async ({knex, group_id, proposed_iids}) => {
 	// bin/unbin operations
 	await Promise.all([
 		knex("orchard.status")
-			.whereIn("sha256", _.map(toBin, _.property("sha256")))
+			.whereIn("id", _.map(toBin, _.property("id")))
 			.update({recycle_bin: true}),
 		knex("orchard.status")
-			.whereIn("sha256", _.map(toUnbin, _.property("sha256")))
+			.whereIn("id", _.map(toUnbin, _.property("id")))
 			.update({recycle_bin: false})
 	]);
 
@@ -137,16 +131,16 @@ const runVitals = (buffer) => {
 /**
  * Upload level
  */
-const uploadBuffer = (knex, buffer, {group_id, group_iid, aux}) => {
+const uploadBuffer = (knex, buffer, {group_id, group_iid, uploaded, aux}) => {
 	return vitals.analyse(buffer, "all")
 		.then( async (vitalsData) => {
-			const sha256 = vitalsData.sha256;
+			const id = vitalsData.id;
 
 			// first..... does it exist already?
-			const couldBeLevel = await getLevelFromHash({knex, hash: sha256});
+			const couldBeLevel = await getLevelFromId({knex, id});
 			if (couldBeLevel) {
 				// throw the group_id and the group_iid of the offending party.
-				throw _.pick(couldBeLevel, ['sha256', 'group_id', 'group_iid']);
+				throw _.pick(couldBeLevel, ['id', 'group_id', 'group_iid']);
 			}
 			
 
@@ -163,29 +157,29 @@ const uploadBuffer = (knex, buffer, {group_id, group_iid, aux}) => {
 					.into("orchard.level")
 					.then( () => {
 						const tagsToInsert = _.map(vitalsData.tags, (tag, seq) => {
-							return {sha256, tag, seq};
+							return {id, tag, seq};
 						});
 						return trx("orchard.level_tag").insert(tagsToInsert);
 					})
 					.then( () => {
 						const authorsToInsert = _.map(vitalsData.authors, (author, seq) => {
-							return {sha256, author, seq};
+							return {id, author, seq};
 						});
 						return trx("orchard.level_author").insert(authorsToInsert);
 					})
 					.then( () => {
-						return trx("orchard.status").insert({sha256});
+						return trx("orchard.status").insert({id, uploaded});
 					});
 			})
 				.then( (inserts) => {
 					return knex
 						.select("*")
-						.from("orchard.level")
-						.where({sha256});
+						.from("orchard.levelv")
+						.where({id});
 				});
 		})
 		.catch( (obj) => {
-			if (_.has(obj, "sha256")) {
+			if (_.has(obj, "id")) {
 				// it's a conflict type error. add an "already exists" flag
 				obj.alreadyExists = true;
 				return obj;
@@ -201,6 +195,6 @@ module.exports = {
 	runVitals,
 	uploadBuffer,
 	getAllLevels,
-	getLevelsFromHashes,
-	getLevelFromHash
+	getLevelsFromIds,
+	getLevelFromId
 };

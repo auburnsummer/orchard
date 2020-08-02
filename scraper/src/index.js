@@ -10,12 +10,13 @@ const parseSources = require("./sources/parseSources.js");
 const log = require("./utils/log.js");
 const _ = require("lodash");
 const client = require("./sources/client.js");
+const moment = require("moment");
 
 const promiseUtils = require("./utils/promises");
 
 console.error(process.env);
 
-const processGroup = async (entry, entryIndex, entries) => {
+const processGroup = async (entry, entryIndex, entries, currTime) => {
 	const {id, driver, args} = entry;
 	const Driver = require(`./sources/drivers/${driver}`);
 	const drive = new Driver(args);
@@ -42,7 +43,7 @@ const processGroup = async (entry, entryIndex, entries) => {
 				log(":driver", `Uploading iid ${iid}...`);
 				let resp;
 				try {
-					resp = await client.addLevel(id, rdzip, iid, aux);
+					resp = await client.addLevel(id, rdzip, iid, currTime, aux);
 				}
 				catch (err) {
 					if (err.response.status === 300) {
@@ -54,7 +55,7 @@ const processGroup = async (entry, entryIndex, entries) => {
 						const theirIndex = _.findIndex(entries, entry => entry.id === data.group_id);
 						if (entryIndex < theirIndex) {
 							log(":driver", "We're higher prio!");
-							const updateResponse = await client.updateLevel(data.sha256, {
+							const updateResponse = await client.updateLevel(data.id, {
 								group_id: id,
 								group_iid: iid
 							});
@@ -107,13 +108,16 @@ const processGroup = async (entry, entryIndex, entries) => {
 	}
 	log(":connect", "Connected!");
 
+	let currTime;
+
 	while (true) {
 		const sourcePath = process.argv[2] || "/var/conf/sources.yml";
 		const entries = await parseSources.parse(sourcePath);
 		const groups = (await client.addGroups(entries)).data;
 
+		let currTime = new moment();
 		const results = await promiseUtils.mapSeries(entries, async (entry, idx, entries) => {
-			return processGroup(entry, idx, entries)
+			return processGroup(entry, idx, entries, currTime)
 				.catch(err => {
 					log("!driver", err);
 				});

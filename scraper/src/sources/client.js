@@ -8,7 +8,10 @@ const FormData = require("form-data");
 const serverUp = () => {
 	return axios({
 		method: "GET",
-		url: `${process.env.SERVER}/levels`
+		url: `${process.env.SERVER}/levels`,
+		params: {
+			order: "uploaded.desc"
+		}
 	})
 		.then( (data) => {
 			return true;
@@ -18,10 +21,10 @@ const serverUp = () => {
 		});
 };
 
-const updateLevel = (sha256, data) => {
+const updateLevel = (id, data) => {
 	return axios({
 		method: "PATCH",
-		url: `${process.env.SERVER}/levels/${sha256}`,
+		url: `${process.env.SERVER}/levels/${id}`,
 		headers: {
 			Authorization: `Bearer ${process.env.SERVER_API_KEY}`
 		},
@@ -54,11 +57,12 @@ const addGroups = (data) => {
 	});
 };
 
-const addLevel = (group_id, rdzip, group_iid, aux) => {
+const addLevel = (group_id, rdzip, group_iid, currTime, aux) => {
 	const form = new FormData();
 	form.append("group_id", group_id);
 	form.append("group_iid", group_iid);
 	form.append("rdzip", rdzip, `${group_iid}.rdzip`);
+	form.append("uploaded", currTime.toISOString());
 	form.append("aux", JSON.stringify(aux));
 
 	const formHeaders = form.getHeaders();

@@ -16,15 +16,14 @@ router.post(
 	async (req, res, next) => {
 		try {
 			const {knex} = req;
-			const order = "sha256";
 
 			// get ALL the levels
 			const allLevels = await levels.getAllLevels({knex});
 
 			// which attributes actually need to go to meili too?
 			const attributesToSend = [
-				"sha256", "tags", "authors", "group", "song",
-				"artist", "description"
+				"id", "tags", "authors", "group", "song",
+				"artist", "description", "difficulty"
 			];
 
 			const readyToSend = _.map(allLevels, (level) => _.pick(level, attributesToSend));

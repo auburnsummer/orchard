@@ -1,8 +1,27 @@
-- name: "Rhythm Doctor Lounge (old sheet)"
-  id: "40b06174-7b5a-4fe4-a8df-c3a91fd1ebba"
-  driver: "legacySheet"
-  website: "https://discord.gg/rhythmdr"
+- name: "Local JSON Test"
+  id: "19c1ae9e-05c5-4a2b-a7cc-d1aa1990bc30"
+  driver: "test"
+  website: null
   description: |
-    RDL is the official server for 7th Beat Games. These are levels from
-    the old website
-  args: {}
+    Test with some local JSON data
+  args:
+    rehost: true
+- name: "Mock Google Drive"
+  id: "4a69bed8-76e5-4144-b5af-d87a6ba2bc51"
+  driver: "gdrive"
+  website: null
+  description: |
+    Mock Google Drive for testing. Most of these levels are just made for
+    testing purposes and aren't actually playable in any capacity.
+  args:
+    folderID: "11v84dOUiwtUM9zMUpFgs4ubJtXB1kJ1J"
+- name: "Lugi's Levels"
+  id: "c4552920-7dcd-4f2e-b343-ec9c4411cdd4"
+  driver: "git"
+  website: "https://github.com/1ug1a/rd-levels"
+  description: |
+    Levels that lugia put on github a long time ago, before the website
+    existed. I'm using it for testing, but I'm not really expecting anyone
+    to actually put their levels on git...
+  args:
+    cloneURL: "https://github.com/1ug1a/rd-levels.git"
