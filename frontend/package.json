@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "build": "NODE_ENV=production preact build",
+    "build": "NODE_ENV=production preact build && mv ./build/index.html ./build/200.html",
     "serve": "sirv build --port 8080 --cors --single",
     "dev": "preact watch",
     "lint": "eslint src"
@@ -28,6 +28,8 @@
     "preact": "^10.1.0",
     "preact-cli-postcss": "^1.1.1",
     "preact-render-to-string": "^5.1.2",
-    "tailwindcss": "^1.6.0"
+    "preact-router": "^3.2.1",
+    "tailwindcss": "^1.6.0",
+    "tailwindcss-gap": "^6.0.0"
   }
 }

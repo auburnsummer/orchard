@@ -13,7 +13,9 @@ const IPFS_GATEWAYS = [
     "https://ipfs.io/ipfs/",
     "https://10.via0.com/ipfs/",
     "https://cloudflare-ipfs.com/ipfs/",
-    "https://gateway.pinata.cloud/ipfs/"
+    "https://gateway.pinata.cloud/ipfs/",
+    "https://ipfs.eternum.io/ipfs/",
+    "https://trusti.id/ipfs/"
 ]
 
 export const HOST = "https://ipfs.rhythm.cafe/ipfs/"
