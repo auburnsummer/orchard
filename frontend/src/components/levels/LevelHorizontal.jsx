@@ -50,10 +50,7 @@ export default function LevelHorizontal ({level, _class=""}) {
 
                     </div>
 
-                    {/* hovericons + tags */}
-                    <div class="mt-1 overflow-hidden">
-                        <Tags {...level} />
-                    </div>
+                    <Tags {...level} />
                 </div>
             </div>
 
