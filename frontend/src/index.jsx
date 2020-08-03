@@ -1,4 +1,7 @@
+import "preact/debug";
+
 import preact, {h} from 'preact';
+
 
 import style from "./style.css";
 
