@@ -14,12 +14,13 @@ function LoadingScreen() {
     )
 }
 
-function LevelList({levels, _class, callback}) {
+function LevelList({levels, _class, state}) {
+    const [selectedIndex, setSelectedIndex] = state;
     return (
-        <div class={cm("flex flex-col justify-center max-w-3xl p-8", _class)} onClick={trap(() => callback(prev => -1))}>
+        <div class={cm("flex flex-col justify-center max-w-3xl p-8", _class)} onClick={trap(() => setSelectedIndex(prev => -1))}>
             {levels.map((level, idx) => {
                 const _class = idx > 0 ? "mt-8" : "";
-                return <LevelHorizontal level={level} _class={_class} callback={trap(() => callback(prev => idx))} />
+                return <LevelHorizontal level={level} selected={selectedIndex === idx} _class={_class} callback={trap(() => setSelectedIndex(prev => idx))} />
             })}
         </div>
     )
@@ -42,7 +43,7 @@ export default function Levels () {
     return (
         <main class="container">
             <div class="fixed top-0 z-50 w-screen h-16 bg-blue-300">
-                Header
+                Header {selectedIndex}
             </div>
             <div class="flex flex-row justify-center mt-16">
                 
@@ -50,7 +51,12 @@ export default function Levels () {
                 <Switch args={[state]}>
                     <LoadingScreen test={equals("LOADING")} />
 
-                    <LevelList test={equals("LOADED")} levels={levels} _class="bg-gray-300" callback={setSelectedIndex}/>
+                    <div test={equals("LOADED")}>
+                    <LevelList test={equals("LOADED")}
+                        levels={levels}
+                        state={[selectedIndex, setSelectedIndex]}
+                        _class="bg-gray-300"/>
+                    </div>
                     
                     <ErrorScreen test={equals("ERROR")} />
                 </Switch>

@@ -15,7 +15,7 @@ import DifficultyDecoration from "./DifficultyDecoration";
 import UnrankedMessage from "./UnrankedMessage";
 
 // callback should be a function that RETURNS a function
-export default function LevelHorizontal ({level, _class="", callback}) {
+export default function LevelHorizontal ({level, selected, _class="", callback}) {
     const imgUrl = getRandomGateway() + level.image_ipfs;
 
     return (
@@ -30,7 +30,7 @@ export default function LevelHorizontal ({level, _class="", callback}) {
             </div>
             
             {/* level info */}
-            <div class="relative w-3/5 bg-gray-100 group-hover:bg-white">
+            <div class={cm("relative w-3/5 group-hover:bg-white", selected ? "bg-white" : "bg-gray-100")}>
                 {/* difficulty */}
                 <DifficultyDecoration {...level} _class="absolute right-0"/>
                 <div class="flex flex-col h-full p-4">
