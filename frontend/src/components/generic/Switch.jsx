@@ -9,7 +9,8 @@ export default function Switch(props) {
     const {args, children, ...rest} = props;
 
     const Found = useMemo( () => {
-        return _.find(children, (child) => child.props.test(...args))
+        // if there isn't a test, substitute _.stubFalse
+        return _.find(children, (child) => _.get(child, "props.test", _.stubFalse)(...args))
     }, [...args]);
 
     return Found;

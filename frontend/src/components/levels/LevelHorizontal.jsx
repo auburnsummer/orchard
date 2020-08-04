@@ -14,11 +14,12 @@ import Tags from "./Tags";
 import DifficultyDecoration from "./DifficultyDecoration";
 import UnrankedMessage from "./UnrankedMessage";
 
-export default function LevelHorizontal ({level, _class=""}) {
+// callback should be a function that RETURNS a function
+export default function LevelHorizontal ({level, _class="", callback}) {
     const imgUrl = getRandomGateway() + level.image_ipfs;
 
     return (
-        <div class={cm("flex flex-row group", _class)}>
+        <div class={cm("flex flex-row group", _class)} onClick={callback}>
             
             {/* image on the left */}
             <div class="flex-none w-2/5 max-w-md bg-red-500">
