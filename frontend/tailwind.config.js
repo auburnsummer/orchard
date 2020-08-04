@@ -17,7 +17,9 @@ module.exports = {
       'sans': '\'Public Sans\', sans-serif'
     }
   },
-  variants: {},
+  variants: {
+    backgroundColor: ['responsive', 'hover', 'focus', 'active', 'group-hover']
+  },
   plugins: [
     require('tailwindcss-gap')({
       prefix: 'c-',   // defaults to 'c-'

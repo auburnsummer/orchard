@@ -13,9 +13,9 @@ import NotFound from "./pages/404";
 export default function App () {
     return (
       <Router>
-        <Home path="/" />
-        <Levels path="/levels" />
-        <NotFound default />
+        <Home exact path="/" />
+        <Levels exact path="/levels" />
+        <NotFound exact default />
       </Router>
     )
 }

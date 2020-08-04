@@ -19,7 +19,7 @@ export default function Authors({authors, _class}) {
     return (
         <div class={cm("flex flex-row items-center", _class)}>
             <Icon _class="flex-none w-3 h-3 text-gray-700" />
-            <ul class="flex flex-row items-center leading-none">
+            <ul class="flex flex-row flex-wrap items-center leading-none">
                 {
                     authors.map((author, idx, arr) => {
                         const message = _.cond([

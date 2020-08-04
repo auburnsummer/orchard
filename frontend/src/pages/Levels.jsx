@@ -2,6 +2,10 @@ import LevelHorizontal from "../components/levels/LevelHorizontal";
 import Switch from "../components/generic/Switch";
 import useLevels from "../hooks/useLevels";
 import _ from "lodash";
+import LevelDetail from "../components/levels/LevelDetail";
+import cm from "classnames";
+
+import {useState} from "preact/hooks";
 
 function LoadingScreen() {
     return (
@@ -9,9 +13,9 @@ function LoadingScreen() {
     )
 }
 
-function LevelList({levels}) {
+function LevelList({levels, _class}) {
     return (
-        <div class="flex flex-col justify-center max-w-3xl min-h-screen p-8 bg-gray-200">
+        <div class={cm("flex flex-col justify-center max-w-3xl p-8", _class)}>
             {levels.map((level, idx) => {
                 const _class = idx > 0 ? "mt-8" : "";
                 return <LevelHorizontal level={level} _class={_class} />
@@ -20,30 +24,36 @@ function LevelList({levels}) {
     )
 }
 
+function LevelScreen({levels, _class}) {
+
+    return (
+        <div class="flex flex-row">
+            <LevelList levels={levels} _class="bg-gray-300" />
+        </div>
+    )
+}
+
+function ErrorScreen() {
+    return (
+        <p>Error!</p>
+    )
+}
+
 export default function Levels () {
 
     const {levels, state, error} = useLevels();
 
+    const [count, setCount] = useState(0);
+    
     const equals = _.curry(_.eq);
 
     return (
         <Switch args={[state]}>
             <LoadingScreen test={equals("LOADING")} />
-            <LevelList test={equals("LOADED")} levels={levels} />
-            <div test={equals("ERROR")}>
-                <p>Error...</p>
-            </div>
+
+            <LevelScreen test={equals("LOADED")} levels={levels} />
+            
+            <ErrorScreen test={equals("ERROR")} />
         </Switch>
     )
-
-    // return (
-    //     <div class="flex flex-col justify-center max-w-3xl min-h-screen p-8 bg-gray-200">
-    //         <h1>This is the levels page!</h1>
-    //         <h2>Note: This is <span class="italic">test</span> data for display and is inaccurate.</h2>
-    //         <LevelHorizontal level={level}/>
-    //         <LevelHorizontal level={level2} _class="mt-8" />
-    //         <LevelHorizontal level={level3} _class="mt-8" />
-    //         <LevelHorizontal level={level4} _class="mt-8" />
-    //     </div>
-    // )
 }

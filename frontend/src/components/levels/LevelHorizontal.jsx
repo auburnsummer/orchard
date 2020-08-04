@@ -18,7 +18,7 @@ export default function LevelHorizontal ({level, _class=""}) {
     const imgUrl = getRandomGateway() + level.image_ipfs;
 
     return (
-        <div class={cm("flex flex-row bg-white", _class)}>
+        <div class={cm("flex flex-row group", _class)}>
             
             {/* image on the left */}
             <div class="flex-none w-2/5 max-w-md bg-red-500">
@@ -29,7 +29,7 @@ export default function LevelHorizontal ({level, _class=""}) {
             </div>
             
             {/* level info */}
-            <div class="relative w-3/5 bg-white">
+            <div class="relative w-3/5 bg-gray-100 group-hover:bg-white">
                 {/* difficulty */}
                 <DifficultyDecoration {...level} _class="absolute right-0"/>
                 <div class="flex flex-col h-full p-4">
