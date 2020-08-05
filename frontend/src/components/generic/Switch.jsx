@@ -8,8 +8,9 @@ import {useMemo} from "preact/hooks";
 export default function Switch(props) {
     const {args, children, ...rest} = props;
 
-    // const Found = _.find(children, (child) => _.get(child, "props.test", _.stubFalse)(...args));
-    const Found = _.find(children, child => (child.props?.test ?? _.stubFalse)(...args));
+    const index = useMemo( () => {
+        return _.findIndex(children, child => (child.props?.test ?? _.stubFalse)(...args));
+    }, [...args])
 
-    return Found;
+    return children[index];
 }
