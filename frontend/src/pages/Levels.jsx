@@ -17,7 +17,7 @@ function LoadingScreen() {
 function LevelList({levels, _class, state}) {
     const [selectedIndex, setSelectedIndex] = state;
     return (
-        <div class={cm("flex flex-col justify-center p-8", _class)} onMouseDown={trap(() => setSelectedIndex(prev => -1))}>
+        <div class={cm("flex flex-col justify-center p-8", _class)} >
             {levels.map((level, idx) => {
                 const _class = idx > 0 ? "mt-8" : "";
                 return <LevelHorizontal level={level} selected={selectedIndex === idx} _class={_class} callback={trap(() => setSelectedIndex(prev => idx))} />
@@ -45,7 +45,7 @@ export default function Levels () {
             <div class="fixed top-0 z-50 w-full h-16 bg-blue-300">
                 Header {selectedIndex}
             </div>
-            <div class="flex flex-row items-start justify-center mt-16">
+            <div class="flex flex-row items-start justify-center mt-16" onMouseDown={trap(() => setSelectedIndex(prev => -1))}>
                 
                 <div class="w-3/5 max-w-3xl">
                 <Switch args={[state]}>
@@ -63,7 +63,7 @@ export default function Levels () {
                 <div class="sticky top-0 w-2/5 -mt-16">
                     <div class="flex items-center justify-center h-screen mx-4 -mt-16">
                         
-                        <div class="w-full p-8 bg-gray-300">
+                        <div class="w-full p-8 bg-gray-300" onMouseDown={trap(_.stubTrue)}>
                             <Switch args={[selectedIndex]}>
                                 <p test={equals(-1)}>Select a level...</p>
                                 <LevelDetail test={_.stubTrue} level={levels[selectedIndex]} />
