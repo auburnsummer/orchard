@@ -60,7 +60,7 @@ export default function Levels () {
                 </Switch>
                 </div>
                 
-                <div class="w-2/5">
+                <div class="sticky top-0 w-2/5 -mt-16">
                     <div class="flex items-center justify-center h-screen mx-4 -mt-16">
                         
                         <div class="w-full p-8 bg-gray-300">
