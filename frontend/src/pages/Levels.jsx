@@ -17,7 +17,7 @@ function LoadingScreen() {
 function LevelList({levels, _class, state}) {
     const [selectedIndex, setSelectedIndex] = state;
     return (
-        <div class={cm("flex flex-col justify-center p-8", _class)} onClick={trap(() => setSelectedIndex(prev => -1))}>
+        <div class={cm("flex flex-col justify-center p-8", _class)} onMouseDown={trap(() => setSelectedIndex(prev => -1))}>
             {levels.map((level, idx) => {
                 const _class = idx > 0 ? "mt-8" : "";
                 return <LevelHorizontal level={level} selected={selectedIndex === idx} _class={_class} callback={trap(() => setSelectedIndex(prev => idx))} />

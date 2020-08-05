@@ -19,7 +19,7 @@ export default function LevelHorizontal ({level, selected, _class="", callback})
     const imgUrl = getRandomGateway() + level.image_ipfs;
 
     return (
-        <div class={cm("flex flex-row group", _class)} onClick={callback}>
+        <div class={cm("flex flex-row group", _class)} onMouseDown={callback}>
             
             {/* image on the left */}
             <div class="flex-none w-2/5 max-w-md bg-red-500">
