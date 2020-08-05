@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "build": "NODE_ENV=production preact build && mv ./build/index.html ./build/200.html",
+    "build": "NODE_ENV=production preact build --no-prerender && mv ./build/index.html ./build/200.html",
+    "builddev": "NODE_ENV=development preact build --no-prerender && mv ./build/index.html ./build/200.html",
     "serve": "sirv build --port 8080 --cors --single",
     "dev": "preact watch",
     "lint": "eslint src"
