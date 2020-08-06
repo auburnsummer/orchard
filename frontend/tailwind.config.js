@@ -16,7 +16,7 @@ module.exports = {
       }
     },
     fontFamily: {
-      'sans': ['Raleway', 'sans-serif']
+      'sans': ['"Public Sans"', 'sans-serif']
     }
   },
   variants: {

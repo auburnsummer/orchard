@@ -5,10 +5,14 @@ import NotFound from "./pages/404";
 
 export default function App () {
     return (
-      <Router>
-        <Home exact path="/" />
-        <Levels exact path="/levels" />
-        <NotFound exact default />
-      </Router>
+      <div class="font-sans">
+        
+        <Router>
+          <Home exact path="/" />
+          <Levels exact path="/levels" />
+          <NotFound exact default />
+        </Router>
+
+      </div>
     )
 }

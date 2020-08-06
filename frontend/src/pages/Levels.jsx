@@ -61,7 +61,7 @@ export default function Levels () {
                 </div>
                 
                 <div class="sticky top-0 w-2/5 -mt-16">
-                    <div class="flex items-center justify-center h-screen mx-4 -mt-16">
+                    <div class="flex items-center justify-center h-screen mx-4">
                         
                         <div class="w-full p-8 bg-gray-300" onMouseDown={trap(_.stubTrue)}>
                             <Switch args={[selectedIndex]}>
