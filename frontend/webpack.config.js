@@ -4,7 +4,12 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 
 module.exports = {
+  mode: 'development',
   entry: './src/index.js',
+  devtool: 'inline-source-map',
+  devServer: {
+    contentBase: "./build"
+  },
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'build'),
@@ -16,29 +21,29 @@ module.exports = {
     })
   ],
   module: {
-      rules: [
-          {
-              test: /\.css$/,
-              use: [
-                  'style-loader',
-                  { loader: 'css-loader', options: { importLoaders: 1 } },
-                  'postcss-loader'
-              ]
-          },
-          {
-            test: /\.m?jsx?$/,
-            exclude: /(node_modules|bower_components)/,
-            resolve: { extensions: [".js", ".jsx"] },
-            use: {
-              loader: 'babel-loader'
-            }
-          },
-          {
-            test: /\.(png|svg|jpg|gif)$/,
-            use: [
-                "file-loader"
-            ]
-          }
-      ]
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          { loader: 'css-loader', options: { importLoaders: 1 } },
+          'postcss-loader'
+        ]
+      },
+      {
+        test: /\.m?jsx?$/,
+        exclude: /(node_modules|bower_components)/,
+        resolve: { extensions: [".js", ".jsx"] },
+        use: {
+          loader: 'babel-loader'
+        }
+      },
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: [
+          "file-loader"
+        ]
+      }
+    ]
   }
 };
