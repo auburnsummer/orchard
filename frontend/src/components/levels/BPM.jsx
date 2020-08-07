@@ -1,7 +1,6 @@
 /**
  * Render a BPM icon and text
  */
-import _ from "lodash";
 import cm from "classnames";
 
 export default function BPM({max_bpm, min_bpm, _class}) {

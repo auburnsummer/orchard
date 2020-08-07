@@ -1,7 +1,6 @@
 /**
  * Render the "group" of the level with an icon + text. 
  */
-import _ from "lodash";
 import cm from "classnames";
 
 export default function Group({group, _class}) {

@@ -5,17 +5,17 @@
  * only unranked levels have messages. 
  */
 import cm from "classnames";
-import _ from "lodash";
+import {cond, constant, stubTrue} from "utils/functions";
+import {_, it, lift as L} from "param.macro";
 
 export default function UnrankedMessage ({approval, _class}) {
-    const geq = x => y => y >= x; // greater or equal to
-    const message = _.cond([
-        [geq(10), _.constant('')],
-        [geq(0), _.constant('Awaiting validation...')],
-        [geq(-1), _.constant('Needs gameplay changes')],
-        [geq(-2), _.constant('Needs metadata changes')],
-        [geq(-3), _.constant('Artist blacklist')],
-        [_.stubTrue, _.constant('Needs changes')]
+    const message = cond([
+        [L(it >= 10),  constant('')],
+        [L(it >= 0 ),  constant('Awaiting validation...')],
+        [L(it >= -1),  constant('Needs gameplay changes')],
+        [L(it >= -2),  constant('Needs metadata changes')],
+        [L(it >= -3),  constant('Artist blacklist')],
+        [stubTrue,     constant('Needs changes')]
     ]);
 
     return (

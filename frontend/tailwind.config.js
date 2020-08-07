@@ -1,9 +1,11 @@
 module.exports = {
-  purge: [
-    './src/**/*.html',
-    './src/**/*.vue',
-    './src/**/*.jsx',
-  ],
+  purge: {
+    mode: 'all',
+    content: [
+      './src/**/*.js',
+      './src/**/*.jsx'
+    ]
+  },
   theme: {
     extend: {
       spacing: {
@@ -14,7 +16,7 @@ module.exports = {
       }
     },
     fontFamily: {
-      'sans': '\'Public Sans\', sans-serif'
+      'sans': ['"Public Sans"', 'sans-serif']
     }
   },
   variants: {

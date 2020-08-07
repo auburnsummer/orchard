@@ -1,0 +1,7 @@
+> 0.5%
+last 2 versions
+Firefox ESR
+not dead
+# browsers that don't support css sticky we can't support
+not ie 11
+not op_mini all

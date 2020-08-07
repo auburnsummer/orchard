@@ -2,7 +2,7 @@
  * Render authors with icon and proper spacing etc
  */
 
-import _ from "lodash";
+import {cond, stubTrue} from "utils/functions";
 import cm from "classnames";
 
 export default function Authors({authors, _class}) {
@@ -22,10 +22,10 @@ export default function Authors({authors, _class}) {
             <ul class="flex flex-row flex-wrap items-center leading-none">
                 {
                     authors.map((author, idx, arr) => {
-                        const message = _.cond([
-                            [({arr}) => arr.length === 1,             _.constant(author)],
+                        const message = cond([
+                            [({arr}) => arr.length === 1,             ({author}) => author],
                             [({idx, arr}) => idx === arr.length - 1,  ({author}) => "and " + author],
-                            [_.stubTrue,                              ({author}) => author + ","]
+                            [stubTrue,                                ({author}) => author + ","]
                         ]);
                         
                         return (

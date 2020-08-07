@@ -1,5 +1,5 @@
 import {useState, useEffect} from "preact/hooks";
-import Axios from "axios";
+import Axios from "redaxios";
 import constants from "../utils/constants";
 
 

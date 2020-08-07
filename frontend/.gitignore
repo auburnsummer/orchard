@@ -4,3 +4,5 @@ node_modules
 size-plugin.json
 
 .DS_Store
+
+stats.json
