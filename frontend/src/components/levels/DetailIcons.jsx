@@ -1,8 +1,8 @@
-import HasClassics from "assets/classicTEMP.png";
-import HasOneshots from "assets/oneshotTEMP.png";
-import HasSquareshots from "assets/squareshotTEMP.png";
-import HasSwing from "assets/swingTEMP.png";
-import HasFreetimes from "assets/freetimeTEMP.png";
+import HasClassics from "assets/classicDPS.png";
+import HasOneshots from "assets/oneshotDPS.png";
+import HasSquareshots from "assets/squareshotDPS.png";
+import HasSwing from "assets/swingDPS.png";
+import HasFreetimes from "assets/freetimeDPS.png";
 import HasHolds from "assets/heldbeatsTEMP.png";
 
 function Icon({img, _class}) {
