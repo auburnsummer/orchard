@@ -5,16 +5,17 @@
  /**
  * Render the "group" of the level with an icon + text. 
  */
-import _ from "lodash";
+import {cond, constant, stubTrue} from "utils/functions";
+import {_, it, lift as L} from "param.macro";
 import cm from "classnames";
 
 export default function Players({single_player, two_player, _class}) {
 
-    const makePlayerText = _.cond([
-        [(p1, p2) => p1 && p2,     _.constant('1P & 2P')],
-        [(p1, p2) => p1 && !p2,    _.constant('1P')],
-        [(p1, p2) => !p1 && p2,    _.constant('2P')],
-        [_.stubTrue,               _.constant('????????')]
+    const makePlayerText = cond([
+        [L(_  &&  _),     constant('1P & 2P')],
+        [L(_  && !_),     constant('1P')],
+        [L(!_ &&  _),     constant('2P')],
+        [stubTrue,        constant('????????')]
 
     ]);
 

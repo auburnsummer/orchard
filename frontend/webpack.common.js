@@ -4,13 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 
 module.exports = {
-  mode: 'production',
   entry: './src/index.js',
-  devtool: 'eval-cheap-module-source-map',
-  devServer: {
-    contentBase: "./build",
-    historyApiFallback: true
-  },
   output: {
     filename: '[name].[contenthash].js',
     path: path.resolve(__dirname, 'build'),
@@ -34,6 +28,9 @@ module.exports = {
       title: 'Rhythm Café'
     })
   ],
+  resolve: {
+    modules: [path.resolve(__dirname, 'src'), 'node_modules']
+  },
   module: {
     rules: [
       {

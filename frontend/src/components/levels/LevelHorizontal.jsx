@@ -2,7 +2,7 @@
  * A component which renders a level preview in a horizontal style.
  */
 
-import {getRandomGateway} from "../../utils/ipfsGateways";
+import {getRandomGateway} from "utils/ipfsGateways";
 import cm from "classnames";
 
 import Group from "./Group";

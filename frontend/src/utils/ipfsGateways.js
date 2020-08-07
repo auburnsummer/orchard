@@ -7,7 +7,7 @@
  * be served from other IPFS nodes instead of just us), but at a latency cost.
  */
 
-import _ from "lodash";
+import {sample} from "./functions";
 
 const IPFS_GATEWAYS = [
     "https://ipfs.io/ipfs/",
@@ -21,5 +21,5 @@ const IPFS_GATEWAYS = [
 export const HOST = "https://ipfs.rhythm.cafe/ipfs/"
 
 export const getRandomGateway = () => {
-    return _.sample(IPFS_GATEWAYS);
+    return sample(IPFS_GATEWAYS);
 }

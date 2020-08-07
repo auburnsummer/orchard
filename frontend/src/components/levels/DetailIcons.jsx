@@ -1,9 +1,9 @@
-import HasClassics from "../../../assets/classicTEMP.png";
-import HasOneshots from "../../../assets/oneshotTEMP.png";
-import HasSquareshots from "../../../assets/squareshotTEMP.png";
-import HasSwing from "../../../assets/swingTEMP.png";
-import HasFreetimes from "../../../assets/freetimeTEMP.png";
-import HasHolds from "../../../assets/heldbeatsTEMP.png";
+import HasClassics from "assets/classicTEMP.png";
+import HasOneshots from "assets/oneshotTEMP.png";
+import HasSquareshots from "assets/squareshotTEMP.png";
+import HasSwing from "assets/swingTEMP.png";
+import HasFreetimes from "assets/freetimeTEMP.png";
+import HasHolds from "assets/heldbeatsTEMP.png";
 
 function Icon({img, _class}) {
     return (

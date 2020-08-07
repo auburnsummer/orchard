@@ -3,18 +3,19 @@
   "version": "1.0.0",
   "description": "orchard frontend",
   "main": "./src/index.jsx",
+  "sideEffects": false,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
+    "build": "NODE_ENV=production webpack --config webpack.prod.js --profile --json > stats.json",
+    "analyze": "npx webpack-bundle-analyzer stats.json build",
     "watch": "webpack --watch",
-    "start": "webpack-dev-server --open"
+    "start": "webpack-dev-server --open --config webpack.dev.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.19.2",
     "classnames": "^2.2.6",
-    "lodash": "^4.17.19",
     "preact": "^10.4.7",
     "preact-router": "^3.2.1",
     "tailwindcss": "^1.6.2",
@@ -31,11 +32,13 @@
     "cssnano": "^4.1.10",
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.3.0",
+    "param.macro": "^3.2.1",
     "postcss-font-magician": "^2.3.1",
     "postcss-loader": "^3.0.0",
     "style-loader": "^1.2.1",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^3.11.0",
+    "webpack-merge": "^5.1.1"
   }
 }

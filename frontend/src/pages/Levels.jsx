@@ -1,10 +1,12 @@
 import LevelHorizontal from "../components/levels/LevelHorizontal";
 import Switch from "../components/generic/Switch";
 import useLevels from "../hooks/useLevels";
-import _ from "lodash";
 import LevelDetail from "../components/levels/LevelDetail";
 import cm from "classnames";
-import {trap} from "../utils/functions.js";
+import {trap, stubTrue} from "../utils/functions.js";
+
+import {_, it, lift as L} from "param.macro";
+
 
 import {useState} from "preact/hooks";
 
@@ -38,7 +40,7 @@ export default function Levels () {
 
     const [selectedIndex, setSelectedIndex] = useState(-1);
     
-    const equals = _.curry(_.eq);
+    const equals = (text) => it === text;
 
     return (
         <main class="mx-auto">
@@ -49,24 +51,24 @@ export default function Levels () {
                 
                 <div class="w-3/5 max-w-3xl">
                 <Switch args={[state]}>
-                    <LoadingScreen test={equals("LOADING")} />
+                    <LoadingScreen test={L(it === "LOADING")} />
 
-                    <LevelList test={equals("LOADED")}
+                    <LevelList test={L(it === "LOADED")}
                         levels={levels}
                         state={[selectedIndex, setSelectedIndex]}
                         _class="bg-gray-300"/>
                                     
-                    <ErrorScreen test={equals("ERROR")} />
+                    <ErrorScreen test={L(it === "ERROR")} />
                 </Switch>
                 </div>
                 
                 <div class="sticky top-0 w-2/5 -mt-16">
                     <div class="flex items-center justify-center h-screen mx-4">
                         
-                        <div class="w-full p-8 bg-gray-300" onMouseDown={trap(_.stubTrue)}>
+                        <div class="w-full p-8 bg-gray-300" onMouseDown={trap(stubTrue)}>
                             <Switch args={[selectedIndex]}>
-                                <p test={equals(-1)}>Select a level...</p>
-                                <LevelDetail test={_.stubTrue} level={levels[selectedIndex]} />
+                                <p test={L(it === -1)}>Select a level...</p>
+                                <LevelDetail test={stubTrue} level={levels[selectedIndex]} />
                             </Switch>
                         </div>
                     </div>
