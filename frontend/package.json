@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "orchard frontend",
   "main": "./src/index.jsx",
-  "sideEffects": false,
+  "sideEffects": [
+    "./src/style.css"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "NODE_ENV=production webpack --config webpack.prod.js --profile --json > stats.json",
