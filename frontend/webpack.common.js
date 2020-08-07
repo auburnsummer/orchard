@@ -25,6 +25,7 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
+      filename: '200.html',
       title: 'Rhythm Café'
     })
   ],
