@@ -30,7 +30,7 @@ export default function LevelHorizontal ({level, selected, _class="", callback})
             </div>
             
             {/* level info */}
-            <div class={cm("relative w-3/5 group-hover:bg-white", selected ? "bg-white" : "bg-gray-100")}>
+            <div class={cm("relative w-3/5", selected ? "bg-teal-100 shadow-lg" : "group-hover:bg-white bg-gray-100")}>
                 {/* difficulty */}
                 <DifficultyDecoration {...level} _class="absolute right-0"/>
                 <div class="flex flex-col h-full p-4">
