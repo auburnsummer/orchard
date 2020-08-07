@@ -13,13 +13,11 @@ const IPFS_GATEWAYS = [
     "https://ipfs.io/ipfs/",
     "https://10.via0.com/ipfs/",
     "https://cloudflare-ipfs.com/ipfs/",
-    "https://gateway.pinata.cloud/ipfs/",
-    "https://ipfs.eternum.io/ipfs/",
-    "https://trusti.id/ipfs/"
+    "https://dweb.link/ipfs/"
 ]
 
-export const HOST = "https://ipfs.rhythm.cafe/ipfs/"
+export const HOST = "https://ipfs.rhythm.cafe/ipfs/";
 
-export const getRandomGateway = () => {
-    return sample(IPFS_GATEWAYS);
+export const ipfsUrl = (cid, filename) => {
+    return sample(IPFS_GATEWAYS) + cid + (filename === null ? "" : `?filename=${filename}`);
 }

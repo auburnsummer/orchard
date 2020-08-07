@@ -2,7 +2,7 @@
  * A component which renders a level preview in a horizontal style.
  */
 
-import {getRandomGateway} from "utils/ipfsGateways";
+import {ipfsUrl} from "utils/ipfsGateways";
 import cm from "classnames";
 
 import Group from "./Group";
@@ -16,10 +16,10 @@ import UnrankedMessage from "./UnrankedMessage";
 
 // callback should be a function that RETURNS a function
 export default function LevelHorizontal ({level, selected, _class="", callback}) {
-    const imgUrl = getRandomGateway() + level.image_ipfs;
+    const imgUrl = ipfsUrl(level.image_ipfs);
 
     return (
-        <div class={cm("flex flex-row group", _class)} onMouseDown={callback}>
+        <div class={cm("flex flex-row group", _class, selected ? "shadow-lg" : "")} onMouseDown={callback}>
             
             {/* image on the left */}
             <div class="flex-none w-2/5 max-w-md bg-red-500">
@@ -30,7 +30,7 @@ export default function LevelHorizontal ({level, selected, _class="", callback})
             </div>
             
             {/* level info */}
-            <div class={cm("relative w-3/5", selected ? "bg-teal-100 shadow-lg" : "group-hover:bg-white bg-gray-100")}>
+            <div class={cm("relative w-3/5", selected ? "bg-teal-100" : "group-hover:bg-white bg-gray-100")}>
                 {/* difficulty */}
                 <DifficultyDecoration {...level} _class="absolute right-0"/>
                 <div class="flex flex-col h-full p-4">
