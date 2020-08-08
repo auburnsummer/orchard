@@ -4,12 +4,14 @@ import {ipfsUrl} from "utils/ipfsGateways";
 
 export default function LevelDetail({level, _class}) {
 
+    const constructedFilename = `${level.artist} - ${level.song}.rdzip`
+
     return (
-        <div>
+        <div class="flex flex-col">
             <p>{level.description ?? ""}</p>
             <DetailIcons level={level} />
 
-            <DownloadButton download_link={ipfsUrl(level.rdzip_ipfs, "level.rdzip")}>
+            <DownloadButton _class="mt-4 text-center" download_link={ipfsUrl(level.rdzip_ipfs, constructedFilename)}>
                 Download
             </DownloadButton>
         </div>

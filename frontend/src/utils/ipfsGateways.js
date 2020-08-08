@@ -11,9 +11,7 @@ import {sample} from "./functions";
 
 const IPFS_GATEWAYS = [
     "https://ipfs.io/ipfs/",
-    "https://10.via0.com/ipfs/",
-    "https://cloudflare-ipfs.com/ipfs/",
-    "https://dweb.link/ipfs/"
+    "https://10.via0.com/ipfs/"
 ]
 
 export const HOST = "https://ipfs.rhythm.cafe/ipfs/";
