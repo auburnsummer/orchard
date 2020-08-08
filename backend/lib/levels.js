@@ -18,9 +18,12 @@ const _getLevels = (knex, subquery) => {
 		.then( (rows) => {
 			// turn into documents rather than lots of duplicated container rows.
 			// group by id...
-			const groups = _.groupBy(rows, _.property("id"));
-			// for each group...
-			const combined = _.map(_.keys(groups), (id) => {
+			const getId = x => x.id;
+			const groups = _.groupBy(rows, getId);
+			// list of ids...
+			const uniqueIds = _.uniq(_.map(rows, getId));
+			// for each id...
+			const combined = _.map(uniqueIds, (id) => {
 				const group = groups[id];
 
 				// monstrosity of a one liner, it does this:
@@ -30,7 +33,7 @@ const _getLevels = (knex, subquery) => {
 				const authors = _.map(_.sortBy(_.uniqBy(group, p("author_seq")), p("author_seq")), p("author"));
 
 				return {
-					...(removeKeys(group[0], ["tag", "tag_seq", "author", "author_seq"])),
+					...(removeKeys(group[0], ["tag", "tag_seq", "author", "author_seq", "row_number"])),
 					tags,
 					authors
 				};
