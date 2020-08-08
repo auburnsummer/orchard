@@ -20,7 +20,8 @@ module.exports = {
     }
   },
   variants: {
-    backgroundColor: ['responsive', 'hover', 'focus', 'active', 'group-hover']
+    backgroundColor: ['responsive', 'hover', 'focus', 'active', 'group-hover'],
+    visibility: ['group-hover']
   },
   plugins: [
     require('tailwindcss-gap')({

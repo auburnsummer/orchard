@@ -29,3 +29,8 @@ export const stubTrue = () => true;
  * Lodash sample
  */
 export const sample = arr => arr[Math.floor(Math.random() * arr.length)];
+
+/**
+ * Is a link a URL?
+ */
+export const isHttpUrl = s => s?.startsWith?.("http://") || s?.startsWith?.("https://") || false;
