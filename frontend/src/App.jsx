@@ -5,7 +5,7 @@ import NotFound from "./pages/404";
 
 export default function App () {
     return (
-      <div class="font-sans">
+      <div class="font-sans leading-normal">
         
         <Router>
           <Home exact path="/" />
