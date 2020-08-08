@@ -4,9 +4,14 @@ const vitals = require("@auburnsummer/vitals");
 
 // internal function.
 const _getLevels = (knex, subquery) => {
+	// add another select onto the subquery before we execute it
+	// which gives it an order so that we can sort by it in the outer query
+	const subquery2 = subquery.select(knex.raw("row_number() over ()"));
+
 	return knex
-		.select("a.*", "b.tag", "b.seq as tag_seq", "c.author", "c.seq as author_seq", "g.name as group")
-		.from(subquery.as("a"))
+		.select("a.*", "a.row_number", "b.tag", "b.seq as tag_seq", "c.author", "c.seq as author_seq", "g.name as group")
+		.from(subquery2.as("a"))
+		.orderBy("a.row_number", "asc")
 		.leftJoin("orchard.level_tag as b", "a.id", "b.id")
 		.leftJoin("orchard.level_author as c", "a.id", "c.id")
 		.leftJoin("orchard.group as g", "a.group_id", "g.id")
@@ -39,8 +44,10 @@ const _getLevels = (knex, subquery) => {
  *  - this one lets you specify order, direction, limit, etc. it's for pagination
  */
 const getLevels = ({knex, orders, limit, offset}) => {
-
-	const base = knex("orchard.levelv").limit(limit).offset(offset);
+	const base = knex("orchard.levelv")
+		.select("*")
+		.limit(limit)
+		.offset(offset);
 	const subquery = _.reduce(orders, (prev, curr) => prev.orderBy(...curr), base);
 	
 	return _getLevels(knex, subquery);
