@@ -1,5 +1,5 @@
 import DetailIcons from "./DetailIcons";
-import DownloadButton from "./DownloadButton";
+import DownloadButtons from "./DownloadButtons";
 import {ipfsUrl} from "utils/ipfsGateways";
 import {cond, isHttpUrl, stubTrue} from "utils/functions";
 import {_, it, lift as L} from "param.macro";
@@ -23,9 +23,7 @@ export default function LevelDetail({level, _class}) {
             </div>
 
 
-            <DownloadButton _class="mt-6 text-center" download_link={downloadUrl}>
-                Download
-            </DownloadButton>
+            <DownloadButtons _class="mt-6 text-center" download_link={downloadUrl} />
         </div>
     )
 }

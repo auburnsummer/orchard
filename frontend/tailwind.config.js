@@ -21,7 +21,8 @@ module.exports = {
   },
   variants: {
     backgroundColor: ['responsive', 'hover', 'focus', 'active', 'group-hover'],
-    visibility: ['group-hover']
+    visibility: ['group-hover'],
+    cursor: ['responsive', 'hover', 'focus']
   },
   plugins: [
     require('tailwindcss-gap')({
