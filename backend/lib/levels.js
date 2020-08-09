@@ -46,14 +46,17 @@ const _getLevels = (knex, subquery) => {
  * Get the levels. There's a few different variants:
  *  - this one lets you specify order, direction, limit, etc. it's for pagination
  */
-const getLevels = ({knex, orders, limit, offset}) => {
+const getLevels = ({knex, orders, filters, limit, offset}) => {
 	const base = knex("orchard.levelv")
 		.select("*")
 		.limit(limit)
 		.offset(offset);
+
 	const subquery = _.reduce(orders, (prev, curr) => prev.orderBy(...curr), base);
+
+	const subquery2 = _.reduce(filters, (prev, curr) => prev.where(...curr), subquery);
 	
-	return _getLevels(knex, subquery);
+	return _getLevels(knex, subquery2);
 };
 
 /**

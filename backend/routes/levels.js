@@ -16,12 +16,34 @@ const requireAuth = require("../middleware/auth.js");
 router.get("/", (req, res, next) => {
 	const {knex, query} = req;
 
+
+	// default...
+	query.filters = query.filters ?? "recycle_bin.eq.false,approval.gte.10";
+	query.order = query.order ?? "uploaded.desc,last_updated.desc";
+
+	// query.order is in the form last_updated.desc,uploaded.asc,artist.desc for instance
 	const orders = _.map(_.split(query.order, ","), (token) => _.split(token, "."));
+
+	// query.filters is in the form <field>.<operator>.<argument> and then comma seperated after
+	// the operator is one of these:
+	const operators = {
+		"eq" : "=",
+		"lt" : "<",
+		"gt" : ">",
+		"lte": "<=",
+		"gte": ">=",
+		"neq": "!="
+	}
+
+	const filters = _.map(_.split(query.filters ?? "", ","), token => {
+		const [field, operator, argument] = _.split(token, ".");
+		return [field, operators[operator], argument];
+	});
 
 	const limit = query.limit || 20;
 	const offset = query.offset || 0;
 
-	return levels.getLevels({knex, orders, limit, offset})
+	return levels.getLevels({knex, orders, filters, limit, offset})
 		.then( (levels) => {
 			return res.status(200).json(levels);
 		})
