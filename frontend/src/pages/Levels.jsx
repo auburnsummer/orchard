@@ -7,8 +7,10 @@ import {trap, stubTrue} from "../utils/functions.js";
 
 import {_, it, lift as L} from "param.macro";
 
+import {route} from "preact-router";
 
-import {useState} from "preact/hooks";
+
+import {useState, useEffect} from "preact/hooks";
 
 function LoadingScreen() {
     return (
@@ -28,24 +30,40 @@ function LevelList({levels, _class, state}) {
     )
 }
 
-function ErrorScreen() {
+function ErrorScreen({error}) {
     return (
-        <p>Error!</p>
+        <div>
+            <p>Error!</p>
+            <code>{error.toString()}</code>
+        </div>
     )
 }
 
-export default function Levels () {
+export default function Levels ({p, no}) {
 
-    const {levels, state, error} = useLevels();
+    const {levels, state, error, page, setPage, limit, setLimit} = useLevels(p, no);
 
     const [selectedIndex, setSelectedIndex] = useState(-1);
+
+    useEffect(() => {
+        const params = {
+            ...page !== 0 ? {p: page} : {},
+            ...limit !== 20 ? {no: limit} : {}
+        };
+        const s = new URLSearchParams(params).toString();
+        const query = s ? "?" + s : "";
+        route(`/levels${query}`);
+    }, [page, limit]);
     
     const equals = (text) => it === text;
 
     return (
         <main class="mx-auto">
             <div class="fixed top-0 z-50 w-full h-16 bg-blue-300">
-                Header {selectedIndex}
+                Header {selectedIndex} page {page}
+                <button onClick={() => setPage(prev => parseInt(prev) + 1)}>
+                    click me!!!
+                </button>
             </div>
             <div class="flex flex-row items-start justify-center mt-16" onMouseDown={trap(() => setSelectedIndex(prev => -1))}>
                 
@@ -58,7 +76,7 @@ export default function Levels () {
                         state={[selectedIndex, setSelectedIndex]}
                         _class="bg-gray-300"/>
                                     
-                    <ErrorScreen test={L(it === "ERROR")} />
+                    <ErrorScreen test={L(it === "ERROR")} error={error}/>
                 </Switch>
                 </div>
                 
