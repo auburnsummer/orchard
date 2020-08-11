@@ -34,3 +34,19 @@ export const sample = arr => arr[Math.floor(Math.random() * arr.length)];
  * Is a link a URL?
  */
 export const isHttpUrl = s => s?.startsWith?.("http://") || s?.startsWith?.("https://") || false;
+
+/**
+ * Generates url paths
+ * defaults is a dict of the default values for a query param. if it's default,
+ * then it's omitted.
+ */
+export const paramsLink = (link, params, defaults) => {
+    const keys = Object.keys(params).filter( p => defaults[p] !== params[p]);
+    const obj = keys.reduce( (prev, curr) => {
+        prev[curr] = params[curr];
+        return prev;
+    }, {});
+    const string = new URLSearchParams(obj).toString();
+    return link + (string ? "?" + string : "");
+
+}

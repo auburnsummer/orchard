@@ -3,11 +3,11 @@ import Switch from "../components/generic/Switch";
 import useLevels from "../hooks/useLevels";
 import LevelDetail from "../components/levels/LevelDetail";
 import cm from "classnames";
-import {trap, stubTrue} from "../utils/functions.js";
+import {trap, stubTrue, paramsLink} from "../utils/functions.js";
 
 import {_, it, lift as L} from "param.macro";
 
-import {route} from "preact-router";
+import {Link} from "preact-router";
 
 
 import {useState, useEffect} from "preact/hooks";
@@ -40,30 +40,28 @@ function ErrorScreen({error}) {
 }
 
 export default function Levels ({p, no}) {
+    const defaults = {
+        p: 0,
+        no: 20
+    }
+    const page = p || defaults.p;
+    const limit = no || defaults.no;
 
-    const {levels, state, error, page, setPage, limit, setLimit} = useLevels(p, no);
+    const {levels, state, error} = useLevels({page, limit});
 
     const [selectedIndex, setSelectedIndex] = useState(-1);
 
     useEffect(() => {
-        const params = {
-            ...page !== 0 ? {p: page} : {},
-            ...limit !== 20 ? {no: limit} : {}
-        };
-        const s = new URLSearchParams(params).toString();
-        const query = s ? "?" + s : "";
-        route(`/levels${query}`);
-    }, [page, limit]);
+        console.log("it changed!");
+        console.log(p);
+        console.log(no);
+    }, [p, no]);
     
-    const equals = (text) => it === text;
-
     return (
         <main class="mx-auto">
             <div class="fixed top-0 z-50 w-full h-16 bg-blue-300">
-                Header {selectedIndex} page {page}
-                <button onClick={() => setPage(prev => parseInt(prev) + 1)}>
-                    click me!!!
-                </button>
+                Header {selectedIndex} page {p}
+                <Link href={paramsLink('/levels', {p: parseInt(page) + 1}, defaults)}>Click me!!</Link>
             </div>
             <div class="flex flex-row items-start justify-center mt-16" onMouseDown={trap(() => setSelectedIndex(prev => -1))}>
                 

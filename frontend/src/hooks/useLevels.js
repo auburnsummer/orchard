@@ -16,7 +16,7 @@ async function get (page, limit) {
     return resp.data;
 }
 
-export default function useLevels(initialPage = 0, initialLimit = 20) {
+export default function useLevels({page, limit}) {
     const [levels, setLevels] = useState([]);
 
     /*
@@ -28,16 +28,9 @@ export default function useLevels(initialPage = 0, initialLimit = 20) {
 
     const [error, setError] = useState(null);
 
-    const [limit, setLimit] = useState(initialLimit);
-    const [page, setPage] = useState(initialPage);
-
     useDeferredEffect( () => {
-        setPage(0);
-    }, [limit]);
-
-    useEffect( () => {
         setState("LOADING");
-    }, [page]);
+    }, [page, limit]);
 
     useEffect( () => {
         if (state === "LOADING") {
@@ -53,5 +46,5 @@ export default function useLevels(initialPage = 0, initialLimit = 20) {
         }
     }, [state]);
 
-    return {levels, state, error, page, setPage, limit, setLimit};
+    return {levels, state, error};
 }
