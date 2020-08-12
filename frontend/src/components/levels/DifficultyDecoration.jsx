@@ -19,9 +19,13 @@ export default function DifficultyDecoration ({difficulty, _class}) {
 
     const colour = DIFFICULTY_CLASSES[difficulty];
 
+    const style = {
+        clipPath: "polygon(0% -2%, 102% -2%, 102% 100%, 100% 100%)"
+    };
+
     return (
         <div class={cm("flex flex-row items-stretch justify-end", _class)}>
-            <span class={cm("w-6", colour)} style="clip-path: polygon(0% -2%, 102% -2%, 102% 100%, 100% 100%);"></span>
+            <span class={cm("w-6", colour)} style={style}></span>
             <span class={cm("pr-2 h-full text-sm font-thin tracking-widest uppercase", colour)}>{difficultyText}</span>
         </div>
     )

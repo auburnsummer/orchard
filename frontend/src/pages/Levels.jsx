@@ -9,6 +9,8 @@ import {_, it, lift as L} from "param.macro";
 
 import {Link} from "preact-router";
 
+import KinBackgroundTemp from "assets/KinBackAlleyPaint2.png";
+
 
 import {useState, useEffect} from "preact/hooks";
 
@@ -21,7 +23,7 @@ function LoadingScreen() {
 function LevelList({levels, _class, state}) {
     const [selectedIndex, setSelectedIndex] = state;
     return (
-        <div class={cm("flex flex-col justify-center p-8", _class)} >
+        <div class={cm("flex flex-col justify-center p-8 bg-gray-700 bg-opacity-50", _class)} >
             {levels.map((level, idx) => {
                 const _class = idx > 0 ? "mt-8" : "";
                 return <LevelHorizontal level={level} selected={selectedIndex === idx} _class={_class} callback={trap(() => setSelectedIndex(prev => idx))} />
@@ -56,9 +58,13 @@ export default function Levels ({p, no}) {
         console.log(p);
         console.log(no);
     }, [p, no]);
+
+    const style = {
+        backgroundImage: `url(${KinBackgroundTemp})`
+    }
     
     return (
-        <main class="mx-auto">
+        <main class="mx-auto bg-fixed bg-cover" style={style}>
             <div class="fixed top-0 z-50 w-full h-16 bg-blue-300">
                 Header {selectedIndex} page {p}
                 <Link href={paramsLink('/levels', {p: parseInt(page) + 1}, defaults)}>Click me!!</Link>
@@ -72,7 +78,7 @@ export default function Levels ({p, no}) {
                     <LevelList test={L(it === "LOADED")}
                         levels={levels}
                         state={[selectedIndex, setSelectedIndex]}
-                        _class="bg-gray-300"/>
+                    />
                                     
                     <ErrorScreen test={L(it === "ERROR")} error={error}/>
                 </Switch>
@@ -81,7 +87,7 @@ export default function Levels ({p, no}) {
                 <div class="sticky top-0 w-2/5 -mt-16">
                     <div class="flex items-center justify-center h-screen mx-4">
                         
-                        <div class="w-full p-8 bg-gray-300" onMouseDown={trap(stubTrue)}>
+                        <div class="w-full p-8 bg-gray-300 shadow-lg" onMouseDown={trap(stubTrue)}>
                             <Switch args={[selectedIndex]}>
                                 <p test={L(it === -1)}>Select a level...</p>
                                 <LevelDetail test={stubTrue} level={levels[selectedIndex]} />

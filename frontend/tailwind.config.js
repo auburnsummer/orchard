@@ -13,6 +13,9 @@ module.exports = {
       },
       fontSize: {
         '2xs': '0.625rem'
+      },
+      scale: {
+        '102': '1.02'
       }
     },
     fontFamily: {
