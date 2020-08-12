@@ -16,24 +16,12 @@ export default function Authors({authors, _class}) {
         )
     }
 
+    const authorsText = new Intl.ListFormat('en-US', {style: 'long', type: 'conjunction'}).format(authors);
+
     return (
         <div class={cm("flex flex-row items-center", _class)}>
             <Icon _class="flex-none w-3 h-3 text-gray-700" />
-            <ul class="flex flex-row flex-wrap items-center leading-none">
-                {
-                    authors.map((author, idx, arr) => {
-                        const message = cond([
-                            [({arr}) => arr.length === 1,             ({author}) => author],
-                            [({idx, arr}) => idx === arr.length - 1,  ({author}) => "and " + author],
-                            [stubTrue,                                ({author}) => author + ","]
-                        ]);
-                        
-                        return (
-                            <li class="inline-block ml-1 text-xs text-gray-700" >{message({author, idx, arr})}</li>
-                        )
-                    })
-                }
-            </ul>
+            <p class="inline-block ml-1 text-xs text-gray-700">{authorsText}</p>
         </div>
     )
 }
