@@ -9,7 +9,7 @@ export default function App () {
         
         <Router>
           <Home exact path="/" />
-          <Levels exact path="/levels" />
+          <Levels path="/levels/:_selectedLevel?" />
           <NotFound exact default />
         </Router>
 

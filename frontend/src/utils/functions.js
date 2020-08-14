@@ -25,6 +25,8 @@ export const cond = (...args) => _.find(it[0](...args))[1](...args)
  */
 export const stubTrue = () => true;
 
+export const stubFalse = () => false;
+
 /**
  * Lodash sample
  */

@@ -26,7 +26,7 @@ module.exports = {
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       filename: '200.html',
-      title: 'Rhythm Café'
+      template: 'src/template.html'
     })
   ],
   resolve: {

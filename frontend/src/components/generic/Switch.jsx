@@ -3,6 +3,7 @@
  * of a test.
  */
 import {useMemo} from "preact/hooks";
+import {stubFalse} from "utils/functions";
 
 export default function Switch(props) {
     const {args, children, ...rest} = props;
