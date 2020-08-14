@@ -37,11 +37,28 @@ function LevelList({levels, _class, state}) {
     )
 }
 
+function LevelListHeaderInfo({page, defaults}) {
+
+    const fontClass = "font-light tracking-wide text-white hover:underline hover:pointer"
+
+    return (
+        <div class="flex flex-row justify-between text-sm">
+            <div>
+                <Link href={paramsLink('/levels', {p: parseInt(page) - 1}, defaults)} class={cm(fontClass, page === 0 ? "hidden" : "")}>Previous</Link>
+            </div>
+            <h2 class="font-light tracking-wide text-white">Recently added</h2>
+            <div>
+                <Link href={paramsLink('/levels', {p: parseInt(page) + 1}, defaults)} class={fontClass}>Next</Link>
+            </div>
+        </div>
+    )
+}
+
 function ErrorScreen({error}) {
     return (
-        <div>
-            <p>Error!</p>
-            <code>{error.toString()}</code>
+        <div class="text-white">
+            <p>Error loading the API!!!! ping auburn now!!</p>
+            <code>{JSON.stringify(error)}</code>
         </div>
     )
 }
@@ -70,18 +87,21 @@ export default function Levels ({p, no}) {
         <main class="flex flex-col mx-auto bg-fixed bg-cover" style={style}>
             <div class="fixed top-0 z-50 w-full h-16 bg-blue-300">
                 Header {selectedIndex} page {p}
-                <Link href={paramsLink('/levels', {p: parseInt(page) + 1}, defaults)}>Click me!!</Link>
             </div>
             <div class="flex flex-row items-start justify-center flex-grow mt-16" onMouseDown={trap(() => setSelectedIndex(prev => -1))}>
                 
-                <div class="flex flex-col justify-center w-3/5 max-w-3xl min-h-screen p-8 pt-24 -mt-16 bg-gray-700 bg-opacity-50">
+                <div class="flex flex-col justify-center w-3/5 max-w-3xl min-h-screen p-8 pt-20 -mt-16 bg-gray-700 bg-opacity-50">
                     <Switch args={[state]}>
                         <LoadingScreen test={L(it === "LOADING")} />
 
-                        <LevelList test={L(it === "LOADED")}
-                            levels={levels}
-                            state={[selectedIndex, setSelectedIndex]}
-                        />
+                        <div test={L(it === "LOADED")}>
+                            <LevelListHeaderInfo defaults={defaults} page={page}/>
+                            <LevelList
+                                levels={levels}
+                                state={[selectedIndex, setSelectedIndex]}
+                                _class="mt-4"
+                            />
+                        </div>
                                         
                         <ErrorScreen test={L(it === "ERROR")} error={error}/>
                     </Switch>

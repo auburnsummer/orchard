@@ -1,5 +1,5 @@
 import {useState, useEffect, useRef} from "preact/hooks";
-import Axios from "redaxios";
+import Axios from "../utils/red2";
 import constants from "../utils/constants";
 import useDeferredEffect from "./useDeferredEffect";
 
@@ -40,6 +40,7 @@ export default function useLevels({page, limit}) {
                 setState("LOADED");
             })
             .catch( (err) => {
+                console.log(err);
                 setError(err);
                 setState("ERROR");
             })
