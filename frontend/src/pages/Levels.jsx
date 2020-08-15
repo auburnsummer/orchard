@@ -7,7 +7,7 @@ import {trap, stubTrue, paramsLink} from "../utils/functions.js";
 
 import {_, it, lift as L} from "param.macro";
 
-import {Link} from "preact-router";
+import {Link, route} from "preact-router";
 
 import KinBackgroundTemp from "assets/KinBackAlleyPaint2.png";
 
@@ -27,6 +27,12 @@ function LoadingIcon() {
 
 function LevelList({levels, _class, state}) {
     const [selectedIndex, setSelectedIndex] = state;
+
+    const callback = (level, idx) => () => {
+        history.replaceState(null, '', `levels/${level.id}`);
+        setSelectedIndex(prev => idx);
+    }
+
     return (
         <div class={cm("flex flex-col justify-center", _class)} >
             {levels.map((level, idx) => {
@@ -35,14 +41,14 @@ function LevelList({levels, _class, state}) {
                         level={level}
                         selected={selectedIndex === idx}
                         _class={_class}
-                        callback={trap(() => setSelectedIndex(prev => idx))}
+                        callback={trap(callback(level, idx))}
                        />
             })}
         </div>
     )
 }
 
-function LevelListHeaderInfo({page, defaults, length, _class, showMiddle}) {
+function LevelListHeaderInfo({page, defaults, length, _class}) {
 
     const fontClass = "font-light tracking-wide text-white hover:underline hover:pointer"
 
@@ -56,7 +62,6 @@ function LevelListHeaderInfo({page, defaults, length, _class, showMiddle}) {
                     Previous
                 </Link>
             </div>
-            <h2 class={cm("font-light tracking-wide text-white", !showMiddle ? "hidden" : "")}>Recently added</h2>
             <div>
                 <Link
                  href={paramsLink('/levels', {p: parseInt(page) + 1}, defaults)}
@@ -112,7 +117,7 @@ export default function Levels ({p, no, _selectedLevel}) {
                         </div>
 
                         <div class="flex-grow" test={L(it === "LOADED")}>
-                            <LevelListHeaderInfo defaults={defaults} page={page} length={levels.length} showMiddle />
+                            <LevelListHeaderInfo defaults={defaults} page={page} length={levels.length} />
                             <Switch args={[levels.length]}>
                                 <div test={L(it === 0)}>
                                     <p class="mt-8 text-lg font-semibold tracking-wide text-white lowercase">No levels found</p>
