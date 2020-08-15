@@ -18,10 +18,28 @@ create table orchard.group (
     description     text                        -- optional description of the group
 );
 
--- level table.
+-- persistent data related to a level.
+create table orchard.status (
+    --id              varchar (24)    references orchard.level(id)    on delete cascade,
+    id              varchar (24)    primary key,   -- base58 encoded
+    -- datetime the level was scraped.
+    uploaded        timestamp       not null,
+
+    -- The "approval level" of the level. Higher levels imply passing lower levels.
+    approval            int             not null default 0,
+
+    -- text that can appear regarding the approval level.
+    -- for instance, this might show the reason a level has a star ("comp 8 winner"), or why a level was rejected ("oneshots incorrectly cued")
+    approval_message    text,
+
+    -- True if the level has been "deleted"
+    recycle_bin         boolean         not null default false
+);
+
+-- data from an rdzip file.
 create table orchard.level (
     -- FROM THE RDZIP
-    id                  varchar(24)      primary key,  -- base58 encoded
+    id                  varchar(24)      references orchard.status(id) on delete cascade deferrable initially deferred, 
     artist              text             not null,
     song                text             not null,
     "difficulty"        int              not null, -- Medium
@@ -44,10 +62,11 @@ create table orchard.level (
     icon_ipfs           text             ,-- levels don't have to have an icon
     group_id            char(36)         references orchard.group(id) on delete cascade,
     group_iid           text             not null,
-    aux                 jsonb            -- any additional data that's submission-specific
+    aux                 jsonb            , -- any additional data that's submission-specific
+    primary key (id)
 );
 
-create index idx_last_updated on orchard.level(last_updated);
+create index idx_when_uploaded on orchard.status(uploaded);
 
 -- level tags, which are just strings. these are from the rdzip, so we don't make any more assumptions
 create table orchard.level_tag (
@@ -63,30 +82,6 @@ create table orchard.level_author (
     author  text            not null,
     seq     int             not null, -- index of this author in the list
     primary key (id, author, seq)
-);
-
--- persistent data related to a level.
-create table orchard.status (
-    id                  varchar (24)    references orchard.level(id)    on delete cascade,
-
-    -- datetime the level was scraped.
-    uploaded        timestamp       not null,
-
-    -- The "approval level" of the level. Higher levels imply passing lower levels.
-    -- -1: Level -1 is when a level's been reviewed by someone and they've decided it doesn't pass the competency test.
-    -- 0: Level 0 is when a level is awaiting review.
-    -- 1: Level 1 is when a level's been reviewed by someone and they've decided it passes the competency test.
-    -- 2: ??????
-    -- 3: ??????
-    approval            int             not null default 0,
-
-    -- text that can appear regarding the approval level.
-    -- for instance, this might show the reason a level has a star ("comp 8 winner"), or why a level was rejected ("oneshots incorrectly cued")
-    approval_message    text,
-    -- True if the level has been "deleted"
-    recycle_bin         boolean         not null default false,
-
-    primary key (id)
 );
 
 create view orchard.levelv as

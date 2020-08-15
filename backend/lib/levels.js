@@ -181,7 +181,11 @@ const uploadBuffer = (knex, buffer, {group_id, group_iid, uploaded, aux}) => {
 						return trx("orchard.level_author").insert(authorsToInsert);
 					})
 					.then( () => {
-						return trx("orchard.status").insert({id, uploaded});
+						return trx.raw(`
+							INSERT INTO "orchard"."status" (id, uploaded)
+							VALUES (?, ?)
+							ON CONFLICT DO NOTHING;
+						`, [id, uploaded]);
 					});
 			})
 				.then( (inserts) => {
