@@ -19,7 +19,7 @@ export default function LevelHorizontal ({level, selected, _class="", callback})
     const imgUrl = ipfsUrl(level.image_ipfs, "preview.png");
 
     return (
-        <div class={cm("flex flex-row group transform transition-transform duration-200 ease-in-out hover:shadow-lg", _class, selected ? "scale-105" : "")} onMouseDown={callback}>
+        <div class={cm("flex flex-row group transform duration-200 motion-reduce:transition-none motion-safe:transition-transform ease-in-out hover:shadow-lg", _class, selected ? "scale-105" : "")} onMouseDown={callback}>
             
             {/* image on the left */}
             <div class="flex-none w-2/5 max-w-md bg-red-500">

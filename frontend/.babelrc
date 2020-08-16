@@ -22,9 +22,6 @@
                 "import": "h",
                 "export": "h"
             }
-        ],
-        [
-            "babel-plugin-macros"
         ]
     ]
 }

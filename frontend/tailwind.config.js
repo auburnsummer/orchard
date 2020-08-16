@@ -24,8 +24,11 @@ module.exports = {
   },
   variants: {
     backgroundColor: ['responsive', 'hover', 'focus', 'active', 'group-hover'],
-    visibility: ['group-hover'],
-    cursor: ['responsive', 'hover', 'focus']
+    visibility: ['responsive', 'group-hover'],
+    display: ['responsive', 'motion-safe', 'motion-reduce'],
+    cursor: ['responsive', 'hover', 'focus'],
+    transitionProperty: ['responsive', 'motion-safe', 'motion-reduce'],
+    animation: ['responsive', 'motion-safe', 'motion-reduce']
   },
   plugins: [
     require('tailwindcss-gap')({

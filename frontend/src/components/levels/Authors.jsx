@@ -2,7 +2,6 @@
  * Render authors with icon and proper spacing etc
  */
 
-import {cond, stubTrue} from "utils/functions";
 import cm from "classnames";
 
 export default function Authors({authors, _class}) {

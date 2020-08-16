@@ -1,86 +1,16 @@
-import LevelHorizontal from "../components/levels/LevelHorizontal";
 import Switch from "../components/generic/Switch";
 import useLevels from "../hooks/useLevels";
 import LevelDetail from "../components/levels/LevelDetail";
 import cm from "classnames";
-import {trap, stubTrue, paramsLink} from "../utils/functions.js";
-
-import {_, it, lift as L} from "param.macro";
-
-import {Link, route} from "preact-router";
+import {trap, stubTrue, paramsLink, eq} from "../utils/functions.js";
 
 import KinBackgroundTemp from "assets/KinBackAlleyPaint2.png";
-
-
 import {useState, useEffect} from "preact/hooks";
+import LoadingIcon from "components/levels/LoadingIcon";
+import LevelList from "components/levels/LevelList";
 
-function LoadingIcon() {
-    return (
-        <div class="flex flex-col items-center justify-center">
-            <svg class="w-12 h-12 text-white animate-spin" viewBox="0 0 512 512">
-                <path class="fa-secondary" fill="currentColor" d="M479 365zm-22 6l-28-16a16 16 0 01-7-19A184 184 0 11256 72l17 1h-2c-8-1-15-8-15-16V25a16 16 0 0115-16l-15-1a248 248 0 10223 357c-4 7-15 10-22 6z" opacity=".4"/><path class="fa-primary" fill="currentColor" d="M271 73c-8-1-15-8-15-16V25c0-9 8-17 17-16 129 8 231 116 231 247a246 246 0 01-25 108c-4 8-14 11-22 7l-28-16c-8-4-10-14-6-21a183 183 0 0017-78c0-96-74-176-169-183z"/>
-            </svg>
-            <p class="pl-2 mt-6 text-lg font-semibold tracking-wide text-white lowercase">Loading...</p>
-        </div>
-    )
-}
-
-function LevelList({levels, _class, state}) {
-    const [selectedIndex, setSelectedIndex] = state;
-
-    const callback = (level, idx) => () => {
-        history.replaceState(null, '', `levels/${level.id}`);
-        setSelectedIndex(prev => idx);
-    }
-
-    return (
-        <div class={cm("flex flex-col justify-center", _class)} >
-            {levels.map((level, idx) => {
-                const _class = idx > 0 ? "mt-8" : "";
-                return <LevelHorizontal
-                        level={level}
-                        selected={selectedIndex === idx}
-                        _class={_class}
-                        callback={trap(callback(level, idx))}
-                       />
-            })}
-        </div>
-    )
-}
-
-function LevelListHeaderInfo({page, defaults, length, _class}) {
-
-    const fontClass = "font-light tracking-wide text-white hover:underline hover:pointer"
-
-    return (
-        <div class={cm("flex flex-row justify-between text-sm", _class)}>
-            <div>
-                <Link
-                 href={paramsLink('/levels', {p: parseInt(page) - 1}, defaults)}
-                 class={cm(fontClass, page === 0 ? "hidden" : "")}
-                >
-                    Previous
-                </Link>
-            </div>
-            <div>
-                <Link
-                 href={paramsLink('/levels', {p: parseInt(page) + 1}, defaults)}
-                 class={cm(fontClass, length === 0 ? "hidden" : "")}>
-                    Next
-                </Link>
-            </div>
-        </div>
-    )
-}
-
-function ErrorScreen({error}) {
-    return (
-        <div class="text-white">
-            <p>Error loading the API!!!! ping auburn now!!</p>
-            <code>{JSON.stringify(error)}</code>
-        </div>
-    )
-}
+import LevelListHeaderInfo from "components/levels/LevelListHeaderInfo";
+import ErrorScreen from "components/levels/ErrorScreen";
 
 export default function Levels ({p, no, _selectedLevel}) {
     const defaults = {
@@ -102,24 +32,29 @@ export default function Levels ({p, no, _selectedLevel}) {
     const style = {
         backgroundImage: `url(${KinBackgroundTemp})`
     }
+
+    const resetSelectedLevel = () => {
+        setSelectedIndex(prev => -1);
+        history.replaceState(null, '', paramsLink('/levels', {p: page}, defaults));
+    }
     
     return (
         <main class="flex flex-col mx-auto bg-fixed bg-cover" style={style}>
             <div class="fixed top-0 z-50 w-full h-16 bg-blue-300">
                 Header {selectedIndex} page {p}
             </div>
-            <div class="flex flex-row items-start justify-center flex-grow mt-16" onMouseDown={trap(() => setSelectedIndex(prev => -1))}>
+            <div class="flex flex-row items-start justify-center flex-grow mt-16" onMouseDown={trap(resetSelectedLevel)}>
                 
                 <div class="flex flex-row items-stretch justify-center w-3/5 max-w-3xl min-h-screen p-8 pt-20 -mt-16 bg-gray-700 bg-opacity-50">
                     <Switch args={[state]}>
-                        <div class="flex flex-col justify-center" test={L(it === "LOADING")} >  
+                        <div class="flex flex-col justify-center" test={eq("LOADING")} >  
                             <LoadingIcon />
                         </div>
 
-                        <div class="flex-grow" test={L(it === "LOADED")}>
+                        <div class="flex-grow" test={eq("LOADED")}>
                             <LevelListHeaderInfo defaults={defaults} page={page} length={levels.length} />
                             <Switch args={[levels.length]}>
-                                <div test={L(it === 0)}>
+                                <div test={eq(0)}>
                                     <p class="mt-8 text-lg font-semibold tracking-wide text-white lowercase">No levels found</p>
                                 </div>
                                 <LevelList
@@ -132,7 +67,7 @@ export default function Levels ({p, no, _selectedLevel}) {
                             <LevelListHeaderInfo defaults={defaults} page={page} length={levels.length} _class={cm("mt-4", levels.length < 5 ? "hidden" : "")}/>
                         </div>
                                         
-                        <ErrorScreen test={L(it === "ERROR")} error={error}/>
+                        <ErrorScreen test={eq("ERROR")} error={error}/>
                     </Switch>
                 </div>
                 
@@ -141,7 +76,7 @@ export default function Levels ({p, no, _selectedLevel}) {
                         
                         <div class="w-full p-8 bg-gray-300 shadow-lg" onMouseDown={trap(stubTrue)}>
                             <Switch args={[selectedIndex]}>
-                                <p test={L(it === -1)}>Select a level...</p>
+                                <p test={eq(-1)}>Select a level...</p>
                                 <LevelDetail test={stubTrue} level={levels[selectedIndex]} />
                             </Switch>
                         </div>

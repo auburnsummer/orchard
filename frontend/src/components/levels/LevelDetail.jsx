@@ -1,18 +1,23 @@
 import DetailIcons from "./DetailIcons";
 import DownloadButtons from "./DownloadButtons";
 import {ipfsUrl} from "utils/ipfsGateways";
-import {cond, isHttpUrl, stubTrue} from "utils/functions";
+import {isHttpUrl} from "utils/functions";
+
+import {useMemo} from "preact/hooks";
 import {_, it, lift as L} from "param.macro";
 
 export default function LevelDetail({level, _class}) {
+    const downloadUrl = useMemo( () => {
+        const constructedFilename = `${level.artist} - ${level.song}.rdzip`;
+        if (isHttpUrl(level.aux?.iid)) {
+            return level.aux.iid;
+        }
+        if (isHttpUrl(level.aux?.download_url)) {
+            return level.aux.download_url;
+        }
 
-    const constructedFilename = `${level.artist} - ${level.song}.rdzip`;
-
-    const downloadUrl = cond([
-        [L(isHttpUrl(_.aux?.iid)),           L(_.aux.iid)],
-        [L(isHttpUrl(_.aux?.download_url)),  L(_.aux.download_url)],
-        [stubTrue,                           L(ipfsUrl(_.rdzip_ipfs, constructedFilename))]
-    ])(level);
+        return ipfsUrl(level.rdzip_ipfs, constructedFilename)
+    }, [level]);
 
     return (
         <div class="flex flex-col">

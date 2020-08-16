@@ -34,7 +34,6 @@
     "cssnano": "^4.1.10",
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.3.0",
-    "param.macro": "^3.2.1",
     "postcss-loader": "^3.0.0",
     "style-loader": "^1.2.1",
     "webpack": "^4.44.1",

@@ -1,7 +1,6 @@
 import {useState, useEffect, useRef} from "preact/hooks";
 import Axios from "../utils/red2";
 import constants from "../utils/constants";
-import useDeferredEffect from "./useDeferredEffect";
 
 async function get (page, limit) {
     const resp = await Axios({
@@ -28,7 +27,7 @@ export default function useLevels({page, limit}) {
 
     const [error, setError] = useState(null);
 
-    useDeferredEffect( () => {
+    useEffect( () => {
         setState("LOADING");
     }, [page, limit]);
 
