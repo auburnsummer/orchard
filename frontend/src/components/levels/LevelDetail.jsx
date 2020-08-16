@@ -4,7 +4,6 @@ import {ipfsUrl} from "utils/ipfsGateways";
 import {isHttpUrl} from "utils/functions";
 
 import {useMemo} from "preact/hooks";
-import {_, it, lift as L} from "param.macro";
 
 export default function LevelDetail({level, _class}) {
     const downloadUrl = useMemo( () => {
