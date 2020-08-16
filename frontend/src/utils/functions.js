@@ -6,6 +6,15 @@ export const trap = (func) => (evt) => {
     func(evt);
 }
 
+/*
+ * Decorate an event handler to only occur on left click.
+ */
+export const leftClick = (func) => (evt) => {
+    if (evt.button === 0) {
+        func();
+    }
+}
+
 /**
  * Return a function that returns a constant.
  */

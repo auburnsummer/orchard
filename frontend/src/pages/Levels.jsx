@@ -2,7 +2,7 @@ import Switch from "../components/generic/Switch";
 import useLevels from "../hooks/useLevels";
 import LevelDetail from "../components/levels/LevelDetail";
 import cm from "classnames";
-import {trap, stubTrue, paramsLink, eq} from "../utils/functions.js";
+import {trap, leftClick, stubTrue, paramsLink, eq} from "../utils/functions.js";
 
 import KinBackgroundTemp from "assets/KinBackAlleyPaint2.png";
 import {useState, useEffect} from "preact/hooks";
@@ -43,7 +43,7 @@ export default function Levels ({p, no, _selectedLevel}) {
             <div class="fixed top-0 z-50 w-full h-16 bg-blue-300">
                 Header {selectedIndex} page {p}
             </div>
-            <div class="flex flex-row items-start justify-center flex-grow mt-16" onMouseDown={trap(resetSelectedLevel)}>
+            <div class="flex flex-row items-start justify-center flex-grow mt-16" onMouseDown={trap(leftClick(resetSelectedLevel))}>
                 
                 <div class="flex flex-row items-stretch justify-center w-3/5 max-w-3xl min-h-screen p-8 pt-20 -mt-16 bg-gray-700 bg-opacity-50">
                     <Switch args={[state]}>
