@@ -73,10 +73,10 @@ export default function Levels ({p, no}) {
                 
                 <div class="sticky top-0 w-2/5 -mt-16">
                     <div class="flex items-center justify-center h-screen mx-4">
-                        <div class="w-full p-8 bg-gray-300 shadow-lg" onMouseDown={trap(stubTrue)}>
+                        <div class="w-full bg-gray-300 shadow-lg" onMouseDown={trap(stubTrue)}>
                             <Switch args={[selectedIndex]}>
-                                <SelectALevel test={eq(-1)} />
-                                <LevelDetail test={stubTrue} level={levels[selectedIndex]} />
+                                <SelectALevel _class="p-8" test={eq(-1)} />
+                                <LevelDetail _class="p-8" test={stubTrue} level={levels[selectedIndex]} />
                             </Switch>
                         </div>
                     </div>

@@ -4,6 +4,7 @@ import {ipfsUrl} from "utils/ipfsGateways";
 import {isHttpUrl} from "utils/functions";
 
 import {useMemo} from "preact/hooks";
+import {Link} from "preact-router";
 
 import cm from "classnames";
 
@@ -21,7 +22,7 @@ export default function LevelDetail({level, _class}) {
     }, [level]);
 
     return (
-        <div class={cm("flex flex-col", _class)}>
+        <div class={cm("relative flex flex-col", _class)}>
             <DetailIcons level={level} />
 
             <div class="mt-6">
@@ -30,6 +31,14 @@ export default function LevelDetail({level, _class}) {
 
 
             <DownloadButtons _class="mt-6 text-center" download_link={downloadUrl} />
+
+            <Link
+            class="absolute bottom-0 right-0 mb-1 mr-1 tracking-widest text-gray-400 text-2xs hover:text-gray-600"
+            href={`/levels/${level.id}`}
+            title="Direct link to this level"
+            >
+                {level.id}
+            </Link>
         </div>
     )
 }

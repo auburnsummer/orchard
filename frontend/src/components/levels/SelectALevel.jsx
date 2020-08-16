@@ -1,5 +1,7 @@
-export default function SelectALevel() {
+import cm from "classnames";
+
+export default function SelectALevel({_class}) {
     return (
-        <p class="text-lg tracking-wide text-gray-700">Select a level...</p>
+        <p class={cm("text-lg tracking-wide text-gray-700", _class)}>Select a level...</p>
     )
 }

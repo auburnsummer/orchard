@@ -6,9 +6,6 @@ export default function LevelList({levels, _class, state}) {
     const [selectedIndex, setSelectedIndex] = state;
 
     const callback = (level, idx) => () => {
-        // replace state, this doesn't trigger a redirect
-        // because we're just changing the URL for "aesthetics" so to speak
-        history.replaceState(null, '', `levels/${level.id}`);
         setSelectedIndex(prev => idx);
     }
 
