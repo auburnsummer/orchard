@@ -5,6 +5,8 @@ import {isHttpUrl} from "utils/functions";
 
 import {useMemo} from "preact/hooks";
 
+import cm from "classnames";
+
 export default function LevelDetail({level, _class}) {
     const downloadUrl = useMemo( () => {
         const constructedFilename = `${level.artist} - ${level.song}.rdzip`;
@@ -19,7 +21,7 @@ export default function LevelDetail({level, _class}) {
     }, [level]);
 
     return (
-        <div class="flex flex-col">
+        <div class={cm("flex flex-col", _class)}>
             <DetailIcons level={level} />
 
             <div class="mt-6">

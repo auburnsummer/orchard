@@ -18,8 +18,17 @@ import UnrankedMessage from "./UnrankedMessage";
 export default function LevelHorizontal ({level, selected, _class="", callback}) {
     const imgUrl = ipfsUrl(level.image_ipfs, "preview.png");
 
+    const hasCallback = !!callback;
+
     return (
-        <div class={cm("flex flex-row group transform duration-200 motion-reduce:transition-none motion-safe:transition-transform ease-in-out hover:shadow-lg", _class, {"scale-105" : selected})} onMouseDown={callback}>
+        <div
+        class={cm(
+            "flex flex-row group transform duration-200 motion-reduce:transition-none motion-safe:transition-transform ease-in-out",
+            {"scale-105" : selected},
+            {"hover:shadow-lg" : hasCallback},
+            _class,)}
+        onMouseDown={callback}
+        >
             
             {/* image on the left */}
             <div class="flex-none w-2/5 max-w-md bg-red-500">
@@ -30,7 +39,12 @@ export default function LevelHorizontal ({level, selected, _class="", callback})
             </div>
             
             {/* level info */}
-            <div class={cm("relative w-3/5", selected ? "bg-teal-100" : "group-hover:bg-white bg-gray-100")}>
+            <div
+            class={cm(
+                "relative w-3/5 bg-gray-100", 
+                {"bg-teal-100" : selected},
+                {"group-hover:bg-white" : !selected && hasCallback})}
+            >
                 {/* difficulty */}
                 <DifficultyDecoration {...level} _class="absolute right-0"/>
                 <div class="flex flex-col h-full p-4">
