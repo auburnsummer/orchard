@@ -11,15 +11,17 @@ import LevelList from "components/levels/LevelList";
 
 import LevelListHeaderInfo from "components/levels/LevelListHeaderInfo";
 import ErrorScreen from "components/levels/ErrorScreen";
+import SelectALevel from "components/levels/SelectALevel";
+import Header from "components/levels/Header";
 
-export default function Levels ({p, no, _selectedLevel}) {
-    const defaults = {
-        p: 0,
-        no: 20
-    }
+const defaults = {
+    p: 0,
+    no: 20
+}
+
+export default function Levels ({p, no}) {
     const page = p || defaults.p;
     const limit = no || defaults.no;
-    const selectedLevel = _selectedLevel || null;
 
     const {levels, state, error} = useLevels({page, limit});
 
@@ -39,11 +41,9 @@ export default function Levels ({p, no, _selectedLevel}) {
     }
     
     return (
-        <main class="flex flex-col mx-auto bg-fixed bg-cover" style={style}>
-            <div class="fixed top-0 z-50 w-full h-16 bg-blue-300">
-                Header {selectedIndex} page {p}
-            </div>
-            <div class="flex flex-row items-start justify-center flex-grow mt-16" onMouseDown={trap(leftClick(resetSelectedLevel))}>
+        <main class="flex flex-col">
+            <Header selectedIndex={selectedIndex} p={page} />
+            <div class="flex flex-row items-start justify-center flex-grow mt-16 bg-fixed bg-cover" style={style} onMouseDown={trap(leftClick(resetSelectedLevel))}>
                 
                 <div class="flex flex-row items-stretch justify-center w-3/5 max-w-3xl min-h-screen p-8 pt-20 -mt-16 bg-gray-700 bg-opacity-50">
                     <Switch args={[state]}>
@@ -73,16 +73,14 @@ export default function Levels ({p, no, _selectedLevel}) {
                 
                 <div class="sticky top-0 w-2/5 -mt-16">
                     <div class="flex items-center justify-center h-screen mx-4">
-                        
                         <div class="w-full p-8 bg-gray-300 shadow-lg" onMouseDown={trap(stubTrue)}>
                             <Switch args={[selectedIndex]}>
-                                <p test={eq(-1)}>Select a level...</p>
+                                <SelectALevel test={eq(-1)} />
                                 <LevelDetail test={stubTrue} level={levels[selectedIndex]} />
                             </Switch>
                         </div>
                     </div>
                 </div>
-
             </div>
         </main>
     )
