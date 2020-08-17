@@ -203,6 +203,14 @@ export default (function create(/** @type {Options} */ defaults) {
 
 			const ok = options.validateStatus ? options.validateStatus(res.status) : res.ok;
 
+			if (options.responseType == 'blob') {
+				return res.blob()
+				.then( blob => {
+					response.data = blob;
+					return response;
+				});
+			}
+
 			if (options.responseType == 'stream') {
 				response.data = res.body;
 				return response;

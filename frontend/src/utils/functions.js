@@ -67,3 +67,17 @@ export const paramsLink = (link, params, defaults) => {
     return link + (string ? "?" + string : "");
 
 }
+
+export const blobToBase64URL = (blob) => {
+    return new Promise((resolve, reject) => {
+        const fr = new FileReader();
+        fr.readAsDataURL(blob);
+        fr.onloadend = () => {
+            const base64result = fr.result;
+            resolve(base64result);
+        };
+        fr.onerror = (err) => {
+            reject(err);
+        }
+    })
+}
