@@ -2,7 +2,9 @@ import {useState, useEffect} from "preact/hooks";
 import {blobToBase64URL} from "utils/functions";
 import Axios from "utils/red2";
 
-import {getDefaultImage} from "apng-default-image";
+import worker from "workerize-loader!apng-default-image";
+
+let instance = worker();
 
 
 export default function useAnimatedPNG({url}) {
@@ -33,7 +35,7 @@ export default function useAnimatedPNG({url}) {
                 const url1 = blobToBase64URL(blob);
                 const still = blob.arrayBuffer()
                     .then( buf => {
-                        return getDefaultImage(buf);
+                        return instance.getDefaultImage(buf);
                     })
                     .then( buf => {
                         return new Blob([buf]);
