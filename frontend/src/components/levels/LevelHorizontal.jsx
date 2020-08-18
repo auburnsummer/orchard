@@ -3,7 +3,7 @@
  */
 
 import {ipfsUrl} from "utils/ipfsGateways";
-import {useMemo, useEffect} from "preact/hooks";
+import {useState, useMemo, useEffect} from "preact/hooks";
 
 import useAnimatedPNG from "hooks/useAnimatedPNG";
 import cm from "classnames";
@@ -16,6 +16,7 @@ import Tags from "./Tags";
 
 import DifficultyDecoration from "./DifficultyDecoration";
 import UnrankedMessage from "./UnrankedMessage";
+import { stubTrue } from "../../utils/functions";
 
 // callback should be a function that RETURNS a function
 export default function LevelHorizontal ({level, selected, _class="", callback}) {
@@ -27,6 +28,18 @@ export default function LevelHorizontal ({level, selected, _class="", callback})
 
     const hasCallback = !!callback;
 
+    const [currentImage, setCurrentImage] = useState("");
+    
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const useAnimations = isAnimated && !prefersReducedMotion;
+
+    useEffect( () => {
+        if (state === "LOADED") {
+            setCurrentImage(isAnimated ? staticImage : image);
+        }
+    }, [state])
+
     return (
         <div
         class={cm(
@@ -35,13 +48,14 @@ export default function LevelHorizontal ({level, selected, _class="", callback})
             {"hover:shadow-lg" : hasCallback},
             _class,)}
         onMouseDown={callback}
+        onMouseEnter={useAnimations ? () => setCurrentImage(image) : stubTrue}
+        onMouseLeave={useAnimations ? () => setCurrentImage(staticImage) : stubTrue}
         >
             
             {/* image on the left */}
             <div class="flex-none w-2/5 max-w-md bg-red-500">
                 <div class="relative h-full bg-blue-500 pb-9/16">
-                    <img class={cm("absolute top-0 z-20 object-cover w-full h-full group-hover:invisible", {"invisible" : !isAnimated})} src={staticImage}></img>
-                    <img class="absolute top-0 z-10 object-cover w-full h-full" src={image}></img>
+                    <img class="absolute top-0 z-10 object-cover w-full h-full" src={currentImage}></img>
                     <UnrankedMessage {...level} _class="absolute z-20" />
                 </div>
             </div>
