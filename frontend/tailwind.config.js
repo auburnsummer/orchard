@@ -24,7 +24,7 @@ module.exports = {
   },
   variants: {
     backgroundColor: ['responsive', 'hover', 'focus', 'active', 'group-hover'],
-    visibility: ['responsive', 'group-hover'],
+    visibility: ['responsive', 'hover', 'group-hover', 'motion-safe'],
     display: ['responsive', 'motion-safe', 'motion-reduce'],
     cursor: ['responsive', 'hover', 'focus'],
     transitionProperty: ['responsive', 'motion-safe', 'motion-reduce'],

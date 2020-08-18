@@ -23,7 +23,7 @@ export default function LevelHorizontal ({level, selected, _class="", callback})
         return ipfsUrl(level.image_ipfs, "preview.png");
     }, [level]);
 
-    const {image, state, error} = useAnimatedPNG({url: imgUrl});
+    const {isAnimated, image, staticImage, state, error} = useAnimatedPNG({url: imgUrl});
 
     const hasCallback = !!callback;
 
@@ -40,6 +40,7 @@ export default function LevelHorizontal ({level, selected, _class="", callback})
             {/* image on the left */}
             <div class="flex-none w-2/5 max-w-md bg-red-500">
                 <div class="relative h-full bg-blue-500 pb-9/16">
+                    <img class={cm("absolute top-0 z-20 object-cover w-full h-full group-hover:invisible", {"invisible" : !isAnimated})} src={staticImage}></img>
                     <img class="absolute top-0 z-10 object-cover w-full h-full" src={image}></img>
                     <UnrankedMessage {...level} _class="absolute z-20" />
                 </div>

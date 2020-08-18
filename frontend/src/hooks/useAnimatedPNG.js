@@ -25,35 +25,38 @@ export default function useAnimatedPNG({url}) {
         setState("LOADING");
     }, [url]);
 
-    useEffect( () => {
-        if (state === "LOADING") {
-            Axios.get(url, {responseType: 'blob'})
-            .then( resp => {
-                return resp.data;
-            })
-            .then( blob => {
-                const url1 = blobToBase64URL(blob);
-                const still = blob.arrayBuffer()
-                    .then( buf => {
-                        return instance.getDefaultImage(buf);
-                    })
-                    .then( buf => {
-                        return new Blob([buf]);
-                    })
-                    .then( blob => {
-                        return blobToBase64URL(blob);
-                    });
-                return Promise.all([url1, still]);
-            })
-            .then( ([url1, url2]) => {
-                setImage(url2);
-            })
-            .catch( err => {
-                setState("ERROR");
-                setError(err);
-            });
+    useEffect( async () => {
+        try {
+            if (state === "LOADING") {
+                const resp = await Axios.get(url, {responseType: 'blob'});
+                const blob = resp.data;
+    
+                // the data URL of the image.
+                const imageDataURL = await blobToBase64URL(blob);
+                
+                const arrayBuf = await blob.arrayBuffer();
+    
+                const isAnimated = await instance.isAnimatedPNG(new Uint8Array(arrayBuf));
+    
+                if (isAnimated) {
+                    const defaultBuffer = await instance.getDefaultImage(arrayBuf);
+                    const defaultBlob = new Blob([defaultBuffer]);
+                    const staticDataURL = await blobToBase64URL(defaultBlob);
+                    setStaticImage(staticDataURL);
+                    setIsAnimated(true);
+                } else {
+                    setStaticImage("");
+                    setIsAnimated(false);
+                }
+    
+                setImage(imageDataURL);
+                setState("LOADED");
+            }
+        } catch (err) {
+            setError(err);
+            setState("ERROR");
         }
     }, [state]);
 
-    return {image, staticImage, state, error};
+    return {isAnimated, image, staticImage, state, error};
 }
