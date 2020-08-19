@@ -19,8 +19,6 @@ export default function useAnimatedPNG({url}) {
 
     const [state, setState] = useState("LOADING");
 
-    const [error, setError] = useState(null);
-
     useEffect( () => {
         setState("LOADING");
     }, [url]);
@@ -61,5 +59,5 @@ export default function useAnimatedPNG({url}) {
         }
     }, [state]);
 
-    return {isAnimated, image, staticImage, state, error};
+    return {isAnimated, image, staticImage, state};
 }

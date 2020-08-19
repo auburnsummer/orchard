@@ -24,7 +24,7 @@ export default function LevelHorizontal ({level, selected, _class="", callback})
         return ipfsUrl(level.image_ipfs, "preview.png");
     }, [level]);
 
-    const {isAnimated, image, staticImage, state, error} = useAnimatedPNG({url: imgUrl});
+    const {isAnimated, image, staticImage, state} = useAnimatedPNG({url: imgUrl});
 
     const hasCallback = !!callback;
 
