@@ -1,4 +1,13 @@
 module.exports = {
+  future: {
+    removeDeprecatedGapUtilities: true
+  },
+  experimental: {
+    uniformColorPalette: true,
+    extendedSpacingScale: true,
+    defaultLineHeights: true,
+    extendedFontSizeScale: true
+  },
   purge: {
     mode: 'all',
     content: [
@@ -8,6 +17,19 @@ module.exports = {
   },
   theme: {
     extend: {
+      colors: {
+        gray: {
+          '100': 'hsl(40, 23%, 94%)',
+          '200': 'hsl(43, 13%, 83%)',
+          '300': 'hsl(40,  9%, 72%)',
+          '400': 'hsl(39,  6%, 63%)',
+          '500': 'hsl(41,  4%, 50%)',
+          '600': 'hsl(41,  4%, 37%)',
+          '700': 'hsl(41,  4%, 28%)',
+          '800': 'hsl(37, 11%, 24%)',
+          '900': 'hsl(42, 15%, 13%)'
+        }
+      },
       spacing: {
         '9/16' : '56.25%'
       },
