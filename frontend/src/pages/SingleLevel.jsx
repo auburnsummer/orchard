@@ -17,22 +17,23 @@ export default function SingleLevel({id}) {
     const {level, state, error} = useSingleLevel({id});
 
     return (
-        <main class="p-4 mx-12 bg-gray-700">  
-            <h1 class="text-gray-100">WIP direct level screen! This screen only appears on a direct link. Here is the level you requested:</h1>
-            <Link href="/levels" class="text-gray-100 hover:underline">(Go back to the main level screen)</Link>
-            <Switch args={[state]}>
-                <div test={eq("LOADING")}>
-                    <LoadingIcon />
-                </div>
-                <div test={eq("LOADED")} class="p-6">
-                    <LevelHorizontal level={level} /> 
-                    <LevelDetail level={level} _class="p-6 mt-8 bg-gray-200" />
-                </div>
-                <div test={eq("ERROR")}>
-                    <ErrorScreen error={error} />
-                </div>
-            </Switch>
-            <p class="tracking-widest text-2xs">{id}</p>
+        <main class="flex flex-col justify-center min-h-screen bg-gray-400">  
+            <div class="flex-grow p-4 m-12 bg-gray-700">
+                    
+                <Link href="/levels" class="text-gray-100 hover:underline">(Go back to the main level screen)</Link>
+                <Switch args={[state]}>
+                    <div test={eq("LOADING")}>
+                        <LoadingIcon />
+                    </div>
+                    <div test={eq("LOADED")} class="p-6">
+                        <LevelHorizontal level={level} /> 
+                        <LevelDetail level={level} _class="p-6 mt-8 bg-gray-200" />
+                    </div>
+                    <div test={eq("ERROR")}>
+                        <ErrorScreen error={error} />
+                    </div>
+                </Switch>
+            </div>
         </main>
     )
 }
