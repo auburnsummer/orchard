@@ -54,7 +54,7 @@ export default function LevelHorizontal ({level, selected, _class="", callback})
             
             {/* image on the left */}
             <div class="flex-none w-2/5 max-w-md bg-red-500">
-                <div class="relative h-full bg-blue-500 pb-9/16">
+                <div class="relative h-full bg-gray-200 pb-9/16">
                     <img class="absolute top-0 z-10 object-cover w-full h-full" src={currentImage}></img>
                     <UnrankedMessage {...level} _class="absolute z-20" />
                 </div>

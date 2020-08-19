@@ -12,7 +12,7 @@ import LevelList from "components/levels/LevelList";
 import LevelListHeaderInfo from "components/levels/LevelListHeaderInfo";
 import ErrorScreen from "components/levels/ErrorScreen";
 import SelectALevel from "components/levels/SelectALevel";
-import Header from "components/levels/Header";
+import Header from "components/header/Header";
 
 const defaults = {
     p: 0,
