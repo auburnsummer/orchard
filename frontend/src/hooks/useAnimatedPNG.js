@@ -26,13 +26,14 @@ export default function useAnimatedPNG({url}) {
     }, [url]);
 
     useEffect( async () => {
+        let imageDataURL;
         try {
             if (state === "LOADING") {
                 const resp = await Axios.get(url, {responseType: 'blob'});
                 const blob = resp.data;
     
                 // the data URL of the image.
-                const imageDataURL = await blobToBase64URL(blob);
+                imageDataURL = await blobToBase64URL(blob);
                 
                 const arrayBuf = await blob.arrayBuffer();
     
@@ -53,8 +54,10 @@ export default function useAnimatedPNG({url}) {
                 setState("LOADED");
             }
         } catch (err) {
-            setError(err);
-            setState("ERROR");
+            // fallback.
+            setIsAnimated(false);
+            setImage(imageDataURL);
+            setState("LOADED");
         }
     }, [state]);
 
