@@ -1,4 +1,5 @@
 import { Link } from "preact-router";
+import cm from "classnames";
 
 const Logo = ({_class}) => {
     return (
@@ -10,13 +11,17 @@ const Logo = ({_class}) => {
     )
 }
 
-export default function Header({selectedIndex, p}) {
+export default function Header({selectedIndex, p, _class}) {
     return (
-        <div class="fixed top-0 z-50 flex flex-row items-center w-full h-16 bg-gray-700">
-            <Link href="/" class="h-8 ml-2 text-gray-300 hover:text-gray-200 hover:cursor-pointer" >
-                < Logo _class="h-8" />
-            </Link>
-            Header {selectedIndex} page {p}
+        <div class={cm(_class)}>
+            <div class="flex flex-row items-center h-full">
+                <Link href="/" class="h-8 ml-2 text-gray-300" >
+                    < Logo _class="h-8" />
+                </Link>
+                <p>
+                    Header {selectedIndex} page {p}
+                </p>
+            </div>
         </div>
     )
 }

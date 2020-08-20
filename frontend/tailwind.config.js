@@ -38,6 +38,9 @@ module.exports = {
       },
       scale: {
         '102': '1.02'
+      },
+      maxWidth: {
+        'screen-2xl' : '1440px'
       }
     },
     fontFamily: {

@@ -41,11 +41,13 @@ export default function Levels ({p, no}) {
     }
     
     return (
-        <main class="flex flex-col">
-            <Header selectedIndex={selectedIndex} p={page} />
-            <div class="flex flex-row items-start justify-center flex-grow mt-16 bg-fixed bg-cover" style={style} onMouseDown={trap(leftClick(resetSelectedLevel))}>
+        <div class="flex flex-col items-center bg-fixed bg-cover" style={style} onMouseDown={trap(leftClick(resetSelectedLevel))}>
+            <div class="fixed top-0 z-50 w-full h-16 bg-gray-700">
+                <Header _class="w-full h-full p-2 mx-auto max-w-screen-2xl" selectedIndex={selectedIndex} p={page} />
+            </div>
+            <main class="flex flex-row items-start justify-center flex-grow w-full mt-16 max-w-screen-2xl">
                 
-                <div class="flex flex-row items-stretch justify-center w-3/5 max-w-3xl min-h-screen p-8 pt-20 -mt-16 bg-gray-700 bg-opacity-50">
+                <div class="flex flex-row items-stretch justify-center w-3/5 min-h-screen p-8 pt-20 -mt-16 bg-gray-700 bg-opacity-50">
                     <Switch args={[state]}>
                         <div class="flex flex-col justify-center" test={eq("LOADING")} >  
                             <LoadingIcon />
@@ -81,7 +83,7 @@ export default function Levels ({p, no}) {
                         </div>
                     </div>
                 </div>
-            </div>
-        </main>
+            </main>
+        </div>
     )
 }
