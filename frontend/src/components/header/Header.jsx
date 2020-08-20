@@ -1,6 +1,8 @@
 import { Link } from "preact-router";
 import cm from "classnames";
 
+import useEbooks from "hooks/useEbooks";
+
 const Logo = ({_class}) => {
     return (
         <svg class={_class} xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" clip-rule="evenodd" viewBox="0 0 376 32">
@@ -12,10 +14,13 @@ const Logo = ({_class}) => {
 }
 
 export default function Header({selectedIndex, p, _class}) {
+    const ebook = useEbooks();
+
     return (
         <div class={cm(_class)}>
             <div class="flex flex-row items-center h-full">
-                <Link href="/" class="h-8 ml-2 text-gray-300" >
+                {/* todo: link back to the home page when the home page exists */}
+                <Link class="h-8 ml-2 text-gray-300" title={ebook}>
                     < Logo _class="h-8" />
                 </Link>
                 <p>
