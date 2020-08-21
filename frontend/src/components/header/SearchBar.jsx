@@ -24,7 +24,7 @@ export default function SearchBar({_class}) {
             placeholder="What do you feel like playing today?"
             onChange={evt => setQuery(evt.target.value)}>
             </input>
-            <Link href={paramsLink('/levels', {q: query})} class="flex flex-col justify-center px-3 bg-gray-400 rounded-r-lg group hover:bg-gray-300">
+            <Link href={paramsLink('/levels', {q: query}, {q: ""})} class="flex flex-col justify-center px-3 bg-gray-400 rounded-r-lg group hover:bg-gray-300">
                 <MagnifyingGlass _class="w-6 h-6 text-gray-100 group-hover:text-white"/>
             </Link>
         </form>

@@ -55,7 +55,7 @@ export default function Levels ({p, no, q}) {
                         </div>
 
                         <div class="flex-grow" test={eq("LOADED")}>
-                            <LevelListHeaderInfo defaults={defaults} page={page} length={levels.length} />
+                            <LevelListHeaderInfo defaults={defaults} query={query} page={page} length={levels.length} />
                             <Switch args={[levels.length]}>
                                 <div test={eq(0)}>
                                     <p class="mt-8 text-lg font-semibold tracking-wide text-white lowercase">No levels found</p>
@@ -67,7 +67,7 @@ export default function Levels ({p, no, q}) {
                                     _class="mt-4"
                                 />
                             </Switch>
-                            <LevelListHeaderInfo defaults={defaults} page={page} length={levels.length} _class={cm("mt-4", levels.length < 5 ? "hidden" : "")}/>
+                            <LevelListHeaderInfo defaults={defaults} query={query} page={page} length={levels.length} _class={cm("mt-4", levels.length < 5 ? "hidden" : "")}/>
                         </div>
                                         
                         <ErrorScreen test={eq("ERROR")} error={error}/>
