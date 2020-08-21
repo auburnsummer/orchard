@@ -23,7 +23,7 @@ router.post(
 			// which attributes actually need to go to meili too?
 			const attributesToSend = [
 				"id", "tags", "authors", "group", "song",
-				"artist", "description", "difficulty"
+				"artist", "description", "difficulty", "approval", "recycle_bin"
 			];
 
 			const readyToSend = _.map(allLevels, (level) => _.pick(level, attributesToSend));
