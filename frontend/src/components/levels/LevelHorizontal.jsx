@@ -63,8 +63,9 @@ export default function LevelHorizontal ({level, selected, _class="", callback})
             {/* level info */}
             <div
             class={cm(
-                "relative w-3/5 bg-gray-100", 
-                {"bg-teal-100" : selected},
+                "relative w-3/5",
+                {"bg-gray-100" : !selected},
+                {"bg-white" : selected},
                 {"group-hover:bg-white" : !selected && hasCallback})}
             >
                 {/* difficulty */}
