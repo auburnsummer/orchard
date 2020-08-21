@@ -18,7 +18,7 @@
     "helmet": "^4.0.0",
     "knex": "^0.21.1",
     "lodash": "^4.17.19",
-    "meilisearch": "^0.11.2",
+    "meilisearch": "^0.13.0",
     "morgan": "~1.9.1",
     "multer": "^1.4.2",
     "pg": "^8.2.1"
