@@ -1,6 +1,8 @@
 import { Link } from "preact-router";
 import cm from "classnames";
 
+import SearchBar from "./SearchBar";
+
 import useEbooks from "hooks/useEbooks";
 
 const Logo = ({_class}) => {
@@ -18,14 +20,36 @@ export default function Header({selectedIndex, p, _class}) {
 
     return (
         <div class={cm(_class)}>
-            <div class="flex flex-row items-center h-full">
-                {/* todo: link back to the home page when the home page exists */}
-                <Link class="h-8 ml-2 text-gray-300" title={ebook}>
-                    < Logo _class="h-8" />
-                </Link>
-                <p>
-                    Header {selectedIndex} page {p}
-                </p>
+            <div class="flex flex-row justify-between h-full">
+                
+                <div class="flex items-center">
+                    {/* todo: link back to the home page when the home page exists */}
+                    <Link class="h-8 ml-2 text-gray-300" title={ebook}>
+                        < Logo _class="h-8" />
+                    </Link>
+                </div>
+                <div class="flex items-center flex-grow ml-12">
+                    <SearchBar />
+                </div>
+                <div class="flex items-center justify-end ml-12">
+                    <a 
+                    native 
+                    class="mr-6 text-sm text-yellow-300 hover:text-yellow-100"
+                    href="https://fizzd.itch.io/rhythm-doctor-preorder"
+                    title="The password is samurai">
+                        Get RD
+                    </a>
+                    <Link class="mr-6 text-sm text-yellow-300 hover:text-yellow-100" href="/settings">
+                        Settings
+                    </Link>
+                    <Link class="mr-6 text-sm text-yellow-300 hover:text-yellow-100" href="https://chorus.fightthe.pw">
+                        Set Background
+                    </Link>
+                    <a native class="mr-6 text-sm text-yellow-300 hover:text-yellow-100" href="https://chorus.fightthe.pw">
+                        chorus
+                    </a>
+                </div>
+
             </div>
         </div>
     )
