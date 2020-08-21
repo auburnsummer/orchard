@@ -11,7 +11,7 @@ export default function App () {
         <Router>
           <Home exact path="/" />
           <Levels exact path="/levels" />
-          <SingleLevel exact path="/levels/:id" />
+          <SingleLevel exact path="/:id" />
           <NotFound exact default />
         </Router>
 

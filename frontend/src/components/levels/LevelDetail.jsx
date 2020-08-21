@@ -34,7 +34,7 @@ export default function LevelDetail({level, _class}) {
 
             <Link
             class="absolute bottom-0 right-0 mb-1 mr-1 tracking-widest text-gray-400 text-2xs hover:text-gray-600"
-            href={`/levels/${level.id}`}
+            href={`/${level.id}`}
             title="Direct link to this level"
             >
                 {level.id}
