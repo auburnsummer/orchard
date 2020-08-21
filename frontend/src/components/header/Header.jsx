@@ -29,7 +29,7 @@ export default function Header({selectedIndex, p, _class}) {
                     </Link>
                 </div>
                 <div class="flex items-center flex-grow ml-12">
-                    <SearchBar />
+                    <SearchBar _class="flex-grow" />
                 </div>
                 <div class="flex items-center justify-end ml-12">
                     <a 

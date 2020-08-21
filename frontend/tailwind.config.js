@@ -17,6 +17,9 @@ module.exports = {
   },
   theme: {
     extend: {
+      borderWidth: {
+        '1r' : '0.25rem'
+      },
       colors: {
         gray: {
           '100': 'hsl(40, 23%, 94%)',
@@ -53,7 +56,9 @@ module.exports = {
     display: ['responsive', 'motion-safe', 'motion-reduce'],
     cursor: ['responsive', 'hover', 'focus'],
     transitionProperty: ['responsive', 'motion-safe', 'motion-reduce'],
-    animation: ['responsive', 'motion-safe', 'motion-reduce']
+    animation: ['responsive', 'motion-safe', 'motion-reduce'],
+    padding: ['responsive', 'hover', 'focus'],
+    borderWidth: ['responsive', 'hover', 'focus']
   },
   plugins: [
     require('tailwindcss-gap')({

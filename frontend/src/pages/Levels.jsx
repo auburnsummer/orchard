@@ -16,12 +16,14 @@ import Header from "components/header/Header";
 
 const defaults = {
     p: 0,
-    no: 20
+    no: 20,
+    q: ""
 }
 
-export default function Levels ({p, no}) {
+export default function Levels ({p, no, q}) {
     const page = p || defaults.p;
     const limit = no || defaults.no;
+    const query = q || defaults.q;
 
     const {levels, state, error} = useLevels({page, limit});
 
@@ -37,7 +39,6 @@ export default function Levels ({p, no}) {
 
     const resetSelectedLevel = () => {
         setSelectedIndex(prev => -1);
-        history.replaceState(null, '', paramsLink('/levels', {p: page}, defaults));
     }
     
     return (

@@ -57,7 +57,7 @@ export const geq = a => b => b >= a;
  * defaults is a dict of the default values for a query param. if it's default,
  * then it's omitted.
  */
-export const paramsLink = (link, params, defaults) => {
+export const paramsLink = (link, params, defaults = {}) => {
     const keys = Object.keys(params).filter( p => defaults[p] !== params[p]);
     const obj = keys.reduce( (prev, curr) => {
         prev[curr] = params[curr];
