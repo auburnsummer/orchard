@@ -1,7 +1,7 @@
 import {useState} from "preact/hooks";
 import cm from "classnames";
-import {Link} from "preact-router";
-import {paramsLink} from "utils/functions";
+import {Link, route} from "preact-router";
+import {paramsLink, stubFalse} from "utils/functions";
 
 function MagnifyingGlass({_class}) {
     return (
@@ -18,15 +18,15 @@ export default function SearchBar({_class}) {
     const [query, setQuery] = useState("");
     
     return (
-        <form class={cm("flex flex-row", _class)}>
+        <form class={cm("flex flex-row", _class)} onsubmit={evt => evt.preventDefault()}>
             <input
             class="w-full p-3 text-sm bg-gray-100 rounded-l-lg shadow-inner focus:bg-white focus:outline-none"
             placeholder="What do you feel like playing today?"
             onChange={evt => setQuery(evt.target.value)}>
             </input>
-            <Link href={paramsLink('/levels', {q: query}, {q: ""})} class="flex flex-col justify-center px-3 bg-gray-400 rounded-r-lg group hover:bg-gray-300">
+            <button type="submit" onClick={() => route(paramsLink('/levels', {q: query}, {q: ""}))} class="flex flex-col justify-center px-3 bg-gray-400 rounded-r-lg group hover:bg-gray-300">
                 <MagnifyingGlass _class="w-6 h-6 text-gray-100 group-hover:text-white"/>
-            </Link>
+            </button>
         </form>
     )
 }

@@ -1,5 +1,6 @@
 import Switch from "../components/generic/Switch";
 import useLevels from "../hooks/useLevels";
+import useSearchResults from "../hooks/useSearchResults";
 import LevelDetail from "../components/levels/LevelDetail";
 import cm from "classnames";
 import {trap, leftClick, stubTrue, paramsLink, eq} from "../utils/functions.js";
@@ -24,8 +25,10 @@ export default function Levels ({p, no, q}) {
     const page = p || defaults.p;
     const limit = no || defaults.no;
     const query = q || defaults.q;
+    console.log(query);
 
-    const {levels, state, error} = useLevels({page, limit});
+    // const {levels, state, error} = useLevels({page, limit});
+    const {levels, state, error} = useSearchResults({query, page, limit});
 
     const [selectedIndex, setSelectedIndex] = useState(-1);
 
