@@ -21,13 +21,22 @@ services:
     volumes:
       - "ipfs_staging:/export"
       - "ipfs_data:/data/ipfs"
-  meilisearch:
-    image: "getmeili/meilisearch"
-    ports:
-      - "7700:7700"
+  elasticsearch:
+    image: "elasticsearch:7.9.0"
     environment:
-      MEILI_HTTP_PAYLOAD_SIZE_LIMIT: 1048576000
+      discovery.type: "single-node"
+    ports:
+     - "9200:9200"
+     - "9300:9300"
+    volumes:
+      - "elastic:/usr/share/elasticsearch/data"
+  kibana:
+    image: "kibana:7.9.0"
+    ports:
+     - "5601:5601"
+
 volumes:
   dbdata:
   ipfs_staging:
   ipfs_data:
+  elastic:
