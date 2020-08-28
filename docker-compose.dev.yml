@@ -22,7 +22,8 @@ services:
       - "ipfs_staging:/export"
       - "ipfs_data:/data/ipfs"
   elasticsearch:
-    image: "elasticsearch:7.9.0"
+    build:
+      context: ./elastic
     environment:
       discovery.type: "single-node"
     ports:

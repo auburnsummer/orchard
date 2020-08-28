@@ -1,0 +1,302 @@
+DELETE /levels
+
+PUT /levels
+{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "exact": {
+          "tokenizer": "keyword",
+          "char_filter": [
+            "icu_normalizer",
+            "html_strip"
+          ],
+          "filters": [
+            "icu_folding"
+          ]
+        },
+        "words": {
+          "tokenizer": "icu_tokenizer",
+          "char_filter": [
+            "icu_normalizer",
+            "html_strip"
+          ],
+          "filter": [
+            "icu_folding",
+            "stemmer"
+          ]
+        },
+        "fragments": {
+          
+        }
+      }
+    }
+  }
+}
+
+GET /levels
+
+
+PUT  /levels/_mapping
+{
+  "dynamic": "strict",
+  "properties": {
+    "approval" : {
+      "type": "short"
+    },
+    "artist": {
+      "type": "text",
+      "analyzer": "words",
+      "fields": {
+        "exact": {
+          "type": "text",
+          "analyzer": "exact"
+        }
+      }
+    },
+    "authors": {
+      "type": "text",
+      "analyzer": "words",
+      "fields": {
+        "exact": {
+          "type": "text",
+          "analyzer": "exact"
+        }
+      }
+    },
+    "song": {
+      "type": "text",
+      "analyzer": "words",
+      "fields": {
+        "exact": {
+          "type": "text",
+          "analyzer": "exact"
+        }
+      }
+    },
+    "description" : {
+      "type": "text",
+      "analyzer": "words",
+      "fields": {
+        "exact": {
+          "type": "text",
+          "analyzer": "exact"
+        }
+      }
+    },
+    "difficulty": {
+      "type": "byte"
+    },
+    "group_id": {
+      "type": "keyword"
+    },
+    "has_classics" : {
+      "type": "boolean"
+    },
+    "has_freetimes" : {
+      "type": "boolean"
+    },
+    "has_holds" : {
+      "type": "boolean"
+    },
+    "has_oneshots" : {
+      "type": "boolean"
+    },
+    "has_squareshots" : {
+      "type": "boolean"
+    },
+    "has_swing" : {
+      "type": "boolean"
+    },
+    "last_updated": {
+      "type": "date"
+    },
+    "max_bpm": {
+      "type": "float"
+    },
+    "min_bpm": {
+      "type": "float"
+    },
+    "recycle_bin": {
+      "type": "boolean"
+    },
+    "seizure_warning": {
+      "type": "boolean"
+    },
+    "single_player": {
+      "type": "boolean"
+    },
+    "two_player": {
+      "type": "boolean"
+    },
+    "uploaded": {
+      "type": "date"
+    },
+    "tags": {
+      "type": "text",
+      "analyzer": "words",
+      "fields": {
+        "exact": {
+          "type": "text",
+          "analyzer": "exact"
+        }
+      }
+    }
+  }
+}
+
+
+
+PUT /levels/_doc/H6Q7an1UWwjmrtdJ6QAEzd
+{
+    "artist": "DPS2004",
+    "song": "World's shortest level",
+    "difficulty": 0,
+    "seizure_warning": false,
+    "description": "0 frame level",
+    "max_bpm": 100,
+    "min_bpm": 100,
+    "last_updated": "2020-06-14T01:17:18.000Z",
+    "single_player": true,
+    "two_player": false,
+    "has_classics": false,
+    "has_oneshots": false,
+    "has_squareshots": false,
+    "has_swing": false,
+    "has_freetimes": false,
+    "has_holds": false,
+    "group_id": "19c1ae9e-05c5-4a2b-a7cc-d1aa1990bc30",
+    "uploaded": "2020-08-15T09:25:48.494Z",
+    "approval": 0,
+    "recycle_bin": false,
+    "tags": [
+      "short"
+    ],
+    "authors": [
+      "DPS2004"
+    ]
+}
+ 
+ 
+PUT /levels/_doc/46zMJajsssNUtUDXptSLLy
+{
+    "artist": "Panic! At The Disco",
+    "song": "High Hopes",
+    "difficulty": 2,
+    "seizure_warning": false,
+    "description": "Stay up on that rise, never come down.",
+    "max_bpm": 82,
+    "min_bpm": 82,
+    "last_updated": "2020-03-13T21:30:24.000Z",
+    "single_player": true,
+    "two_player": false,
+    "has_classics": true,
+    "has_oneshots": true,
+    "has_squareshots": false,
+    "has_swing": true,
+    "has_freetimes": true,
+    "has_holds": false,
+    "group_id": "40b06174-7b5a-4fe4-a8df-c3a91fd1ebba",
+    "uploaded": "2020-08-15T09:25:48.494Z",
+    "approval": 10,
+    "recycle_bin": false,
+    "tags": [
+      "RDSRT2",
+      "hard",
+      "Skyscrapers",
+      "Hotel",
+      "Block D"
+    ],
+    "authors": [
+      "Emdyion",
+      "Xeno"
+    ]
+}
+
+PUT /levels/_doc/PJrngdTxB9zMmfi2oaDPg5
+{
+  "artist": "Mitchie M feat. 初音ミク",
+  "song": "好き！雪！本気マジック",
+  "difficulty": 1,
+  "seizure_warning": false,
+  "description": "6th Beat Games wishes you a magi-magical holiday!",
+  "max_bpm": 167,
+  "min_bpm": 167,
+  "last_updated": "2019-12-01T03:46:32.000Z",
+  "single_player": true,
+  "two_player": false,
+  "has_classics": true,
+  "has_oneshots": false,
+  "has_squareshots": false,
+  "has_swing": true,
+  "has_freetimes": true,
+  "has_holds": false,
+  "group_id": "40b06174-7b5a-4fe4-a8df-c3a91fd1ebba",
+  "uploaded": "2020-08-15T09:25:48.494Z",
+  "approval": 10,
+  "recycle_bin": false,
+  "tags": [
+    "snow",
+    "miku",
+    "6beat",
+    "christmas",
+    "winter",
+    "vocaloid",
+    "1p",
+    "comp10"
+  ],
+  "authors": [
+    "vincentw"
+  ]
+}
+
+POST /levels/_search
+{
+  "query": {
+    "match": {
+      "song.exact": "好き！雪！本気マジック"
+    }
+  }
+}
+
+POST /levels/_search
+{
+  "query": {
+    "simple_query_string": {
+      "query": "vocaroid~5",
+      "fields": ["artist", "song", "description", "tags", "authors"],
+      "default_operator": "AND",
+      "flags": "OR|AND|PREFIX|ESCAPE|NOT|PHRASE|PRECEDENCE|FUZZY"
+    }
+  }
+}
+
+POST /levels/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "risea",
+      "fuzziness": "AUTO",
+      "fields": ["artist^3", "song^4", "description", "tags^2", "authors^2"]
+    }
+  }
+}
+
+POST levels/_analyze
+{
+  "analyzer": "words",
+  "text": "Mitchie M feat. 初音ミク"
+}
+
+
+POST /_analyze
+{
+  "tokenizer": "keyword",
+  "filter": [
+    {
+      "type": "icu_transform",
+      "id": "Any-Latin; NFD; [:Nonspacing Mark:] Remove; NFC"
+    }
+  ],
+  "text": "空奏列車"
+}
