@@ -54,8 +54,35 @@ const updateIndexes = (levels) => {
 	).then(res => res.data);
 }
 
+const doSearch = (query, showUnapproved = false, size = 15, offset = 0) => {
+	return axios.post(
+		process.env.ELASTICSEARCH_SERVER + "/levels" + "/_search",
+		{
+			size,
+			from: offset,
+			query: {
+				bool: {
+					filter: [
+						{ term: {recycle_bin: false} },
+						...!showUnapproved ? [{ range: {approval: {gte: 10} } }] : []
+					],
+					must: {
+						simple_query_string: {
+							query,
+							fields: ["artist^6", "song^8", "description4", "tags^5", "authors^5"]
+						}
+					}
+				}
+			}
+		}
+	)
+	.then( res => res.data.hits )
+	.catch(console.log)
+}
+
 module.exports = {
 	isIndexCreated,
 	makeIndex,
-	updateIndexes
+	updateIndexes,
+	doSearch
 }
