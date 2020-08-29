@@ -1,70 +1,88 @@
-const meiliSettings = require("./meili.json");
-const MeiliSearch = require("meilisearch");
+const axios = require("axios");
 const _ = require("lodash");
-const levels = require("../levels");
-
-const client = new MeiliSearch({
-	host: process.env.MEILISEARCH_SERVER
-});
 
 const INDEX_NAME = "levels";
 
-const waitForUpdate = async (index, updateId) => {
-	while (true) {
-		const result = await index.getUpdateStatus(updateId);
-		console.log(result);
-		if (result.status === "processed") {
-			return result;
+// is the index created yet?
+const isIndexCreated = () => {
+	return axios(process.env.ELASTICSEARCH_SERVER + "/levels")
+	.then(_.stubTrue)
+	.catch(_.stubFalse)
+}
+
+const makeIndex = () => {
+	return axios.put(
+		process.env.ELASTICSEARCH_SERVER + "/levels",
+		require("./indexSettings.json")
+	)
+	.then(res => {
+		return axios.put(
+			process.env.ELASTICSEARCH_SERVER + "/levels" + "/_mapping",
+			require('./mapping.json')
+		);
+	})
+	.then(res => res.data);
+}
+
+const updateIndexes = (levels) => {
+	// attributes that elasticsearch needs
+	const attributesToSend = [
+		"approval", "artist", "authors",
+		"song", "description", "difficulty",
+		"group_id", "has_classics", "has_freetimes",
+		"has_holds", "has_oneshots", "has_squareshots",
+		"has_swing", "last_updated", "max_bpm",
+		"min_bpm", "recycle_bin", "seizure_warning",
+		"single_player", "two_player", "uploaded", "tags"
+	];
+
+	const payload = _.flatten(levels.map( (level) => {
+		return _.map([
+			{index: {_id: level.id}},
+			_.pick(level, attributesToSend)
+		], JSON.stringify);
+	})).join("\n") + "\n"; // leading newline after req'd
+
+	return axios.post(
+		process.env.ELASTICSEARCH_SERVER + "/levels" + "/_bulk",
+		payload,
+		{
+			headers: {
+				"Content-Type": "application/json"
+			}
 		}
-		else if (result.status === "failed") {
-			throw result;
+	).then(res => res.data);
+}
+
+const doSearch = (query, showUnapproved = false, size = 15, offset = 0) => {
+	return axios.post(
+		process.env.ELASTICSEARCH_SERVER + "/levels" + "/_search",
+		{
+			size,
+			from: offset,
+			query: {
+				bool: {
+					filter: [
+						{ term: {recycle_bin: false} },
+						...!showUnapproved ? [{ range: {approval: {gte: 10} } }] : []
+					],
+					must: {
+						simple_query_string: {
+							query,
+							fields: ["artist^6", "song^8", "description4", "tags^5", "authors^5"]
+						}
+					}
+				}
+			}
 		}
-		else {
-			await new Promise( (resolve) => setTimeout(resolve, 200));
-		}
-	}
-};
-
-const updateConfig = async () => {
-	// does the index exist?
-	const levelIndex = await client.getOrCreateIndex(INDEX_NAME);
-	let info = await levelIndex.show();
-
-	// is the primary key set to id?
-	if (info.primaryKey !== "id") {
-		// update it.
-		console.log("updating index pk!");
-		await levelIndex.updateIndex({primaryKey: "id"});
-		info = await levelIndex.show();
-	}
-
-	// put the settings in
-	const update = await levelIndex.updateSettings(meiliSettings);
-	await waitForUpdate(levelIndex, update.updateId);
-	return info;
-};
-
-const updateIndexes = async (levels) => {
-	const levelIndex = await client.getIndex(INDEX_NAME);
-	const update = await levelIndex.addDocuments(levels);
-	await waitForUpdate(levelIndex, update.updateId);
-	return update;
-};
-
-const doSearch = async (knex, query, searchParams) => {
-	const levelIndex = await client.getIndex(INDEX_NAME);
-	const searchResults = await levelIndex.search(query, searchParams);
-
-	const ids = _.map(searchResults.hits, _.property("id"));
-	const resolvedHashes = await levels.getLevelsFromIds({knex, ids});
-	return {
-		...searchResults,
-		hits: resolvedHashes
-	};
-};
+	)
+	.then( res => res.data.hits )
+	.catch(console.log)
+}
 
 module.exports = {
-	updateConfig,
+	isIndexCreated,
+	makeIndex,
 	updateIndexes,
 	doSearch
-};
+}

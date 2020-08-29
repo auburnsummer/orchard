@@ -3,27 +3,21 @@ const router = express.Router();
 
 const search = require("../lib/search/search");
 const _ = require("lodash");
+const { getLevelsFromIds } = require("../lib/levels");
 
 router.post(
 	"/",
 	async (req, res, next) => {
-		try {
-			const {knex, body} = req;
-			// search params we pass to meili
-			const searchParams = [
-				"offset", "limit", "filters", "facetFilters"
-			];
-			const searchQueries = _.reduce(searchParams, (prev, curr) => {
-				if (_.has(body, curr)) {
-					prev[curr] = body[curr];
-				}
-				return prev;
-			}, {});
-			const result = await search.doSearch(knex, body.q, searchQueries);
-			return res.status(200).json(result);
-		} catch (err) {
-			next(err);
-		}
+		const {knex, body} = req;
+		const {q, limit, offset, showUnapproved} = body;
+		const results = await search.doSearch(q, showUnapproved, limit, offset);
+		const ids = results.hits.map(h => h._id);
+		const total = results.total.value;
+		const levels = await getLevelsFromIds({knex, ids});
+		return res.status(200).json({
+			total,
+			levels
+		});
 	}
 );
 

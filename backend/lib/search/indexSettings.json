@@ -1,0 +1,29 @@
+{
+    "settings": {
+      "analysis": {
+        "analyzer": {
+          "exact": {
+            "tokenizer": "keyword",
+            "char_filter": [
+              "icu_normalizer",
+              "html_strip"
+            ],
+            "filters": [
+              "icu_folding"
+            ]
+          },
+          "words": {
+            "tokenizer": "icu_tokenizer",
+            "char_filter": [
+              "icu_normalizer",
+              "html_strip"
+            ],
+            "filter": [
+              "icu_folding",
+              "stemmer"
+            ]
+          }
+        }
+      }
+    }
+  }

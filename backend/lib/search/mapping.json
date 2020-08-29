@@ -1,0 +1,106 @@
+{
+    "dynamic": "strict",
+    "properties": {
+      "approval" : {
+        "type": "short"
+      },
+      "artist": {
+        "type": "text",
+        "analyzer": "words",
+        "fields": {
+          "exact": {
+            "type": "text",
+            "analyzer": "exact"
+          }
+        }
+      },
+      "authors": {
+        "type": "text",
+        "analyzer": "words",
+        "fields": {
+          "exact": {
+            "type": "text",
+            "analyzer": "exact"
+          }
+        }
+      },
+      "song": {
+        "type": "text",
+        "analyzer": "words",
+        "fields": {
+          "exact": {
+            "type": "text",
+            "analyzer": "exact"
+          }
+        }
+      },
+      "description" : {
+        "type": "text",
+        "analyzer": "words",
+        "fields": {
+          "exact": {
+            "type": "text",
+            "analyzer": "exact"
+          }
+        }
+      },
+      "difficulty": {
+        "type": "byte"
+      },
+      "group_id": {
+        "type": "keyword"
+      },
+      "has_classics" : {
+        "type": "boolean"
+      },
+      "has_freetimes" : {
+        "type": "boolean"
+      },
+      "has_holds" : {
+        "type": "boolean"
+      },
+      "has_oneshots" : {
+        "type": "boolean"
+      },
+      "has_squareshots" : {
+        "type": "boolean"
+      },
+      "has_swing" : {
+        "type": "boolean"
+      },
+      "last_updated": {
+        "type": "date"
+      },
+      "max_bpm": {
+        "type": "float"
+      },
+      "min_bpm": {
+        "type": "float"
+      },
+      "recycle_bin": {
+        "type": "boolean"
+      },
+      "seizure_warning": {
+        "type": "boolean"
+      },
+      "single_player": {
+        "type": "boolean"
+      },
+      "two_player": {
+        "type": "boolean"
+      },
+      "uploaded": {
+        "type": "date"
+      },
+      "tags": {
+        "type": "text",
+        "analyzer": "words",
+        "fields": {
+          "exact": {
+            "type": "text",
+            "analyzer": "exact"
+          }
+        }
+      }
+    }
+}

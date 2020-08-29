@@ -20,7 +20,8 @@ const EBOOKS = [
     "ItzShaun: okay in my defense it is perfectly legal in some areas of antarctica",
     "Maddy: i only know how to make a box that says fuck in javascript but ok",
     "DNH: just use -- snap\nDNH: dont be a coward",
-    "Bot: Listen I'm busy watching someone slow dance with a tray of enchiladas"
+    "Bot: Listen I'm busy watching someone slow dance with a tray of enchiladas",
+    "okamii: i needed four different pitches of beep so i made 24 instead"
 ];
 
 export default function useEbooks() {
