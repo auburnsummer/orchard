@@ -145,6 +145,11 @@ PUT  /levels/_mapping
   }
 }
 
+POST /levels/_bulk
+{"index": {"_id": "H6Q7an1UWwjmrtdJ6QAEzd"}}
+{"artist":"DPS2004","song":"World's shortest level","difficulty":0,"seizure_warning":false,"description":"0 frame level","max_bpm":100,"min_bpm":100,"last_updated":"2020-06-14T01:17:18.000Z","single_player":true,"two_player":false,"has_classics":false,"has_oneshots":false,"has_squareshots":false,"has_swing":false,"has_freetimes":false,"has_holds":false,"group_id":"19c1ae9e-05c5-4a2b-a7cc-d1aa1990bc30","uploaded":"2020-08-15T09:25:48.494Z","approval":0,"recycle_bin":false,"tags":[""],"authors":["DPS2004"]}
+{"index": {"_id": "PJrngdTxB9zMmfi2oaDPg5"}}
+{"artist":"Mitchie M feat. 初音ミク","song":"好き！雪！本気マジック","difficulty":1,"seizure_warning":false,"description":"6th Beat Games wishes you a magi-magical holiday!","max_bpm":167,"min_bpm":167,"last_updated":"2019-12-01T03:46:32.000Z","single_player":true,"two_player":false,"hue":0.66,"has_classics":true,"has_oneshots":false,"has_squareshots":false,"has_swing":true,"has_freetimes":true,"has_holds":false,"group_id":"40b06174-7b5a-4fe4-a8df-c3a91fd1ebba","uploaded":"2020-08-15T09:25:48.494Z","approval":10,"recycle_bin":false,"tags":["snow","miku","6beat","christmas","winter","vocaloid","1p","comp10"],"authors":["vincentw"]}
 
 
 PUT /levels/_doc/H6Q7an1UWwjmrtdJ6QAEzd
