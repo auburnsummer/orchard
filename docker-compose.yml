@@ -21,7 +21,7 @@ services:
       POSTGRES_PASSWORD:
       IPFS_URL: "http://172.24.0.1:5001/api/v0"
       API_KEY:
-      MEILISEARCH_SERVER: "http://meilisearch:7700"
+      ELASTICSEARCH_SERVER: "http://elasticsearch:9200"
     ports:
       - "127.0.0.1:3000:3000"
   scraper:
@@ -34,12 +34,20 @@ services:
       SERVER_API_KEY: "${API_KEY}"
     volumes:
       - "./scraper/conf:/var/conf"
-  meilisearch:
-    image: "getmeili/meilisearch"
-    expose:
-      - "7700"
+  elasticsearch:
+    build:
+      context: ./elastic
     environment:
-      MEILI_HTTP_PAYLOAD_SIZE_LIMIT: 1048576000
+      discovery.type: "single-node"
+    expose:
+      - "9200"
+      - "9300"
+    volumes:
+      - "elastic:/usr/share/elasticsearch/data"
+  kibana:
+    image: "kibana:7.9.0"
+    ports:
+      - "127.0.0.1:5601:5601"
   pgadmin:
     image: "dpage/pgadmin4"
     ports:
@@ -52,6 +60,7 @@ services:
 volumes:
   dbdata:
   pgadmindata:
+  elastic:
 networks:
   default:
     external: true
