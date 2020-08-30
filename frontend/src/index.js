@@ -11,4 +11,4 @@ import style from "./style.css";
 
 
 
-render(App(), document.body);
+render(< App />, document.body);

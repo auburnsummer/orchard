@@ -41,8 +41,7 @@ export default function Levels ({start, q}) {
     }
     
     return (
-        <div class="flex flex-col items-center" onMouseDown={trap(leftClick(resetSelectedLevel))}>
-            <main class="flex flex-row items-start justify-center flex-grow w-full -mt-16 max-w-screen-2xl">
+            <main class="flex flex-row items-start justify-center flex-grow w-full mx-auto -mt-16 max-w-screen-2xl" onMouseDown={trap(resetSelectedLevel)}>
                 <div class="flex flex-row items-stretch justify-center w-3/5 min-h-screen p-8 pt-20 bg-gray-700 bg-opacity-50">
                     <Switch args={[state]}>
                         <div class="flex flex-col justify-center" test={eq("LOADING")} >  
@@ -80,6 +79,5 @@ export default function Levels ({start, q}) {
                     </div>
                 </div>
             </main>
-        </div>
     )
 }

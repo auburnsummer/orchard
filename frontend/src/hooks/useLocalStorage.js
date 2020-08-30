@@ -17,15 +17,18 @@ export default function useLocalStorage(key, initialValue) {
     });
 
     // Wrap useState's setter to also persist the new value to local storage.
-    try {
-        // Allow value to be a function so we have same API as useState
-        const valueToStore = value instanceof Function ? value(storedValue) : value;
-        setStoredValue(valueToStore);
-        window.localStorage.setItem(key, JSON.stringify(valueToStore));
-    } catch (error) {
-        // just set it anyway
-        setStoredValue(valueToStore);
-        console.log(error);
+    const setValue = value => {
+        try {
+            // Allow value to be a function so we have same API as useState
+            const valueToStore = value instanceof Function ? value(storedValue) : value;
+            setStoredValue(valueToStore);
+            window.localStorage.setItem(key, JSON.stringify(valueToStore));
+        } catch (error) {
+            console.log(error);
+        }
     }
+
+    return [storedValue, setValue];
+
 
 }

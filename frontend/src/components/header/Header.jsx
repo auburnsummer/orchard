@@ -15,8 +15,17 @@ const Logo = ({_class}) => {
     )
 }
 
-export default function Header({_class}) {
+export default function Header({_class, settings}) {
     const ebook = useEbooks();
+
+    const [globalSettings, setGlobalSettings] = settings;
+
+    const hajaflawef = () => {
+        setGlobalSettings({
+            ...globalSettings,
+            background: prompt('Paste in a direct link to an image to set it as a custom background. (Note: You can reset this by clicking OK without any text)')
+        });
+    }
 
     return (
         <div class={cm(_class)}>
@@ -42,9 +51,9 @@ export default function Header({_class}) {
                     <Link class="mr-6 text-sm text-yellow-300 hover:text-yellow-100" href="/settings">
                         Settings
                     </Link>
-                    <Link class="mr-6 text-sm text-yellow-300 hover:text-yellow-100" href="https://chorus.fightthe.pw">
+                    <button onClick={hajaflawef} class="mr-6 text-sm text-yellow-300 hover:text-yellow-100" href="https://chorus.fightthe.pw">
                         Set Background
-                    </Link>
+                    </button>
                     <a native class="mr-6 text-sm text-yellow-300 hover:text-yellow-100" href="https://chorus.fightthe.pw">
                         chorus
                     </a>
