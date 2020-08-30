@@ -2,20 +2,20 @@ import {useState, useEffect, useRef} from "preact/hooks";
 import Axios from "../utils/red2";
 import constants from "../utils/constants";
 
-async function get (page, limit) {
+async function get (offset, limit) {
     const resp = await Axios({
         method: 'GET',
         url: `${constants.API_URL}/levels`,
         params: {
             order: "uploaded.desc,last_updated.desc",
-            limit: limit,
-            offset: page * limit
+            limit,
+            offset
         }
     });
     return resp.data;
 }
 
-export default function useLevels({page, limit}) {
+export default function useLevels({offset, limit}) {
     const [levels, setLevels] = useState([]);
 
     /*
@@ -29,11 +29,11 @@ export default function useLevels({page, limit}) {
 
     useEffect( () => {
         setState("LOADING");
-    }, [page, limit]);
+    }, [offset, limit]);
 
     useEffect( () => {
         if (state === "LOADING") {
-            get(page, limit)
+            get(offset, limit)
             .then( (data) => {
                 setLevels(data);
                 setState("LOADED");

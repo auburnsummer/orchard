@@ -2,22 +2,22 @@ import {useState, useEffect, useRef} from "preact/hooks";
 import Axios from "../utils/red2";
 import constants from "../utils/constants";
 
-async function get (query, page, limit) {
+async function get (query, offset, limit) {
     const q = query || null;
     const resp = await Axios({
         method: 'POST',
         url: `${constants.API_URL}/search`,
         data: {
             q,
-            filters: "recycle_bin = false AND approval >= 10",
-            limit: limit,
-            offset: page * limit
+            showUnapproved: false,
+            limit,
+            offset
         }
     });
-    return resp.data.hits;
+    return resp.data.levels;
 }
 
-export default function useLevels({query, page, limit}) {
+export default function useLevels({query, offset, limit}) {
     const [levels, setLevels] = useState([]);
 
     /*
@@ -31,11 +31,11 @@ export default function useLevels({query, page, limit}) {
 
     useEffect( () => {
         setState("LOADING");
-    }, [query, page, limit]);
+    }, [query, offset, limit]);
 
     useEffect( () => {
         if (state === "LOADING") {
-            get(query, page, limit)
+            get(query, offset, limit)
             .then( (data) => {
                 setLevels(data);
                 setState("LOADED");
