@@ -21,7 +21,8 @@ const EBOOKS = [
     "Maddy: i only know how to make a box that says fuck in javascript but ok",
     "DNH: just use -- snap\nDNH: dont be a coward",
     "Bot: Listen I'm busy watching someone slow dance with a tray of enchiladas",
-    "okamii: i needed four different pitches of beep so i made 24 instead"
+    "okamii: i needed four different pitches of beep so i made 24 instead",
+    "roninnozlo: horny anthem\nSome J Name: what>\nSome J Name: no\nSome J Name: i have never charted a horny song in my life"
 ];
 
 export default function useEbooks() {

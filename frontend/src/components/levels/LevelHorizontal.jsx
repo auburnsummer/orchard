@@ -44,7 +44,7 @@ export default function LevelHorizontal ({level, selected, _class="", callback})
         <div
         class={cm(
             "flex flex-row group transform duration-200 motion-reduce:transition-none motion-safe:transition-transform ease-in-out",
-            {"scale-105" : selected},
+            {"scale-105 shadow-lg" : selected},
             {"hover:shadow-lg" : hasCallback},
             _class,)}
         onMouseDown={callback}
