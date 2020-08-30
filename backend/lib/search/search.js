@@ -69,7 +69,8 @@ const doSearch = (query, showUnapproved = false, size = 15, offset = 0) => {
 					must: {
 						simple_query_string: {
 							query,
-							fields: ["artist^6", "song^8", "description4", "tags^5", "authors^5"]
+							fields: ["artist^6", "song^8", "description4", "tags^5", "authors^5"],
+							default_operator: "AND"
 						}
 					}
 				}
