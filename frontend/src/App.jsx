@@ -20,7 +20,7 @@ export default function App () {
                 <Header _class="w-full h-full p-2 mx-auto max-w-screen-2xl" />
             </header>
 
-            <div class="mt-16 bg-fixed bg-cover" style={style}>
+            <div class="mt-16 bg-fixed bg-center bg-cover" style={style}>
                 <Router>
                     <Home exact path="/" />
                     <Levels exact path="/levels" />
