@@ -15,7 +15,7 @@ const Logo = ({_class}) => {
     )
 }
 
-export default function Header({selectedIndex, p, _class}) {
+export default function Header({_class}) {
     const ebook = useEbooks();
 
     return (

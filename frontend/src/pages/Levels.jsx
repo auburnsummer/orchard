@@ -16,25 +16,25 @@ import SelectALevel from "components/levels/SelectALevel";
 import Header from "components/header/Header";
 
 const defaults = {
-    p: 0,
-    no: 20,
+    start: 0,
+    lim: 15,
     q: ""
 }
 
-export default function Levels ({p, no, q}) {
-    const page = p || defaults.p;
-    const limit = no || defaults.no;
+export default function Levels ({start, lim, q}) {
+    const offset = parseInt(start || defaults.start);
+    const limit = parseInt(lim || defaults.lim);
     const query = q || defaults.q;
-    console.log(query);
 
     // const {levels, state, error} = useLevels({page, limit});
-    const {levels, state, error} = useSearchResults({query, page, limit});
+    const {levels, state, error} = query.length ? useSearchResults({query, offset, limit}) : useLevels({offset, limit});
 
     const [selectedIndex, setSelectedIndex] = useState(-1);
 
+    // deselect any level if we changed the page.
     useEffect(() => {
         setSelectedIndex(-1);
-    }, [p, no]);
+    }, [offset, limit]);
 
     const style = {
         backgroundImage: `url(${KinBackgroundTemp})`
@@ -47,7 +47,7 @@ export default function Levels ({p, no, q}) {
     return (
         <div class="flex flex-col items-center bg-fixed bg-cover" style={style} onMouseDown={trap(leftClick(resetSelectedLevel))}>
             <div class="fixed top-0 z-50 w-full h-16 bg-gray-700">
-                <Header _class="w-full h-full p-2 mx-auto max-w-screen-2xl" selectedIndex={selectedIndex} p={page} />
+                <Header _class="w-full h-full p-2 mx-auto max-w-screen-2xl" />
             </div>
             <main class="flex flex-row items-start justify-center flex-grow w-full mt-16 max-w-screen-2xl">
                 
@@ -58,10 +58,10 @@ export default function Levels ({p, no, q}) {
                         </div>
 
                         <div class="flex-grow" test={eq("LOADED")}>
-                            <LevelListHeaderInfo defaults={defaults} query={query} page={page} length={levels.length} />
+                            <LevelListHeaderInfo defaults={defaults} query={query} currOffset={offset} nextOffset={offset + levels.length} prevOffset={offset - limit}/>
                             <Switch args={[levels.length]}>
                                 <div test={eq(0)}>
-                                    <p class="mt-8 text-lg font-semibold tracking-wide text-white lowercase">No levels found</p>
+                                    <p class="mt-8 text-lg font-semibold tracking-wide text-white lowercase">No more levels</p>
                                 </div>
                                 <LevelList
                                     test={stubTrue}
@@ -70,7 +70,7 @@ export default function Levels ({p, no, q}) {
                                     _class="mt-4"
                                 />
                             </Switch>
-                            <LevelListHeaderInfo defaults={defaults} query={query} page={page} length={levels.length} _class={cm("mt-4", levels.length < 5 ? "hidden" : "")}/>
+                            <LevelListHeaderInfo defaults={defaults} query={query} currOffset={offset} nextOffset={offset + levels.length} prevOffset={offset - limit} _class={cm("mt-4", levels.length < 6 ? "hidden" : "")}/>
                         </div>
                                         
                         <ErrorScreen test={eq("ERROR")} error={error}/>
