@@ -15,15 +15,15 @@ import ErrorScreen from "components/levels/ErrorScreen";
 import SelectALevel from "components/levels/SelectALevel";
 import Header from "components/header/Header";
 
+// default values for query parameters.
 const defaults = {
     start: 0,
-    lim: 15,
     q: ""
 }
 
-export default function Levels ({start, lim, q}) {
+export default function Levels ({start, q}) {
     const offset = parseInt(start || defaults.start);
-    const limit = parseInt(lim || defaults.lim);
+    const limit = 15;
     const query = q || defaults.q;
 
     // const {levels, state, error} = useLevels({page, limit});
@@ -36,22 +36,14 @@ export default function Levels ({start, lim, q}) {
         setSelectedIndex(-1);
     }, [offset, limit]);
 
-    const style = {
-        backgroundImage: `url(${KinBackgroundTemp})`
-    }
-
     const resetSelectedLevel = () => {
         setSelectedIndex(prev => -1);
     }
     
     return (
-        <div class="flex flex-col items-center bg-fixed bg-cover" style={style} onMouseDown={trap(leftClick(resetSelectedLevel))}>
-            <div class="fixed top-0 z-50 w-full h-16 bg-gray-700">
-                <Header _class="w-full h-full p-2 mx-auto max-w-screen-2xl" />
-            </div>
-            <main class="flex flex-row items-start justify-center flex-grow w-full mt-16 max-w-screen-2xl">
-                
-                <div class="flex flex-row items-stretch justify-center w-3/5 min-h-screen p-8 pt-20 -mt-16 bg-gray-700 bg-opacity-50">
+        <div class="flex flex-col items-center" onMouseDown={trap(leftClick(resetSelectedLevel))}>
+            <main class="flex flex-row items-start justify-center flex-grow w-full -mt-16 max-w-screen-2xl">
+                <div class="flex flex-row items-stretch justify-center w-3/5 min-h-screen p-8 pt-20 bg-gray-700 bg-opacity-50">
                     <Switch args={[state]}>
                         <div class="flex flex-col justify-center" test={eq("LOADING")} >  
                             <LoadingIcon />
@@ -77,7 +69,7 @@ export default function Levels ({start, lim, q}) {
                     </Switch>
                 </div>
                 
-                <div class="sticky top-0 w-2/5 -mt-16">
+                <div class="sticky top-0 w-2/5">
                     <div class="flex items-center justify-center h-screen mx-4">
                         <div class="w-full bg-gray-300 shadow-lg" onMouseDown={trap(stubTrue)}>
                             <Switch args={[selectedIndex]}>
