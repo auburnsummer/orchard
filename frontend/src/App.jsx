@@ -20,7 +20,8 @@ export default function App () {
     const [globalSettings, setGlobalSettings] = useLocalStorage("orchard_globalSettings", defaultSettings);
 
     const style = {
-        backgroundImage: `url(${globalSettings.background || defaultSettings.background})`
+        backgroundImage: `url(${globalSettings.background || defaultSettings.background})`,
+        backgroundPosition: "100% calc(100% + 4rem)"
     }
 
     return (
@@ -30,7 +31,7 @@ export default function App () {
                 <Header _class="w-full h-full p-2 mx-auto max-w-screen-2xl" settings={[globalSettings, setGlobalSettings]}/>
             </header>
 
-            <div class="mt-16 bg-fixed bg-center bg-cover" style={style}>
+            <div class="mt-16 bg-fixed bg-cover" style={style}>
                 <Router>
                     <Home exact path="/" />
                     <Levels exact path="/levels" />
