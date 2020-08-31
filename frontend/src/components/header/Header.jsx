@@ -5,6 +5,10 @@ import SearchBar from "./SearchBar";
 
 import useEbooks from "hooks/useEbooks";
 
+import Settings from "components/header/Settings";
+
+import {useState} from "preact/hooks";
+
 const Logo = ({_class}) => {
     return (
         <svg class={_class} xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" clip-rule="evenodd" viewBox="0 0 376 32">
@@ -18,6 +22,8 @@ const Logo = ({_class}) => {
 export default function Header({_class, settings}) {
     const ebook = useEbooks();
 
+    const [showSettings, setShowSettings] = useState(false);
+
     const [globalSettings, setGlobalSettings] = settings;
 
     const hajaflawef = () => {
@@ -29,7 +35,7 @@ export default function Header({_class, settings}) {
 
     return (
         <div class={cm(_class)}>
-            <div class="flex flex-row justify-between h-full">
+            <div class="flex flex-row justify-between h-full p-2">
                 
                 <div class="flex items-center">
                     {/* todo: link back to the home page when the home page exists */}
@@ -48,9 +54,9 @@ export default function Header({_class, settings}) {
                     title="The password is samurai">
                         Get RD
                     </a>
-                    <Link class="mr-6 text-sm text-yellow-300 hover:text-yellow-100" href="/settings">
+                    <button onClick={() => setShowSettings(p => !p)} class={cm("mr-6 text-sm hover:text-yellow-100", showSettings ? "text-yellow-100" : "text-yellow-300")}>
                         Settings
-                    </Link>
+                    </button>
                     <button onClick={hajaflawef} class="mr-6 text-sm text-yellow-300 hover:text-yellow-100" href="https://chorus.fightthe.pw">
                         Set Background
                     </button>
@@ -59,6 +65,9 @@ export default function Header({_class, settings}) {
                     </a>
                 </div>
 
+            </div>
+            <div class={cm("flex flex-row-reverse", {"hidden": !showSettings})}>
+                <Settings />
             </div>
         </div>
     )

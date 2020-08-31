@@ -8,7 +8,6 @@ import {sample} from "utils/functions";
 // ...your decision
 
 const EBOOKS = [
-    "plastermaster: the angle I was approaching this from was if users wanted to put usernames on a forum have to comply with Xx_420pussyslayer_xX",
     "Klyzx: CV why are you streaming a green line for the entire day",
     "fizzd: banana detection",
     "SpikedJackson: First it was vegetables, now all out war",

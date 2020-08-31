@@ -28,7 +28,7 @@ export default function App () {
         <div class="font-sans leading-normal">
 
             <header class="fixed top-0 z-50 w-full h-16 bg-gray-700">
-                <Header _class="w-full h-full p-2 mx-auto max-w-screen-2xl" settings={[globalSettings, setGlobalSettings]}/>
+                <Header _class="w-full h-full mx-auto max-w-screen-2xl" settings={[globalSettings, setGlobalSettings]}/>
             </header>
 
             <div class="mt-16 bg-fixed bg-cover" style={style}>
