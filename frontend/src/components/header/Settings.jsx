@@ -28,10 +28,10 @@ export default function Settings({settings}) {
         <div class="bg-red-500">
             <h1>I'm the settings box!</h1>
             <ul>
-                <li>The background currently is {globalSettings.background}</li>
                 <li>
-                    <span>Number of levels per page:</span>
+                    <span>Show</span>
                     <SelectLevelsPerPage />
+                    <span>levels per page</span>
                 </li>
                 <li>Potato Chip: {globalSettings.potatoChip}</li>
             </ul>
