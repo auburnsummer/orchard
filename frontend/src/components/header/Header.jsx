@@ -8,6 +8,7 @@ import useEbooks from "hooks/useEbooks";
 import Settings from "components/header/Settings";
 
 import {useState} from "preact/hooks";
+import { trap } from "../../utils/functions";
 
 const Logo = ({_class}) => {
     return (
@@ -19,12 +20,11 @@ const Logo = ({_class}) => {
     )
 }
 
-export default function Header({_class, settings}) {
+export default function Header({_class, settings, showState}) {
     const ebook = useEbooks();
 
-    const [showSettings, setShowSettings] = useState(false);
-
     const [globalSettings, setGlobalSettings] = settings;
+    const [showSettings, setShowSettings] = showState;
 
     const hajaflawef = () => {
         setGlobalSettings({
@@ -54,7 +54,7 @@ export default function Header({_class, settings}) {
                     title="The password is samurai">
                         Get RD
                     </a>
-                    <button onClick={() => setShowSettings(p => !p)} class={cm("mr-6 text-sm hover:text-yellow-100", showSettings ? "text-yellow-100" : "text-yellow-300")}>
+                    <button onClick={trap(() => setShowSettings(p => !p))} class={cm("mr-6 text-sm hover:text-yellow-100", showSettings ? "text-yellow-100" : "text-yellow-300")}>
                         Settings
                     </button>
                     <button onClick={hajaflawef} class="mr-6 text-sm text-yellow-300 hover:text-yellow-100" href="https://chorus.fightthe.pw">
@@ -67,7 +67,7 @@ export default function Header({_class, settings}) {
 
             </div>
             <div class={cm("flex flex-row-reverse", {"hidden": !showSettings})}>
-                <Settings />
+                <Settings settings={settings}/>
             </div>
         </div>
     )

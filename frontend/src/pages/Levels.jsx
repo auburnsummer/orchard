@@ -21,10 +21,13 @@ const defaults = {
     q: ""
 }
 
-export default function Levels ({start, q}) {
+export default function Levels ({start, q, settings}) {
     const offset = parseInt(start || defaults.start);
-    const limit = 15;
     const query = q || defaults.q;
+
+    const [globalSettings, ] = settings;
+
+    const limit = globalSettings.levelsPerPage;
 
     // const {levels, state, error} = useLevels({page, limit});
     const {levels, state, error} = query.length ? useSearchResults({query, offset, limit}) : useLevels({offset, limit});

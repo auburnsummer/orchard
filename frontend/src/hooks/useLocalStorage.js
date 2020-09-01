@@ -7,8 +7,14 @@ export default function useLocalStorage(key, initialValue) {
         try {
             // get from local storage by key
             const item = window.localStorage.getItem(key);
-            // Parse it as JSON, or if none return initialValue
-            return item ? JSON.parse(item) : initialValue;
+            // Parse it as JSON.
+            console.log(item);
+            return item ?
+                {
+                    ...initialValue,
+                    ...JSON.parse(item)
+                } :
+                initialValue;
         } catch (error) {
             // if error, just return initialValue anyway
             console.log(error);

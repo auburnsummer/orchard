@@ -14,27 +14,33 @@ import {useState} from "preact/hooks";
 export default function App () {
 
     const defaultSettings = {
-        background: KinBackgroundTemp
+        background: KinBackgroundTemp,
+        levelsPerPage: 10,
+        potatoChip: "yay"
     }
 
-    const [globalSettings, setGlobalSettings] = useLocalStorage("orchard_globalSettings", defaultSettings);
+    const settings = useLocalStorage("orchard_globalSettings", defaultSettings);
+    const [globalSettings, setGlobalSettings] = settings;
+
+    const [showSettings, setShowSettings] = useState(false);
 
     const style = {
         backgroundImage: `url(${globalSettings.background || defaultSettings.background})`,
-        backgroundPosition: "100% calc(100% + 4rem)"
-    }
+        backgroundPosition: "100% calc(100% + 4rem)",
+        imageRendering: "crisp-edges"
+    };
 
     return (
         <div class="font-sans leading-normal">
 
             <header class="fixed top-0 z-50 w-full h-16 bg-gray-700">
-                <Header _class="w-full h-full mx-auto max-w-screen-2xl" settings={[globalSettings, setGlobalSettings]}/>
+                <Header _class="w-full h-full mx-auto max-w-screen-2xl" settings={settings} showState={[showSettings, setShowSettings]}/>
             </header>
 
-            <div class="mt-16 bg-fixed bg-cover" style={style}>
+            <div class="mt-16 bg-fixed bg-cover" style={style} onClick={() => setShowSettings(false)}>
                 <Router>
                     <Home exact path="/" />
-                    <Levels exact path="/levels" />
+                    <Levels exact path="/levels" settings={settings}/>
                     <SingleLevel exact path="/:id" />
                     <NotFound exact default />
                 </Router>
