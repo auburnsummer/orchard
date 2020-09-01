@@ -1,10 +1,13 @@
-function SelectLevelsPerPage ({}) {
-
-}
+import useTwineSelect from "hooks/useTwineSelect";
+import {useState} from "preact/hooks";
 
 export default function Settings({settings}) {
 
     const [globalSettings, setGlobalSettings] = settings;
+
+    const [test, setTest] = useState("hello");
+
+    const rotateValue = useTwineSelect(["hello", "goodbye"], test, setTest);
 
     const set = (param) => (evt) => {
         setGlobalSettings({
@@ -34,6 +37,9 @@ export default function Settings({settings}) {
                     <span>levels per page</span>
                 </li>
                 <li>Potato Chip: {globalSettings.potatoChip}</li>
+                <li>
+                    <button onClick={rotateValue(1)}>{test}</button>
+                </li>
             </ul>
         </div>
     )
