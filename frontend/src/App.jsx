@@ -16,7 +16,8 @@ export default function App () {
     const defaultSettings = {
         background: KinBackgroundTemp,
         levelsPerPage: 10,
-        potatoChip: "yay"
+        potatoChip: "yay",
+        sortDirection: "uploaded.desc,last_updated.desc"
     }
 
     const settings = useLocalStorage("orchard_globalSettings", defaultSettings);
@@ -40,7 +41,7 @@ export default function App () {
             <div class="mt-16 bg-fixed bg-cover" style={style} onClick={() => setShowSettings(false)}>
                 <Router>
                     <Home exact path="/" />
-                    <Levels exact path="/levels" settings={settings}/>
+                    <Levels exact path="/levels" globalSettings={globalSettings}/>
                     <SingleLevel exact path="/:id" />
                     <NotFound exact default />
                 </Router>

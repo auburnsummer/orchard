@@ -21,16 +21,20 @@ export default function useLevels({query, offset, limit}) {
     const [levels, setLevels] = useState([]);
 
     /*
-        [LOADING] -- data loaded ----> [LOADED]
-                  |
-                  -- error --> [ERROR]  
+                                  /----------query changes------\
+                                  v                             |
+        [INITIAL] -- query -->[LOADING] -- data loaded ----> [LOADED]
+            ^           |         |
+            \--q blank--/         \- error --> [ERROR]  
     */
-    const [state, setState] = useState("LOADING");
+    const [state, setState] = useState("INITIAL");
 
     const [error, setError] = useState(null);
 
     useEffect( () => {
-        setState("LOADING");
+        if (typeof query === "string" && query.length > 0) {
+            setState("LOADING");
+        }
     }, [query, offset, limit]);
 
     useEffect( () => {

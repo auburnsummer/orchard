@@ -21,16 +21,18 @@ const defaults = {
     q: ""
 }
 
-export default function Levels ({start, q, settings}) {
+export default function Levels ({start, q, globalSettings}) {
     const offset = parseInt(start || defaults.start);
     const query = q || defaults.q;
 
-    const [globalSettings, ] = settings;
-
     const limit = globalSettings.levelsPerPage;
+    const sortDirection = globalSettings.sortDirection;
 
-    // const {levels, state, error} = useLevels({page, limit});
-    const {levels, state, error} = query.length ? useSearchResults({query, offset, limit}) : useLevels({offset, limit});
+    const searchResults = useSearchResults({query, offset, limit});
+
+    const levelResults = useLevels({query, offset, limit, sortDirection});
+
+    const {levels, state, error} = query ? searchResults : levelResults;
 
     const [selectedIndex, setSelectedIndex] = useState(-1);
 
