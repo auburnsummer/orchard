@@ -31,7 +31,7 @@ export default function useLevels({query, offset, limit, sortDirection}) {
         if (!query) {
             setState("LOADING");
         }
-    }, [offset, limit, sortDirection]);
+    }, [query, offset, limit, sortDirection]);
 
     useEffect( () => {
         if (state === "LOADING") {

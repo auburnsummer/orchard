@@ -17,7 +17,8 @@ export default function App () {
         background: KinBackgroundTemp,
         levelsPerPage: 10,
         potatoChip: "yay",
-        sortDirection: "uploaded.desc,last_updated.desc"
+        sortDirection: "uploaded.desc,last_updated.desc",
+        useIPFSLinks: false
     }
 
     const settings = useLocalStorage("orchard_globalSettings", defaultSettings);

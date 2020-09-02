@@ -8,9 +8,15 @@ import {Link} from "preact-router";
 
 import cm from "classnames";
 
-export default function LevelDetail({level, _class}) {
+export default function LevelDetail({level, _class, useIPFSLink}) {
     const downloadUrl = useMemo( () => {
         const constructedFilename = `${level.artist} - ${level.song}.rdzip`;
+        const ipfsLink = ipfsUrl(level.rdzip_ipfs, constructedFilename);
+
+        if (useIPFSLink) {
+            return ipfsLink;
+        }
+
         if (isHttpUrl(level.aux?.iid)) {
             return level.aux.iid;
         }
@@ -18,8 +24,8 @@ export default function LevelDetail({level, _class}) {
             return level.aux.download_url;
         }
 
-        return ipfsUrl(level.rdzip_ipfs, constructedFilename)
-    }, [level]);
+        return ipfsLink;
+    }, [level, useIPFSLink]);
 
     return (
         <div class={cm("relative flex flex-col", _class)}>
