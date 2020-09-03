@@ -2,20 +2,21 @@ import {useState, useEffect, useRef} from "preact/hooks";
 import Axios from "../utils/red2";
 import constants from "../utils/constants";
 
-async function get (offset, limit, sortDirection) {
+async function get (offset, limit, sortDirection, showUnranked) {
     const resp = await Axios({
         method: 'GET',
         url: `${constants.API_URL}/levels`,
         params: {
             order: sortDirection,
             limit,
-            offset
+            offset,
+            filters: showUnranked ? "recycle_bin.eq.false" : "recycle_bin.eq.false,approval.gte.10"
         }
     });
     return resp.data;
 }
 
-export default function useLevels({query, offset, limit, sortDirection}) {
+export default function useLevels({query, offset, limit, sortDirection, showUnranked}) {
     const [levels, setLevels] = useState([]);
 
     /*
@@ -31,11 +32,11 @@ export default function useLevels({query, offset, limit, sortDirection}) {
         if (!query) {
             setState("LOADING");
         }
-    }, [query, offset, limit, sortDirection]);
+    }, [query, offset, limit, sortDirection, showUnranked]);
 
     useEffect( () => {
         if (state === "LOADING") {
-            get(offset, limit, sortDirection)
+            get(offset, limit, sortDirection, showUnranked)
             .then( (data) => {
                 setLevels(data);
                 setState("LOADED");

@@ -2,14 +2,14 @@ import {useState, useEffect, useRef} from "preact/hooks";
 import Axios from "../utils/red2";
 import constants from "../utils/constants";
 
-async function get (query, offset, limit) {
+async function get (query, offset, limit, showUnranked) {
     const q = query || null;
     const resp = await Axios({
         method: 'POST',
         url: `${constants.API_URL}/search`,
         data: {
             q,
-            showUnapproved: false,
+            showUnapproved: showUnranked,
             limit,
             offset
         }
@@ -17,7 +17,7 @@ async function get (query, offset, limit) {
     return resp.data.levels;
 }
 
-export default function useLevels({query, offset, limit}) {
+export default function useLevels({query, offset, limit, showUnranked}) {
     const [levels, setLevels] = useState([]);
 
     /*
@@ -35,11 +35,11 @@ export default function useLevels({query, offset, limit}) {
         if (typeof query === "string" && query.length > 0) {
             setState("LOADING");
         }
-    }, [query, offset, limit]);
+    }, [query, offset, limit, showUnranked]);
 
     useEffect( () => {
         if (state === "LOADING") {
-            get(query, offset, limit)
+            get(query, offset, limit, showUnranked)
             .then( (data) => {
                 setLevels(data);
                 setState("LOADED");

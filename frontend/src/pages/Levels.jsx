@@ -28,9 +28,9 @@ export default function Levels ({start, q, globalSettings}) {
     const limit = globalSettings.levelsPerPage;
     const sortDirection = globalSettings.sortDirection;
 
-    const searchResults = useSearchResults({query, offset, limit});
+    const searchResults = useSearchResults({query, offset, limit, showUnranked: globalSettings.showUnranked});
 
-    const levelResults = useLevels({query, offset, limit, sortDirection});
+    const levelResults = useLevels({query, offset, limit, sortDirection, showUnranked: globalSettings.showUnranked});
 
     const {levels, state, error} = query ? searchResults : levelResults;
 

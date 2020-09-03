@@ -16,13 +16,15 @@ export default function Settings({settings, _class}) {
         }
     });
 
+    const selectClasses = "appearance-none text-gray-100 rounded-md"
+
     const SelectLevelsPerPage = () => (
         <select {...withGlobalSetting("levelsPerPage", parseInt)}>
-            <option value="10">10</option>
-            <option value="20">20</option>
-            <option value="30">30</option>
-            <option value="40">40</option>
-            <option value="50">50</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="40">40</option>
+                <option value="50">50</option>
         </select>
     )
 
@@ -37,13 +39,20 @@ export default function Settings({settings, _class}) {
 
     const SelectUseIPFSLinks = () => (
         <select {...withGlobalSetting("useIPFSLinks", x => x === "true")} >
-            <option value="true">Use</option>
-            <option value="false">Don't use</option>
+            <option value="true">IPFS links</option>
+            <option value="false">Direct links</option>
         </select>
     )
 
     const SelectShowAutoimporter = () => (
         <select {...withGlobalSetting("showAutoimporter", x => x === "true")} >
+            <option value="true">Enable</option>
+            <option value="false">Disable</option>
+        </select>
+    )
+
+    const SelectShowUnranked = () => (
+        <select {...withGlobalSetting("showUnranked", x => x === "true")} >
             <option value="true">Show</option>
             <option value="false">Hide</option>
         </select>
@@ -51,9 +60,8 @@ export default function Settings({settings, _class}) {
 
 
     return (
-        <div class={cm("bg-red-500", _class)}>
-            <h1>I'm the settings box!</h1>
-            <ul>
+        <div class={cm("bg-gray-300 p-6 shadow-lg", _class)}>
+            <ul class="space-y-1 text-gray-700">
                 <li>
                     <span>Show</span>
                     <SelectLevelsPerPage />
@@ -64,12 +72,17 @@ export default function Settings({settings, _class}) {
                     <SelectSortDirection />
                 </li>
                 <li>
+                    <span>Use</span>
                     <SelectUseIPFSLinks />
-                    <span>IPFS links for downloads</span>
+                    <span>to download levels</span>
                 </li>
                 <li>
                     <SelectShowAutoimporter />
                     <span>the autoimporter links</span>
+                </li>
+                <li>
+                    <SelectShowUnranked />
+                    <span>unapproved levels</span>
                 </li>
             </ul>
         </div>

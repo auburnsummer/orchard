@@ -10,8 +10,7 @@
 import {sample} from "./functions";
 
 const IPFS_GATEWAYS = [
-    "https://ipfs.io/ipfs/",
-    "https://10.via0.com/ipfs/"
+    "https://ipfs.io/ipfs/"
 ]
 
 export const HOST = "https://ipfs.rhythm.cafe/ipfs/";

@@ -67,7 +67,7 @@ export default function Header({_class, settings, showState}) {
 
             </div>
             <div class={cm("flex flex-row-reverse pointer-events-none", {"hidden": !showSettings})}>
-                <Settings settings={settings} _class="pointer-events-auto"/>
+                <Settings settings={settings} _class="mt-4 mr-6 pointer-events-auto"/>
             </div>
         </div>
     )
