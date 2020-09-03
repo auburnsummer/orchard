@@ -78,7 +78,7 @@ export default function Levels ({start, q, globalSettings}) {
                         <div class="w-full bg-gray-300 shadow-lg" onMouseDown={trap(stubTrue)}>
                             <Switch args={[selectedIndex]}>
                                 <SelectALevel _class="p-8" test={eq(-1)} />
-                                <LevelDetail _class="p-8" test={stubTrue} level={levels[selectedIndex]} useIPFSLink={globalSettings.useIPFSLinks}/>
+                                <LevelDetail _class="p-8" test={stubTrue} level={levels[selectedIndex]} useIPFSLink={globalSettings.useIPFSLinks} showAutoimporter={globalSettings.showAutoimporter}/>
                             </Switch>
                         </div>
                     </div>

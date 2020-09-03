@@ -18,7 +18,8 @@ export default function App () {
         levelsPerPage: 10,
         potatoChip: "yay",
         sortDirection: "uploaded.desc,last_updated.desc",
-        useIPFSLinks: false
+        useIPFSLinks: false,
+        showAutoimporter: false
     }
 
     const settings = useLocalStorage("orchard_globalSettings", defaultSettings);

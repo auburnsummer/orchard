@@ -42,6 +42,13 @@ export default function Settings({settings, _class}) {
         </select>
     )
 
+    const SelectShowAutoimporter = () => (
+        <select {...withGlobalSetting("showAutoimporter", x => x === "true")} >
+            <option value="true">Show</option>
+            <option value="false">Hide</option>
+        </select>
+    )
+
 
     return (
         <div class={cm("bg-red-500", _class)}>
@@ -59,6 +66,10 @@ export default function Settings({settings, _class}) {
                 <li>
                     <SelectUseIPFSLinks />
                     <span>IPFS links for downloads</span>
+                </li>
+                <li>
+                    <SelectShowAutoimporter />
+                    <span>the autoimporter links</span>
                 </li>
             </ul>
         </div>

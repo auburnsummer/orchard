@@ -8,7 +8,7 @@ import {Link} from "preact-router";
 
 import cm from "classnames";
 
-export default function LevelDetail({level, _class, useIPFSLink}) {
+export default function LevelDetail({level, _class, useIPFSLink, showAutoimporter}) {
     const downloadUrl = useMemo( () => {
         const constructedFilename = `${level.artist} - ${level.song}.rdzip`;
         const ipfsLink = ipfsUrl(level.rdzip_ipfs, constructedFilename);
@@ -36,7 +36,7 @@ export default function LevelDetail({level, _class, useIPFSLink}) {
             </div>
 
 
-            <DownloadButtons _class="mt-6 text-center" download_link={downloadUrl} />
+            <DownloadButtons _class="mt-6 text-center" download_link={downloadUrl} showAutoimporter={showAutoimporter} />
 
             <Link
             class="absolute bottom-0 right-0 mb-1 mr-1 tracking-widest text-gray-400 text-2xs hover:text-gray-600"
