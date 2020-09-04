@@ -48,7 +48,8 @@ module.exports = {
     transitionProperty: ['responsive', 'motion-safe', 'motion-reduce'],
     animation: ['responsive', 'motion-safe', 'motion-reduce'],
     padding: ['responsive', 'hover', 'focus'],
-    borderWidth: ['responsive', 'hover', 'focus']
+    borderWidth: ['responsive', 'hover', 'focus'],
+    margin: ['responsive', 'first']
   },
   plugins: [
     require('tailwindcss-gap')({
