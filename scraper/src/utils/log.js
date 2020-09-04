@@ -17,7 +17,6 @@ module.exports = (type, object) => {
 	try {
 		const s = `[${type}] ${object.toString()}\n`;
 		console.error(s);
-		stream.write(s);
 	}
 	catch (err) {
 		// okay now we're REALLY in trouble I guess
