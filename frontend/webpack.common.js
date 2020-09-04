@@ -30,7 +30,12 @@ module.exports = {
     })
   ],
   resolve: {
-    modules: [path.resolve(__dirname, 'src'), 'node_modules']
+    modules: [path.resolve(__dirname, 'src'), 'node_modules'],
+    alias: {
+      "react": "preact/compat",
+      "react-dom/test-utils": "preact/test-utils",
+      "react-dom": "preact/compat"
+    }
   },
   module: {
     rules: [

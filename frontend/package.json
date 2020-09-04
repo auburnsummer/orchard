@@ -16,6 +16,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@tailwindui/react": "^0.1.1",
     "apng-default-image": "0.0.1",
     "classnames": "^2.2.6",
     "clipboard-copy": "^3.1.0",

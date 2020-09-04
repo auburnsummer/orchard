@@ -10,6 +10,8 @@ import Settings from "components/header/Settings";
 import {useState} from "preact/hooks";
 import { trap } from "../../utils/functions";
 
+import {Transition} from "@tailwindui/react";
+
 const Logo = ({_class}) => {
     return (
         <svg class={_class} xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" clip-rule="evenodd" viewBox="0 0 376 32">
@@ -66,8 +68,19 @@ export default function Header({_class, settings, showState}) {
                 </div>
 
             </div>
-            <div class={cm("flex flex-row-reverse pointer-events-none", {"hidden": !showSettings})}>
-                <Settings settings={settings} _class="mt-4 mr-6 pointer-events-auto"/>
+            <div class={cm("flex flex-row-reverse pointer-events-none scale-50")}>
+                <Transition
+                    show={showSettings}
+                    enter="transition-all transform motion-reduce:transition-none ease-in-out duration-75"
+                    enterFrom="opacity-0 -translate-y-6"
+                    enterTo="opacity-100 translate-y-0"
+                    leave="transition-all transform motion-reduce:transition-none ease-in-out duration-75"
+                    leaveFrom="opacity-100 translate-y-0"
+                    leaveTo="opacity-0 -translate-y-6"
+                >
+                    <Settings settings={settings} _class="mt-4 mr-6 pointer-events-auto"/>
+                </Transition>
+
             </div>
         </div>
     )
