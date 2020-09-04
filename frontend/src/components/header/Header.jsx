@@ -59,7 +59,7 @@ export default function Header({_class, settings, showState}) {
                     <button onClick={trap(() => setShowSettings(p => !p))} class={cm("mr-6 text-sm hover:text-yellow-100", showSettings ? "text-yellow-100" : "text-yellow-300")}>
                         Settings
                     </button>
-                    <button onClick={hajaflawef} class="mr-6 text-sm text-yellow-300 hover:text-yellow-100" href="https://chorus.fightthe.pw">
+                    <button onClick={hajaflawef} class="mr-6 text-sm text-yellow-300 hover:text-yellow-100">
                         Set Background
                     </button>
                     <a native class="mr-6 text-sm text-yellow-300 hover:text-yellow-100" href="https://chorus.fightthe.pw">

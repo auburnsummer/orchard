@@ -22,7 +22,7 @@ function Icon({img, hoverText, _class}) {
     return (
         <div class={cm("relative group", _class)}>
             <div style={outerStyle}>
-                <div style={innerStyle} class="absolute top-0 z-10 pb-4 -mt-6 transition duration-75 ease-in-out transform translate-y-2 bg-pink-400 opacity-0 group-hover:opacity-100 group-hover:translate-y-0">
+                <div style={innerStyle} class="absolute top-0 z-10 pb-4 -mt-6 transition duration-75 ease-in-out transform bg-pink-400 opacity-0 motion-safe:translate-y-2 group-hover:opacity-100 group-hover:translate-y-0">
                     <p class="text-xs font-medium text-center text-white">{hoverText}</p>
                 </div>
             </div>

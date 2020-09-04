@@ -51,7 +51,7 @@ module.exports = {
     borderWidth: ['responsive', 'hover', 'focus'],
     margin: ['responsive', 'first'],
     opacity: ['responsive', 'hover', 'focus', 'active', 'group-hover'],
-    translate: ['responsive', 'hover', 'focus', 'active', 'group-hover']
+    translate: ['responsive', 'hover', 'focus', 'active', 'group-hover', 'motion-safe']
   },
   plugins: [
     require('tailwindcss-gap')({
