@@ -9,6 +9,7 @@ services:
     volumes:
       - "dbdata:/var/lib/postgresql/data"
       - "./backend/sql:/docker-entrypoint-initdb.d"
+    restart: "unless-stopped"
   backend:
     build:
       context: ./backend
@@ -24,6 +25,7 @@ services:
       ELASTICSEARCH_SERVER: "http://elasticsearch:9200"
     ports:
       - "127.0.0.1:3000:3000"
+    restart: "unless-stopped"
   scraper:
     build:
       context: ./scraper
@@ -34,6 +36,7 @@ services:
       SERVER_API_KEY: "${API_KEY}"
     volumes:
       - "./scraper/conf:/var/conf"
+    restart: "unless-stopped"
   elasticsearch:
     build:
       context: ./elastic
@@ -44,6 +47,7 @@ services:
       - "9300"
     volumes:
       - "elastic:/usr/share/elasticsearch/data"
+    restart: "unless-stopped"
   kibana:
     image: "kibana:7.9.0"
     ports:
