@@ -27,10 +27,11 @@ export default function Levels ({start, q, globalSettings}) {
 
     const limit = globalSettings.levelsPerPage;
     const sortDirection = globalSettings.sortDirection;
+    const showUnranked = globalSettings.showUnranked;
 
-    const searchResults = useSearchResults({query, offset, limit, showUnranked: globalSettings.showUnranked});
+    const searchResults = useSearchResults({query, offset, limit, showUnranked});
 
-    const levelResults = useLevels({query, offset, limit, sortDirection, showUnranked: globalSettings.showUnranked});
+    const levelResults = useLevels({query, offset, limit, sortDirection, showUnranked});
 
     const {levels, state, error} = query ? searchResults : levelResults;
 
@@ -39,7 +40,7 @@ export default function Levels ({start, q, globalSettings}) {
     // deselect any level if we changed the page.
     useEffect(() => {
         setSelectedIndex(-1);
-    }, [offset, limit]);
+    }, [offset, limit, showUnranked, sortDirection]);
 
     const resetSelectedLevel = () => {
         setSelectedIndex(prev => -1);

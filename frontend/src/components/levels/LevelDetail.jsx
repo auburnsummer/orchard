@@ -10,8 +10,8 @@ import cm from "classnames";
 
 export default function LevelDetail({level, _class, useIPFSLink, showAutoimporter}) {
     const downloadUrl = useMemo( () => {
-        const constructedFilename = `${level.artist} - ${level.song}.rdzip`;
-        const ipfsLink = ipfsUrl(level.rdzip_ipfs, constructedFilename);
+        // const constructedFilename = `${level.artist} - ${level.song}.rdzip`;
+        const ipfsLink = ipfsUrl(level.rdzip_ipfs, null);
 
         if (useIPFSLink) {
             return ipfsLink;
