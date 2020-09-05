@@ -3,7 +3,7 @@ import useLevels from "../hooks/useLevels";
 import useSearchResults from "../hooks/useSearchResults";
 import LevelDetail from "../components/levels/LevelDetail";
 import cm from "classnames";
-import {trap, leftClick, stubTrue, paramsLink, eq} from "../utils/functions.js";
+import {trap, leftClick, stubTrue, paramsLink, eq, geq, stubFalse} from "../utils/functions.js";
 
 import KinBackgroundTemp from "assets/KinBackAlleyPaint2.png";
 import {useState, useEffect} from "preact/hooks";
@@ -14,6 +14,7 @@ import LevelListHeaderInfo from "components/levels/LevelListHeaderInfo";
 import ErrorScreen from "components/levels/ErrorScreen";
 import SelectALevel from "components/levels/SelectALevel";
 import Header from "components/header/Header";
+import LevelBox from "../components/levels/LevelBox";
 
 // default values for query parameters.
 const defaults = {
@@ -75,12 +76,29 @@ export default function Levels ({start, q, globalSettings}) {
                 </div>
                 
                 <div class="sticky top-0 w-2/5">
-                    <div class="flex items-center justify-center h-screen mx-4">
-                        <div class="w-full bg-gray-300 shadow-lg" onMouseDown={trap(stubTrue)}>
-                            <Switch args={[selectedIndex]}>
-                                <SelectALevel _class="p-8" test={eq(-1)} />
-                                <LevelDetail _class="p-8" test={stubTrue} level={levels[selectedIndex]} useIPFSLink={globalSettings.useIPFSLinks} showAutoimporter={globalSettings.showAutoimporter}/>
-                            </Switch>
+                    <div class="flex flex-col items-stretch justify-center h-screen mx-4">
+                        <div class="flex flex-col justify-center flex-grow mt-16">
+                            
+                            <div class="w-full shadow-lg" onMouseDown={trap(stubTrue)}>
+
+                                <Switch args={[selectedIndex]}>
+                                    <SelectALevel _class="p-8 bg-gray-300" test={eq(-1)} />
+
+                                    <LevelBox level={levels[selectedIndex]} globalSettings={globalSettings} test={stubTrue}/>
+                                    
+                                    {/* <div class="relative" test={geq(0)} >
+                                        <LevelDetail _class="p-8"level={levels[selectedIndex]} useIPFSLink={globalSettings.useIPFSLinks} showAutoimporter={globalSettings.showAutoimporter}/>
+                                        <div class="absolute top-0 right-0 transform translate-x-full shadow-lg">
+                                            <div class="flex flex-col text-sm font-thin text-gray-800">
+                                                <button class="px-2 text-left bg-gray-300">Level</button>
+                                                <button class="px-2 text-left bg-gray-400 hover:bg-gray-300 hover:cursor-pointer">Group</button>
+                                                <button class="px-2 text-left bg-gray-400 hover:bg-gray-300 hover:cursor-pointer">Comments</button>
+                                            </div>
+                                        </div>
+                                    </div> */}
+                                </Switch>
+                            </div>
+
                         </div>
                     </div>
                 </div>
