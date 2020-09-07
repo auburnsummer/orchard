@@ -6,7 +6,8 @@ module.exports = {
     uniformColorPalette: true,
     extendedSpacingScale: true,
     defaultLineHeights: true,
-    extendedFontSizeScale: true
+    extendedFontSizeScale: true,
+    applyComplexClasses: true
   },
   purge: {
     mode: 'all',

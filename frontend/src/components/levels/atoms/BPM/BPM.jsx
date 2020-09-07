@@ -3,6 +3,8 @@
  */
 import cm from "classnames";
 
+import style from "./BPM.css";
+
 export default function BPM({max_bpm, min_bpm, _class}) {
 
     const makeBPMText = (max_bpm, min_bpm) => max_bpm === min_bpm ? `${max_bpm} BPM` : `${min_bpm}-${max_bpm} BPM`;
@@ -16,9 +18,9 @@ export default function BPM({max_bpm, min_bpm, _class}) {
     }
 
     return (
-        <div class={cm("flex flex-row items-center", _class)}>
-            <Icon _class="flex-none w-3 h-3 text-gray-700" />
-            <span class="ml-1 text-xs text-gray-700">{makeBPMText(max_bpm, min_bpm)}</span>
+        <div class={cm("bpm", _class)}>
+            <Icon _class="bpm_icon" />
+            <span class="bpm_text">{makeBPMText(max_bpm, min_bpm)}</span>
         </div>
     )
 }

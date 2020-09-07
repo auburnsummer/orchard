@@ -9,8 +9,8 @@ import useAnimatedPNG from "hooks/useAnimatedPNG";
 import cm from "classnames";
 
 import Group from "./Group";
-import Authors from "./Authors";
-import BPM from "./BPM";
+import Authors from "components/levels/atoms/Authors";
+import BPM from "components/levels/atoms/BPM";
 import Players from "./Players";
 import Tags from "./Tags";
 

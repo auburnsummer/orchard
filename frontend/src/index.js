@@ -6,8 +6,9 @@ if (process.env.NODE_ENV==='development') {
 
 import {render} from "preact";
 
-import App from "./App";
 import style from "./style.css";
+
+import App from "./App";
 
 
 

@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const DirectoryNamedWebpackPlugin = require("directory-named-webpack-plugin");
 
 
 module.exports = {
@@ -30,6 +31,9 @@ module.exports = {
     })
   ],
   resolve: {
+    plugins: [
+      new DirectoryNamedWebpackPlugin()
+    ],
     modules: [path.resolve(__dirname, 'src'), 'node_modules'],
     alias: {
       "react": "preact/compat",

@@ -4,6 +4,8 @@
 
 import cm from "classnames";
 
+import style from "./Authors.css";
+
 export default function Authors({authors, _class}) {
 
     // show a single pencil if it's only one author
@@ -18,9 +20,9 @@ export default function Authors({authors, _class}) {
     const authorsText = new Intl.ListFormat('en-US', {style: 'long', type: 'conjunction'}).format(authors);
 
     return (
-        <div class={cm("flex flex-row items-center", _class)}>
-            <Icon _class="flex-none w-3 h-3 text-gray-700" />
-            <p class="inline-block ml-1 text-xs text-gray-700">{authorsText}</p>
+        <div class={cm("authors", _class)}>
+            <Icon _class="authors_icon" />
+            <span class="authors_text">{authorsText}</span>
         </div>
     )
 }

@@ -1,0 +1,11 @@
+@layer components {
+    .authors {
+        @apply flex flex-row items-center;
+    }
+    .authors_icon {
+        @apply flex-none w-3 h-3 text-gray-700;
+    }
+    .authors_text {
+        @apply ml-1 text-xs text-gray-700;
+    }
+}

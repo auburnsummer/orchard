@@ -75,31 +75,15 @@ export default function Levels ({start, q, globalSettings}) {
                     </Switch>
                 </div>
                 
-                <div class="sticky top-0 w-2/5">
-                    <div class="flex flex-col items-stretch justify-center h-screen mx-4">
-                        <div class="flex flex-col justify-center flex-grow mt-16">
-                            
-                            <div class="w-full shadow-lg" onMouseDown={trap(stubTrue)}>
+                <div class="sticky top-0 w-2/5 h-screen">
+                    <div class="flex flex-col items-stretch justify-center h-full mx-4">
+                        
+                        <Switch args={[selectedIndex]}>
+                            <SelectALevel _class="p-8 bg-gray-300 shadow-lg" test={eq(-1)} />
 
-                                <Switch args={[selectedIndex]}>
-                                    <SelectALevel _class="p-8 bg-gray-300" test={eq(-1)} />
+                            <LevelBox test={stubTrue} index={selectedIndex} level={levels[selectedIndex]} {...{globalSettings}} onMouseDown={trap(stubTrue)}/> 
+                        </Switch>
 
-                                    <LevelBox level={levels[selectedIndex]} globalSettings={globalSettings} test={stubTrue}/>
-                                    
-                                    {/* <div class="relative" test={geq(0)} >
-                                        <LevelDetail _class="p-8"level={levels[selectedIndex]} useIPFSLink={globalSettings.useIPFSLinks} showAutoimporter={globalSettings.showAutoimporter}/>
-                                        <div class="absolute top-0 right-0 transform translate-x-full shadow-lg">
-                                            <div class="flex flex-col text-sm font-thin text-gray-800">
-                                                <button class="px-2 text-left bg-gray-300">Level</button>
-                                                <button class="px-2 text-left bg-gray-400 hover:bg-gray-300 hover:cursor-pointer">Group</button>
-                                                <button class="px-2 text-left bg-gray-400 hover:bg-gray-300 hover:cursor-pointer">Comments</button>
-                                            </div>
-                                        </div>
-                                    </div> */}
-                                </Switch>
-                            </div>
-
-                        </div>
                     </div>
                 </div>
             </main>

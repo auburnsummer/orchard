@@ -1,4 +1,4 @@
-import DetailIcons from "./DetailIcons";
+import DetailIcons from "components/levels/molecules/DetailIcons";
 import DownloadButtons from "./DownloadButtons";
 import {ipfsUrl} from "utils/ipfsGateways";
 import {isHttpUrl} from "utils/functions";

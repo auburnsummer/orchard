@@ -1,0 +1,8 @@
+@layer components {
+    .detail-icons {
+        @apply c-gap-wrapper;
+    }
+    .detail-icons_wrapper {
+        @apply flex flex-wrap c-gap c-gap-x-2;
+    }
+}
