@@ -14,7 +14,7 @@ import BPM from "components/levels/atoms/BPM";
 import Players from "./Players";
 import Tags from "./Tags";
 
-import DifficultyDecoration from "./DifficultyDecoration";
+import DifficultyDecoration from "components/levels/atoms/DifficultyDecoration";
 import UnrankedMessage from "./UnrankedMessage";
 import { stubTrue } from "../../utils/functions";
 
