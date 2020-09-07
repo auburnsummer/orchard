@@ -1,11 +1,13 @@
 
-import Tag from "./Tag";
+import Tag from "components/levels/atoms/Tag";
 import cm from "classnames";
+
+import style from "./Tags.css";
 
 export default function Tags({tags, _class}) {
 
     return (
-        <div class={cm("flex flex-row flex-wrap c-gap c-gap-x-2 c-gap-y-1 mt-1 overflow-hidden", _class)}>
+        <div class={cm("tags", _class)}>
             {
                 tags.map( tag => {
                     return <Tag tag={tag} />

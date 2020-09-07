@@ -6,7 +6,6 @@ import HasFreetimes from "assets/freetimeDPS.png";
 import HasHolds from "assets/heldbeatsTEMP.png";
 import PopupIcon from "components/levels/atoms/PopupIcon";
 
-
 import style from "./DetailIcons.css";
 
 export default function DetailIcons({level}) {

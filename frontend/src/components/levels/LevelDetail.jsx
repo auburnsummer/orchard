@@ -1,5 +1,5 @@
 import DetailIcons from "components/levels/molecules/DetailIcons";
-import DownloadButtons from "./DownloadButtons";
+import DownloadButtons from "components/levels/molecules/DownloadButtons";
 import {ipfsUrl} from "utils/ipfsGateways";
 import {isHttpUrl} from "utils/functions";
 
@@ -34,7 +34,6 @@ export default function LevelDetail({level, _class, useIPFSLink, showAutoimporte
             <div class="mt-6">
                 <p class="px-3 py-2 text-base leading-relaxed break-words bg-white shadow-sm">{level.description ?? ""}</p>
             </div>
-
 
             <DownloadButtons _class="mt-6 text-center" download_link={downloadUrl} showAutoimporter={showAutoimporter} />
 

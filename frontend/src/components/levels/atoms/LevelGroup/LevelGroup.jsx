@@ -3,7 +3,9 @@
  */
 import cm from "classnames";
 
-export default function Group({group, _class}) {
+import style from "./LevelGroup.css";
+
+export default function LevelGroup({group, _class}) {
 
     function Icon({_class}) {
         return (
@@ -14,9 +16,9 @@ export default function Group({group, _class}) {
     }
 
     return (
-        <div class={cm("flex flex-row items-center", _class)}>
-            <Icon _class="flex-none w-3 h-3 text-gray-700" />
-            <span class="ml-1 text-xs text-gray-700">{group}</span>
+        <div class={cm("level-group", _class)}>
+            <Icon _class="level-group_icon" />
+            <span class="level-group_text">{group}</span>
         </div>
     )
 }

@@ -8,15 +8,17 @@ import {useState, useMemo, useEffect} from "preact/hooks";
 import useAnimatedPNG from "hooks/useAnimatedPNG";
 import cm from "classnames";
 
-import Group from "./Group";
+import LevelGroup from "components/levels/atoms/LevelGroup";
 import Authors from "components/levels/atoms/Authors";
 import BPM from "components/levels/atoms/BPM";
-import Players from "./Players";
-import Tags from "./Tags";
+import Players from "components/levels/atoms/Players";
+import Tags from "components/levels/molecules/Tags";
 
 import DifficultyDecoration from "components/levels/atoms/DifficultyDecoration";
-import UnrankedMessage from "./UnrankedMessage";
-import { stubTrue } from "../../utils/functions";
+import UnrankedMessage from "../../UnrankedMessage";
+import { stubTrue } from "../../../../utils/functions";
+
+import style from "./LevelHorizontal.css";
 
 // callback should be a function that RETURNS a function
 export default function LevelHorizontal ({level, selected, _class="", callback}) {
@@ -38,14 +40,14 @@ export default function LevelHorizontal ({level, selected, _class="", callback})
         if (state === "LOADED") {
             setCurrentImage(isAnimated ? staticImage : image);
         }
-    }, [state])
+    }, [state]);
 
     return (
         <div
         class={cm(
-            "flex flex-row group transform duration-200 motion-reduce:transition-none motion-safe:transition-transform ease-in-out",
-            {"scale-105 shadow-lg" : selected},
-            {"hover:shadow-lg" : hasCallback},
+            "level-horizontal",
+            {"selected!level-horizontal" : selected},
+            {"has-callback!level-horizontal" : hasCallback},
             _class,)}
         onMouseDown={callback}
         onMouseEnter={useAnimations ? () => setCurrentImage(image) : stubTrue}
@@ -53,40 +55,39 @@ export default function LevelHorizontal ({level, selected, _class="", callback})
         >
             
             {/* image on the left */}
-            <div class="flex-none w-2/5 max-w-md bg-red-500">
-                <div class="relative h-full bg-gray-200 pb-9/16">
-                    <img class="absolute top-0 z-10 object-cover w-full h-full" src={currentImage}></img>
-                    <UnrankedMessage {...level} _class="absolute z-20" />
+            <div class="level-horizontal_left">
+                <div class="level-horizontal_left_wrapper">
+                    <img class="level-horizontal_left_image" src={currentImage}></img>
+                    <UnrankedMessage {...level} _class="level-horizontal_left_unranked-message" />
                 </div>
             </div>
             
             {/* level info */}
             <div
             class={cm(
-                "relative w-3/5",
-                {"bg-gray-100" : !selected},
-                {"bg-white" : selected},
-                {"group-hover:bg-white" : !selected && hasCallback})}
+                "level-horizontal_right",
+                {"selected!level-horizontal_right" : selected},
+                {"not-selected\!level-horizontal_right" : !selected && hasCallback})}
             >
                 {/* difficulty */}
-                <DifficultyDecoration {...level} _class="absolute right-0"/>
-                <div class="flex flex-col h-full p-4">
+                <DifficultyDecoration {...level} _class="level-horizontal_decorator"/>
+                <div class="level-horizontal_info">
                     {/* artist, song */}
-                    <h5 class="text-xs leading-none text-gray-700">{level.artist}</h5>
-                    <h4 class="font-semibold">{level.song}</h4>
+                    <h5 class="level-horizontal_artist">{level.artist}</h5>
+                    <h4 class="level-horizontal_song">{level.song}</h4>
                     
                     {/* icon + text metadata */}
-                    <div class="mt-1 overflow-hidden c-gap-wrapper">
-                        <div class="flex flex-wrap c-gap c-gap-x-4 c-gap-y-1">
+                    <div class="level-horizontal_icon-wrapper">
+                        <div class="level-horizontal_icon-wrapper^2">
                             <Authors {...level} />
-                            <Group {...level} />
+                            <LevelGroup {...level} />
                             <BPM {...level} />
                             <Players {...level} />
                         </div>
                     </div>
 
                     {/* spacer */}
-                    <div class="flex-grow">
+                    <div class="level-horizontal_spacer">
 
                     </div>
 

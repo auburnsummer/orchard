@@ -7,7 +7,7 @@ import {trap, leftClick, stubTrue, paramsLink, eq, geq, stubFalse} from "../util
 
 import KinBackgroundTemp from "assets/KinBackAlleyPaint2.png";
 import {useState, useEffect} from "preact/hooks";
-import LoadingIcon from "components/levels/LoadingIcon";
+import LoadingIcon from "components/levels/atoms/LoadingIcon";
 import LevelList from "components/levels/LevelList";
 
 import LevelListHeaderInfo from "components/levels/LevelListHeaderInfo";

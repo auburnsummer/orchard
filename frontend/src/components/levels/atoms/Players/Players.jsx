@@ -8,6 +8,8 @@
 import {useMemo} from "preact/hooks";
 import cm from "classnames";
 
+import style from "./Players.css";
+
 export default function Players({single_player, two_player, _class}) {
     const playerText = useMemo( () => {
         if (single_player && two_player) {
@@ -32,10 +34,10 @@ export default function Players({single_player, two_player, _class}) {
     }
 
     return (
-        <div class={cm("flex flex-row items-center", _class)}>
+        <div class={cm("players", _class)}>
             {/* if both, show the 2p icon */}
-            <Icon _class="flex-none w-3 h-3 text-gray-700" two_player={two_player} />
-            <span class="ml-1 text-xs text-gray-700">{playerText}</span>
+            <Icon _class="players_icon" two_player={two_player} />
+            <span class="players_text">{playerText}</span>
         </div>
     )
 }

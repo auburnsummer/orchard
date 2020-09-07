@@ -3,8 +3,8 @@ Displaying a single level nicely (rhythm.cafe/levels/<id>)
 */
 import useSingleLevel from "hooks/useSingleLevel";
 import Switch from "components/generic/Switch";
-import LoadingIcon from "components/levels/LoadingIcon";
-import LevelHorizontal from "components/levels/LevelHorizontal";
+import LoadingIcon from "components/levels/atoms/LoadingIcon";
+import LevelHorizontal from "components/levels/organisms/LevelHorizontal";
 import LevelDetail from "components/levels/LevelDetail";
 
 import ErrorScreen from "components/levels/ErrorScreen";

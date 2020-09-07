@@ -1,0 +1,54 @@
+@layer components {
+    .level-horizontal {
+        @apply flex flex-row bg-gray-100 group;
+        @apply duration-200 ease-in-out transform motion-reduce:transition-none motion-safe:transition-transform;
+    }
+    .selected\!level-horizontal {
+        @apply scale-105 shadow-lg;
+    }
+    .has-callback\!level-horizontal {
+        @apply hover:shadow-lg;
+    }
+    .level-horizontal_left {
+        @apply flex-none w-2/5 max-w-md bg-red-500;
+    }
+    .level-horizontal_left_wrapper {
+        @apply relative h-full bg-gray-200 pb-9/16;
+    }
+    .level-horizontal_left_image {
+        @apply absolute top-0 z-10 object-cover w-full h-full;
+    }
+    .level-horizontal_left_unranked-message {
+        @apply absolute z-20;
+    }
+    .level-horizontal_right {
+        @apply relative w-3/5;
+    }
+    .selected\!level-horizontal_right {
+        @apply bg-white;
+    }
+    .level-horizontal:hover .not-selected\!level-horizontal_right {
+        @apply bg-white;
+    }
+    .level-horizontal_decorator {
+        @apply absolute right-0;
+    }
+    .level-horizontal_info {
+        @apply flex flex-col h-full p-4;
+    }
+    .level-horizontal_artist {
+        @apply text-xs leading-none text-gray-700;
+    }
+    .level-horizontal_song {
+        @apply font-semibold;
+    }
+    .level-horizontal_icon-wrapper {
+        @apply mt-1 overflow-hidden c-gap-wrapper;
+    }
+    .level-horizontal_icon-wrapper\^2 {
+        @apply flex flex-wrap c-gap c-gap-x-4 c-gap-y-1;
+    }
+    .level-horizontal_spacer {
+        @apply flex-grow;
+    }
+}

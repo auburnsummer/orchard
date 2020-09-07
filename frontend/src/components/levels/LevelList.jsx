@@ -1,5 +1,5 @@
 import cm from "classnames";
-import LevelHorizontal from "./LevelHorizontal";
+import LevelHorizontal from "components/levels/organisms/LevelHorizontal";
 import {trap} from "utils/functions";
 
 export default function LevelList({levels, _class, state}) {

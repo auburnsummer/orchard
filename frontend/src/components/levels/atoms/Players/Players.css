@@ -1,0 +1,11 @@
+@layer components {
+    .players {
+        @apply flex flex-row items-center;
+    }
+    .players_icon {
+        @apply flex-none w-3 h-3 text-gray-700;
+    }
+    .players_text {
+        @apply ml-1 text-xs text-gray-700;
+    }
+}
