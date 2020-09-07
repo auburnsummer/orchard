@@ -9,3 +9,7 @@
         @apply ml-1 text-xs text-gray-700;
     }
 }
+
+.sentinel2 {
+    font-size: 99px;
+}

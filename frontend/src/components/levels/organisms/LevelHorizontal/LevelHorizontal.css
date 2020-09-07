@@ -1,6 +1,6 @@
 @layer components {
     .level-horizontal {
-        @apply flex flex-row bg-gray-100 group;
+        @apply flex flex-row bg-gray-100;
         @apply duration-200 ease-in-out transform motion-reduce:transition-none motion-safe:transition-transform;
     }
     .selected\!level-horizontal {

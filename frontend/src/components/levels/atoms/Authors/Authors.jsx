@@ -4,7 +4,7 @@
 
 import cm from "classnames";
 
-import style from "./Authors.css";
+import "./Authors.css";
 
 export default function Authors({authors, _class}) {
 
