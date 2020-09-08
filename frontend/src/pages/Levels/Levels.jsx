@@ -1,17 +1,20 @@
-import Switch from "../components/generic/Switch";
-import useLevels from "../hooks/useLevels";
-import useSearchResults from "../hooks/useSearchResults";
-import cm from "classnames";
-import {trap, stubTrue, eq} from "../utils/functions.js";
+import Switch from "components/generic/Switch";
 
-import {useState, useEffect} from "preact/hooks";
 import LoadingIcon from "components/levels/atoms/LoadingIcon";
 import LevelList from "components/levels/templates/LevelList";
 
 import LevelListHeaderInfo from "components/levels/organisms/LevelListHeaderInfo";
 import ErrorScreen from "components/levels/organisms/ErrorScreen";
 import SelectALevel from "components/levels/organisms/SelectALevel";
-import LevelBox from "../components/levels/templates/LevelBox";
+import LevelBox from "components/levels/templates/LevelBox";
+
+import useLevels from "hooks/useLevels";
+import useSearchResults from "hooks/useSearchResults";
+import {useState, useEffect} from "preact/hooks";
+import {trap, stubTrue, eq} from "utils/functions.js";
+import cm from "classnames";
+
+import "./Levels.css";
 
 // default values for query parameters.
 const defaults = {
@@ -45,38 +48,45 @@ export default function Levels ({start, q, globalSettings}) {
     }
     
     return (
-            <main class="flex flex-row items-start justify-center flex-grow w-full mx-auto -mt-16 max-w-screen-2xl" onMouseDown={trap(resetSelectedLevel)}>
-                <div class="flex flex-row items-stretch justify-center w-3/5 min-h-screen p-8 pt-20 bg-gray-700 bg-opacity-50">
+            <main class="levels" onMouseDown={trap(resetSelectedLevel)}>
+                <div class="levels_left">
                     <Switch args={[state]}>
-                        <div class="flex flex-col justify-center" test={eq("LOADING")} >  
+                        <div class="levels_loading-icon-wrapper" test={eq("LOADING")} >  
                             <LoadingIcon />
                         </div>
 
-                        <div class="flex-grow" test={eq("LOADED")}>
+                        <div class="levels_level-list-wrapper" test={eq("LOADED")}>
                             <LevelListHeaderInfo defaults={defaults} query={query} currOffset={offset} nextOffset={offset + levels.length} prevOffset={offset - limit}/>
                             <Switch args={[levels.length]}>
                                 <div test={eq(0)}>
-                                    <p class="mt-8 text-lg font-semibold tracking-wide text-white lowercase">No more levels</p>
+                                    <p class="levels_no-more-levels">No more levels</p>
                                 </div>
                                 <LevelList
                                     test={stubTrue}
                                     levels={levels}
                                     state={[selectedIndex, setSelectedIndex]}
-                                    _class="mt-4"
+                                    _class="levels_level-list"
                                 />
                             </Switch>
-                            <LevelListHeaderInfo defaults={defaults} query={query} currOffset={offset} nextOffset={offset + levels.length} prevOffset={offset - limit} _class={cm("mt-4", levels.length < 6 ? "hidden" : "")}/>
+                            <LevelListHeaderInfo
+                                defaults={defaults}
+                                query={query}
+                                currOffset={offset}
+                                nextOffset={offset + levels.length}
+                                prevOffset={offset - limit}
+                                _class={cm("levels_level-list-header-info-bottom", levels.length < 6 ? "hidden\!levels_level-list-header-info-bottom" : "")}
+                            />
                         </div>
                                         
                         <ErrorScreen test={eq("ERROR")} error={error}/>
                     </Switch>
                 </div>
                 
-                <div class="sticky top-0 w-2/5 h-screen">
-                    <div class="flex flex-col items-stretch justify-center h-full mx-4">
+                <div class="levels_right">
+                    <div class="levels_right-wrapper">
                         
                         <Switch args={[selectedIndex]}>
-                            <SelectALevel _class="p-8 bg-gray-300 shadow-lg" test={eq(-1)} />
+                            <SelectALevel _class="levels_select-a-level" test={eq(-1)} />
 
                             <LevelBox test={stubTrue} index={selectedIndex} level={levels[selectedIndex]} {...{globalSettings}} onMouseDown={trap(stubTrue)}/> 
                         </Switch>

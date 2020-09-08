@@ -1,0 +1,43 @@
+.levels {
+    @apply flex flex-row items-start justify-center flex-grow w-full mx-auto -mt-16 max-w-screen-2xl;
+}
+
+.levels_left {
+    @apply flex flex-row items-stretch justify-center w-3/5 min-h-screen p-8 pt-20 bg-gray-700 bg-opacity-50;
+}
+
+.levels_right {
+    @apply sticky top-0 w-2/5 h-screen;
+}
+
+.levels_loading-icon-wrapper {
+    @apply flex flex-col justify-center;
+}
+
+.levels_level-list-wrapper {
+    @apply flex-grow;
+}
+
+.levels_no-more-levels {
+    @apply mt-8 text-lg font-semibold tracking-wide text-white lowercase;
+}
+
+.levels_level-list {
+    @apply mt-4;
+}
+
+.levels_level-list-header-info-bottom {
+    @apply mt-4;
+}
+
+.hidden\!levels_level-list-header-info-bottom {
+    @apply hidden;
+}
+
+.levels_right-wrapper {
+    @apply flex flex-col items-stretch justify-center h-full mx-4;
+}
+
+.levels_select-a-level {
+    @apply p-8 bg-gray-300 shadow-lg;
+}

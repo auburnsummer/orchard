@@ -1,6 +1,6 @@
 import Router from "preact-router";
 import Home from "./pages/Home";
-import Levels from "./pages/Levels";
+import Levels from "pages/Levels";
 import SingleLevel from "./pages/SingleLevel";
 import NotFound from "./pages/404";
 
