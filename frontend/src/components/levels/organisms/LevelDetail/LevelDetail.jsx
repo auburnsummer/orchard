@@ -8,6 +8,8 @@ import {Link} from "preact-router";
 
 import cm from "classnames";
 
+import "./LevelDetail.css";
+
 export default function LevelDetail({level, _class, useIPFSLink, showAutoimporter}) {
     const downloadUrl = useMemo( () => {
         // const constructedFilename = `${level.artist} - ${level.song}.rdzip`;
@@ -28,17 +30,15 @@ export default function LevelDetail({level, _class, useIPFSLink, showAutoimporte
     }, [level, useIPFSLink]);
 
     return (
-        <div class={cm("relative flex flex-col", _class)}>
+        <div class={cm("level-detail", _class)}>
             <DetailIcons level={level} />
 
-            <div class="mt-6">
-                <p class="px-3 py-2 text-base leading-relaxed break-words bg-white shadow-sm">{level.description ?? ""}</p>
-            </div>
+            <p class="level-detail_description">{level.description ?? ""}</p>
 
-            <DownloadButtons _class="mt-6 text-center" download_link={downloadUrl} showAutoimporter={showAutoimporter} />
+            <DownloadButtons _class="level-detail_download-buttons" download_link={downloadUrl} showAutoimporter={showAutoimporter} />
 
             <Link
-            class="absolute bottom-0 right-0 mb-1 mr-1 tracking-widest text-gray-400 text-2xs hover:text-gray-600"
+            class="level-detail_direct-link"
             href={`/${level.id}`}
             title="Direct link to this level"
             >

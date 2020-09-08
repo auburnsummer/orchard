@@ -1,0 +1,11 @@
+.level-list-header-info {
+    @apply flex flex-row justify-between text-sm;
+}
+
+.level-list-header-info_text {
+   @apply font-light tracking-wide text-white hover:underline hover:cursor-pointer;
+}
+
+.hidden\!level-list-header-info {
+    @apply hidden;
+}

@@ -1,0 +1,15 @@
+.level-detail {
+    @apply relative flex flex-col;
+}
+
+.level-detail_description {
+    @apply px-3 py-2 mt-6 text-base leading-relaxed break-words bg-white shadow-sm;
+}
+
+.level-detail_download-buttons {
+    @apply mt-6 text-center;
+}
+
+.level-detail_direct-link {
+    @apply absolute bottom-0 right-0 mb-1 mr-1 tracking-widest text-gray-400 text-2xs hover:text-gray-600;
+}

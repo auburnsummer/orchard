@@ -1,0 +1,3 @@
+.unranked-message {
+    @apply px-2 text-xs font-thin tracking-wide text-gray-800 bg-gray-400 opacity-75;
+}

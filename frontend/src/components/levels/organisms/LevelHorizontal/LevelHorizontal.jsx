@@ -15,8 +15,8 @@ import Players from "components/levels/atoms/Players";
 import Tags from "components/levels/molecules/Tags";
 
 import DifficultyDecoration from "components/levels/atoms/DifficultyDecoration";
-import UnrankedMessage from "../../UnrankedMessage";
-import { stubTrue } from "../../../../utils/functions";
+import UnrankedMessage from "components/levels/atoms/UnrankedMessage";
+import { stubTrue } from "utils/functions";
 
 import style from "./LevelHorizontal.css";
 

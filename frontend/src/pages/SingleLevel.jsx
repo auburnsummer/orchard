@@ -5,9 +5,9 @@ import useSingleLevel from "hooks/useSingleLevel";
 import Switch from "components/generic/Switch";
 import LoadingIcon from "components/levels/atoms/LoadingIcon";
 import LevelHorizontal from "components/levels/organisms/LevelHorizontal";
-import LevelDetail from "components/levels/LevelDetail";
+import LevelDetail from "components/levels/organisms/LevelDetail";
 
-import ErrorScreen from "components/levels/ErrorScreen";
+import ErrorScreen from "components/levels/organisms/ErrorScreen";
 
 import {eq} from "utils/functions";
 import { Link } from "preact-router";

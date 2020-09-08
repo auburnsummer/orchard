@@ -1,20 +1,17 @@
 import Switch from "../components/generic/Switch";
 import useLevels from "../hooks/useLevels";
 import useSearchResults from "../hooks/useSearchResults";
-import LevelDetail from "../components/levels/LevelDetail";
 import cm from "classnames";
-import {trap, leftClick, stubTrue, paramsLink, eq, geq, stubFalse} from "../utils/functions.js";
+import {trap, stubTrue, eq} from "../utils/functions.js";
 
-import KinBackgroundTemp from "assets/KinBackAlleyPaint2.png";
 import {useState, useEffect} from "preact/hooks";
 import LoadingIcon from "components/levels/atoms/LoadingIcon";
-import LevelList from "components/levels/LevelList";
+import LevelList from "components/levels/templates/LevelList";
 
-import LevelListHeaderInfo from "components/levels/LevelListHeaderInfo";
-import ErrorScreen from "components/levels/ErrorScreen";
-import SelectALevel from "components/levels/SelectALevel";
-import Header from "components/header/Header";
-import LevelBox from "../components/levels/LevelBox";
+import LevelListHeaderInfo from "components/levels/organisms/LevelListHeaderInfo";
+import ErrorScreen from "components/levels/organisms/ErrorScreen";
+import SelectALevel from "components/levels/organisms/SelectALevel";
+import LevelBox from "../components/levels/templates/LevelBox";
 
 // default values for query parameters.
 const defaults = {

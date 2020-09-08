@@ -7,6 +7,8 @@
 import cm from "classnames";
 import {cond, constant, stubTrue, geq} from "utils/functions";
 
+import "./UnrankedMessage.css";
+
 export default function UnrankedMessage ({approval, _class}) {
 
     const message = cond([
@@ -19,6 +21,6 @@ export default function UnrankedMessage ({approval, _class}) {
     ]);
 
     return (
-        <span class={cm("px-2 tracking-wide font-thin text-xs bg-gray-400 text-gray-800 opacity-75", _class)}>{message(approval)}</span>
+        <span class={cm("unranked-message", _class)}>{message(approval)}</span>
     )
 }

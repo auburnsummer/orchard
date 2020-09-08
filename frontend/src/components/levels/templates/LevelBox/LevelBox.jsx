@@ -1,5 +1,5 @@
-import LevelDetail from "./LevelDetail";
-import GroupDetail from "./GroupDetail";
+import LevelDetail from "components/levels/organisms/LevelDetail";
+import GroupDetail from "components/levels/organisms/GroupDetail";
 
 import {useState, useEffect} from "preact/hooks";
 
