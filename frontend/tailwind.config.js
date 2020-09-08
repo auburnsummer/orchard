@@ -10,16 +10,12 @@ module.exports = {
     applyComplexClasses: true
   },
   purge: {
-    enabled: false
+    mode: 'all',
+    content: [
+      './src/**/*.js',
+      './src/**/*.jsx'
+    ]
   },
-  // purge: {
-  //   mode: 'all',
-  //   content: [
-  //     './src/**/*.js',
-  //     './src/**/*.jsx',
-  //     './src/**/*.css'
-  //   ]
-  // },
   theme: {
     extend: {
       borderWidth: {

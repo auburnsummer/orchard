@@ -9,20 +9,11 @@ module.exports = merge(common, {
         rules: [
             {
                 test: /\.css$/,
-                exclude: /(node_modules|bower_components)/,
                 use: [
-                    {
-                        loader: 'file-loader'
-                    },
-                    {
-                        loader: 'postcss-loader'
-                    },
-                    {
-                        loader: path.resolve("./loaders/debug.js")
-                    },
-                    {
-                        loader: path.resolve("./loaders/capacitor.js")
-                    }
+                    { loader: 'style-loader' },
+                    //{ loader: path.resolve("./loaders/debug.js") },
+                    { loader: 'css-loader', options: {importLoaders: 1}},
+                    { loader: 'postcss-loader' },
                 ]
             }
         ]

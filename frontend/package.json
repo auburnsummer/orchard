@@ -4,7 +4,7 @@
   "description": "orchard frontend",
   "main": "./src/index.jsx",
   "sideEffects": [
-    "./src/style.css"
+    "*.css"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
