@@ -1,11 +1,10 @@
-@layer components {
-    .loading-icon {
-        @apply flex flex-col items-center;
-    }
-    .loading-icon_icon {
-        @apply w-12 h-12 text-white motion-safe:animate-spin motion-reduce:hidden;
-    }
-    .loading-icon_text {
-        @apply pl-2 mt-6 text-lg font-semibold tracking-wide text-white lowercase;
-    }
+
+.loading-icon {
+    @apply flex flex-col items-center;
+}
+.loading-icon_icon {
+    @apply w-12 h-12 text-white motion-safe:animate-spin motion-reduce:hidden;
+}
+.loading-icon_text {
+    @apply pl-2 mt-6 text-lg font-semibold tracking-wide text-white lowercase;
 }

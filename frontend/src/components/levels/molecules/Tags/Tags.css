@@ -1,5 +1,4 @@
-@layer components {
-    .tags {
-        @apply flex flex-row flex-wrap mt-1 overflow-hidden c-gap c-gap-x-2 c-gap-y-1;
-    }
+
+.tags {
+    @apply flex flex-row flex-wrap mt-1 overflow-hidden c-gap c-gap-x-2 c-gap-y-1;
 }

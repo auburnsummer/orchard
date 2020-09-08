@@ -1,17 +1,16 @@
-@layer components {
-    .download-buttons {
-        @apply flex flex-row space-x-4;
-    }
-    .download-buttons_copy {
-        @apply w-32 px-6 py-4 text-white bg-pink-500 hover:cursor-pointer hover:bg-pink-600;
-    }
-    .download-buttons_import {
-        @apply w-32 px-6 py-4 text-white bg-green-500 hover:cursor-pointer hover:bg-green-600;
-    }
-    .hidden\!download-buttons_import {
-        @apply hidden;
-    }
-    .download-buttons_download {
-        @apply p-4 font-light text-gray-600 hover:text-gray-700 hover:underline
-    }
+
+.download-buttons {
+    @apply flex flex-row space-x-4;
+}
+.download-buttons_copy {
+    @apply w-32 px-6 py-4 text-white bg-pink-500 hover:cursor-pointer hover:bg-pink-600;
+}
+.download-buttons_import {
+    @apply w-32 px-6 py-4 text-white bg-green-500 hover:cursor-pointer hover:bg-green-600;
+}
+.hidden\!download-buttons_import {
+    @apply hidden;
+}
+.download-buttons_download {
+    @apply p-4 font-light text-gray-600 hover:text-gray-700 hover:underline
 }

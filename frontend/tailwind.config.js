@@ -10,7 +10,7 @@ module.exports = {
     applyComplexClasses: true
   },
   purge: {
-    mode: 'all',
+    layers: ['base', 'components', 'utilities'],
     content: [
       './src/**/*.js',
       './src/**/*.jsx'

@@ -1,11 +1,10 @@
-@layer components {
-    .level-group {
-        @apply flex flex-row items-center;
-    }
-    .level-group_icon {
-        @apply flex-none w-3 h-3 text-gray-700;
-    }
-    .level-group_text {
-        @apply ml-1 text-xs text-gray-700;
-    }
+
+.level-group {
+    @apply flex flex-row items-center;
+}
+.level-group_icon {
+    @apply flex-none w-3 h-3 text-gray-700;
+}
+.level-group_text {
+    @apply ml-1 text-xs text-gray-700;
 }

@@ -1,24 +1,23 @@
-@layer components {
-    .difficulty-decoration {
-        @apply flex flex-row items-stretch justify-end;
-    }
-    .difficulty-decoration_bg {
-        @apply w-6;
-        clip-path: polygon(0% -4%, 104% -4%, 104% 100%, 100% 100%);
-    }
-    .difficulty-decoration_text {
-        @apply h-full pl-2 pr-1 text-sm font-thin tracking-widest text-right uppercase;
-    }
-    .easy\!difficulty-decoration {
-        @apply text-green-800 bg-green-200;
-    }
-    .medium\!difficulty-decoration {
-        @apply text-orange-800 bg-orange-200;
-    }
-    .tough\!difficulty-decoration {
-        @apply text-red-800 bg-red-300;
-    }
-    .very-tough\!difficulty-decoration {
-        @apply text-purple-800 bg-purple-300;
-    }
+
+.difficulty-decoration {
+    @apply flex flex-row items-stretch justify-end;
+}
+.difficulty-decoration_bg {
+    @apply w-6;
+    clip-path: polygon(0% -4%, 104% -4%, 104% 100%, 100% 100%);
+}
+.difficulty-decoration_text {
+    @apply h-full pl-2 pr-1 text-sm font-thin tracking-widest text-right uppercase;
+}
+.easy\!difficulty-decoration {
+    @apply text-green-800 bg-green-200;
+}
+.medium\!difficulty-decoration {
+    @apply text-orange-800 bg-orange-200;
+}
+.tough\!difficulty-decoration {
+    @apply text-red-800 bg-red-300;
+}
+.very-tough\!difficulty-decoration {
+    @apply text-purple-800 bg-purple-300;
 }
