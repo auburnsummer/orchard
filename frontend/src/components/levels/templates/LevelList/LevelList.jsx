@@ -2,6 +2,8 @@ import cm from "classnames";
 import LevelHorizontal from "components/levels/organisms/LevelHorizontal";
 import {trap} from "utils/functions";
 
+import "./LevelList.css";
+
 export default function LevelList({levels, _class, state}) {
     const [selectedIndex, setSelectedIndex] = state;
 
@@ -10,13 +12,12 @@ export default function LevelList({levels, _class, state}) {
     }
 
     return (
-        <div class={cm("flex flex-col justify-center", _class)} >
+        <div class={cm("level-list", _class)} >
             {levels.map((level, idx) => {
-                const _class = idx > 0 ? "mt-8" : "";
                 return <LevelHorizontal
                         level={level}
                         selected={selectedIndex === idx}
-                        _class={_class}
+                        _class="level-list_level-horizontal"
                         callback={trap(callback(level, idx))}
                        />
             })}

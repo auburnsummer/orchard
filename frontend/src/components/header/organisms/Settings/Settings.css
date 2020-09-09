@@ -1,0 +1,11 @@
+.settings {
+    @apply p-6 bg-gray-700 shadow-lg;
+}
+
+.settings_list {
+    @apply space-y-2 text-gray-100;
+}
+
+.settings_select {
+    @apply px-1 ml-2 mr-2 font-semibold text-center text-gray-800 bg-gray-400 rounded-lg appearance-none hover:bg-gray-300 hover:cursor-pointer first:ml-0 focus:outline-none focus:bg-gray-300;
+}

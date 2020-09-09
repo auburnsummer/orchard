@@ -37,7 +37,3 @@ export default function SingleLevel({id}) {
         </main>
     )
 }
-
-/*
-rtttr
-*/

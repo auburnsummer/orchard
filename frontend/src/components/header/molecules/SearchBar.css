@@ -1,0 +1,19 @@
+.search-bar {
+    @apply flex flex-row;
+}
+
+.search-bar_box {
+    @apply w-full p-3 text-sm bg-gray-100 rounded-l-lg shadow-inner focus:bg-white focus:outline-none;
+}
+
+.search-bar_button {
+    @apply flex flex-col justify-center px-3 bg-gray-400 rounded-r-lg hover:bg-gray-300;
+}
+
+.search-bar_icon {
+    @apply w-6 h-6 text-gray-100;
+}
+
+.search-bar_button:hover .search-bar_icon {
+    @apply text-white;
+}

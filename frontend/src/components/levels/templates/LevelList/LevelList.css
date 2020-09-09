@@ -1,0 +1,7 @@
+.level-list {
+    @apply flex flex-col justify-center;
+}
+
+.level-list_level-horizontal {
+    @apply mt-8 first:mt-0;
+}

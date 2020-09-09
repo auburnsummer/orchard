@@ -1,0 +1,17 @@
+.app {
+    @apply font-sans leading-normal;
+}
+
+.app_header-wrapper {
+    @apply fixed top-0 z-50 w-full h-16 bg-gray-700;
+}
+
+.app_header {
+    @apply w-full h-full mx-auto max-w-screen-2xl;
+}
+
+.app_main-wrapper {
+    @apply mt-16 bg-fixed bg-cover;
+    background-position: 100% calc(100% + 4rem);
+    image-rendering: pixelated;
+}

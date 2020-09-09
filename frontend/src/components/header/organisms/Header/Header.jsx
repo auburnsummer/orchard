@@ -1,16 +1,17 @@
 import { Link } from "preact-router";
 import cm from "classnames";
 
-import SearchBar from "./SearchBar";
+import SearchBar from "components/header/molecules/SearchBar";
 
 import useEbooks from "hooks/useEbooks";
 
-import Settings from "components/header/Settings";
+import Settings from "components/header/organisms/Settings";
 
-import {useState} from "preact/hooks";
-import { trap } from "../../utils/functions";
+import { trap } from "utils/functions";
 
 import {Transition} from "@tailwindui/react";
+
+import "./Header.css";
 
 const Logo = ({_class}) => {
     return (
@@ -37,16 +38,16 @@ export default function Header({_class, settings, showState}) {
 
     return (
         <div class={cm(_class)}>
-            <div class="flex flex-row justify-between h-full p-2">
+            <div class="header">
                 
-                <div class="flex items-center">
+                <div class="header_logo-wrapper">
                     {/* todo: link back to the home page when the home page exists */}
-                    <Link class="h-8 ml-2 text-gray-300" title={ebook}>
-                        < Logo _class="h-8" />
+                    <Link class="header_logo-link" title={ebook}>
+                        < Logo _class="header_logo" />
                     </Link>
                 </div>
-                <div class="flex items-center flex-grow ml-12">
-                    <SearchBar _class="flex-grow" />
+                <div class="header_search-bar-wrapper">
+                    <SearchBar _class="header_search-bar" />
                 </div>
                 <div class="flex items-center justify-end ml-12">
                     <a 
@@ -68,17 +69,17 @@ export default function Header({_class, settings, showState}) {
                 </div>
 
             </div>
-            <div class={cm("flex flex-row-reverse pointer-events-none scale-50")}>
+            <div class="header_settings-wrapper">
                 <Transition
                     show={showSettings}
-                    enter="transition-all transform motion-reduce:transition-none ease-in-out duration-75"
-                    enterFrom="opacity-0 -translate-y-6"
-                    enterTo="opacity-100 translate-y-0"
-                    leave="transition-all transform motion-reduce:transition-none ease-in-out duration-75"
-                    leaveFrom="opacity-100 translate-y-0"
-                    leaveTo="opacity-0 -translate-y-6"
+                    enter="enter!header_settings"
+                    enterFrom="enter-from!header_settings"
+                    enterTo="enter-to!header_settings"
+                    leave="leave!header_settings"
+                    leaveFrom="leave-from!header_settings"
+                    leaveTo="leave-to!header_settings"
                 >
-                    <Settings settings={settings} _class="mt-4 mr-6 pointer-events-auto"/>
+                    <Settings settings={settings} _class="header_settings"/>
                 </Transition>
 
             </div>

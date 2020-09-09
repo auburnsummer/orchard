@@ -1,0 +1,31 @@
+.level-box {
+    @apply flex flex-col-reverse;
+}
+
+.level-box_wrapper {
+    @apply grid grid-cols-1 grid-rows-1;
+}
+
+.level-box_content {
+    @apply col-start-1 row-start-1 transition duration-500 origin-top transform scale-y-0 opacity-50;
+}
+
+.visible\!level-box_content {
+    @apply scale-y-100 opacity-100;
+}
+
+.level-box_buttons {
+    @apply flex flex-row text-sm font-thin text-gray-800;
+}
+
+.level-box_buttons-spacer {
+    @apply flex-grow;
+}
+
+.level-box_button {
+    @apply px-2 text-left bg-gray-400 hover:bg-gray-300 hover:cursor-pointer;
+}
+
+.selected\!level-box_button {
+    @apply px-2 text-left bg-gray-300 hover:cursor-default;
+}

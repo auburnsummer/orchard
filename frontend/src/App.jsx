@@ -4,12 +4,14 @@ import Levels from "pages/Levels";
 import SingleLevel from "./pages/SingleLevel";
 import NotFound from "./pages/404";
 
-import Header from "./components/header/Header";
+import Header from "components/header/organisms/Header";
 import KinBackgroundTemp from "assets/KinBackAlleyPaint2.png";
 
 import useLocalStorage from "hooks/useLocalStorage";
 
 import {useState} from "preact/hooks";
+
+import "./App.css";
 
 export default function App () {
 
@@ -30,18 +32,16 @@ export default function App () {
 
     const style = {
         backgroundImage: `url(${globalSettings.background || defaultSettings.background})`,
-        backgroundPosition: "100% calc(100% + 4rem)",
-        imageRendering: "crisp-edges"
     };
 
     return (
-        <div class="font-sans leading-normal">
+        <div class="app">
 
-            <header class="fixed top-0 z-50 w-full h-16 bg-gray-700">
-                <Header _class="w-full h-full mx-auto max-w-screen-2xl" settings={settings} showState={[showSettings, setShowSettings]}/>
+            <header class="app_header-wrapper">
+                <Header _class="app_header" settings={settings} showState={[showSettings, setShowSettings]}/>
             </header>
 
-            <div class="mt-16 bg-fixed bg-cover" style={style} onClick={() => setShowSettings(false)}>
+            <div class="app_main-wrapper" style={style} onClick={() => setShowSettings(false)}>
                 <Router>
                     <Home exact path="/" />
                     <Levels exact path="/levels" globalSettings={globalSettings}/>

@@ -3,6 +3,8 @@ import cm from "classnames";
 import {Link, route} from "preact-router";
 import {paramsLink, stubFalse} from "utils/functions";
 
+import "./SearchBar.css";
+
 function MagnifyingGlass({_class}) {
     return (
         <svg class={_class} aria-hidden="true" data-icon="search" data-prefix="far" viewBox="0 0 512 512">
@@ -18,14 +20,14 @@ export default function SearchBar({_class}) {
     const [query, setQuery] = useState("");
     
     return (
-        <form class={cm("flex flex-row", _class)} onsubmit={evt => evt.preventDefault()}>
+        <form class={cm("search-bar", _class)} onsubmit={evt => evt.preventDefault()}>
             <input
-            class="w-full p-3 text-sm bg-gray-100 rounded-l-lg shadow-inner focus:bg-white focus:outline-none"
+            class="search-bar_box"
             placeholder="What do you feel like playing today?"
             onChange={evt => setQuery(evt.target.value)}>
             </input>
-            <button type="submit" onClick={() => route(paramsLink('/levels', {q: query}, {q: ""}))} class="flex flex-col justify-center px-3 bg-gray-400 rounded-r-lg group hover:bg-gray-300">
-                <MagnifyingGlass _class="w-6 h-6 text-gray-100 group-hover:text-white"/>
+            <button type="submit" onClick={() => route(paramsLink('/levels', {q: query}, {q: ""}))} class="search-bar_button">
+                <MagnifyingGlass _class="search-bar_icon"/>
             </button>
         </form>
     )

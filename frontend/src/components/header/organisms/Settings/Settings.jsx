@@ -2,6 +2,8 @@ import useTwineSelect from "hooks/useTwineSelect";
 import {useState} from "preact/hooks";
 import cm from "classnames";
 
+import "./Settings.css";
+
 export default function Settings({settings, _class}) {
 
     const [globalSettings, setGlobalSettings] = settings;
@@ -16,7 +18,7 @@ export default function Settings({settings, _class}) {
         }
     });
 
-    const selectClasses = "text-center appearance-none bg-gray-400 hover:bg-gray-300 hover:cursor-pointer rounded-lg font-semibold ml-2 mr-2 px-1 first:ml-0 text-gray-800"
+    const selectClasses = "settings_select"
 
     const SelectLevelsPerPage = () => (
         <select class={selectClasses} {...withGlobalSetting("levelsPerPage", parseInt)}>
@@ -60,8 +62,8 @@ export default function Settings({settings, _class}) {
 
 
     return (
-        <div class={cm("bg-gray-700 p-6 shadow-lg", _class)}>
-            <ul class="space-y-2 text-gray-100">
+        <div class={cm("settings", _class)}>
+            <ul class="settings_list">
                 <li>
                     <span>Show</span>
                     <SelectLevelsPerPage />
