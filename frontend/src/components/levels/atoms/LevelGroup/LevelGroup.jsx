@@ -3,7 +3,7 @@
  */
 import cm from "classnames";
 
-import style from "./LevelGroup.css";
+import "./LevelGroup.css";
 
 export default function LevelGroup({group, _class}) {
 

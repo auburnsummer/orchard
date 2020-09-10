@@ -11,7 +11,7 @@ import LevelBox from "components/levels/templates/LevelBox";
 import useLevels from "hooks/useLevels";
 import useSearchResults from "hooks/useSearchResults";
 import {useState, useEffect} from "preact/hooks";
-import {trap, stubTrue, eq} from "utils/functions.js";
+import {ltrap, stubTrue, eq} from "utils/functions.js";
 import cm from "classnames";
 
 import "./Levels.css";
@@ -22,7 +22,7 @@ const defaults = {
     q: ""
 }
 
-export default function Levels ({start, q, globalSettings}) {
+export default function Levels ({start, q, globalSettings, groups}) {
     const offset = parseInt(start || defaults.start);
     const query = q || defaults.q;
 
@@ -48,7 +48,7 @@ export default function Levels ({start, q, globalSettings}) {
     }
     
     return (
-            <main class="levels" onMouseDown={trap(resetSelectedLevel)}>
+            <main class="levels" onMouseDown={ltrap(resetSelectedLevel)}>
                 <div class="levels_left">
                     <Switch args={[state]}>
                         <div class="levels_loading-icon-wrapper" test={eq("LOADING")} >  
@@ -88,7 +88,7 @@ export default function Levels ({start, q, globalSettings}) {
                         <Switch args={[selectedIndex]}>
                             <SelectALevel _class="levels_select-a-level" test={eq(-1)} />
 
-                            <LevelBox test={stubTrue} index={selectedIndex} level={levels[selectedIndex]} {...{globalSettings}} onMouseDown={trap(stubTrue)}/> 
+                            <LevelBox test={stubTrue} index={selectedIndex} level={levels[selectedIndex]} {...{globalSettings, groups}} /> 
                         </Switch>
 
                     </div>

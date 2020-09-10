@@ -12,6 +12,7 @@ import useLocalStorage from "hooks/useLocalStorage";
 import {useState} from "preact/hooks";
 
 import "./App.css";
+import useGroups from "./hooks/useGroups";
 
 export default function App () {
 
@@ -30,6 +31,8 @@ export default function App () {
 
     const [showSettings, setShowSettings] = useState(false);
 
+    const {groups, state: groupState, error: groupError} = useGroups();
+
     const style = {
         backgroundImage: `url(${globalSettings.background || defaultSettings.background})`,
     };
@@ -44,7 +47,7 @@ export default function App () {
             <div class="app_main-wrapper" style={style} onClick={() => setShowSettings(false)}>
                 <Router>
                     <Home exact path="/" />
-                    <Levels exact path="/levels" globalSettings={globalSettings}/>
+                    <Levels exact path="/levels" globalSettings={globalSettings} groups={groups} />
                     <SingleLevel exact path="/:id" />
                     <NotFound exact default />
                 </Router>

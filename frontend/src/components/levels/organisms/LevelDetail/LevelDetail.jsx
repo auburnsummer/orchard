@@ -10,7 +10,7 @@ import cm from "classnames";
 
 import "./LevelDetail.css";
 
-export default function LevelDetail({level, _class, useIPFSLink, showAutoimporter}) {
+export default function LevelDetail({level, _class, useIPFSLink, showAutoimporter, ...args}) {
     const downloadUrl = useMemo( () => {
         // const constructedFilename = `${level.artist} - ${level.song}.rdzip`;
         const ipfsLink = ipfsUrl(level.rdzip_ipfs, null);
@@ -30,7 +30,7 @@ export default function LevelDetail({level, _class, useIPFSLink, showAutoimporte
     }, [level, useIPFSLink]);
 
     return (
-        <div class={cm("level-detail", _class)}>
+        <div class={cm("level-detail", _class)} {...args}>
             <DetailIcons level={level} />
 
             <p class="level-detail_description">{level.description ?? ""}</p>

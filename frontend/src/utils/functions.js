@@ -17,6 +17,8 @@ export const leftClick = (func) => (evt) => {
     }
 }
 
+export const ltrap = (func) => trap(leftClick(func));
+
 /**
  * Return a function that returns a constant.
  */
