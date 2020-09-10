@@ -7,7 +7,7 @@
 }
 
 .level-box_content {
-    @apply col-start-1 row-start-1 transition duration-300 origin-top transform scale-y-0 opacity-50;
+    @apply col-start-1 row-start-1 transition duration-300 origin-top transform scale-y-0 opacity-50 motion-reduce:opacity-0 motion-reduce:scale-y-100;
 }
 
 .visible\!level-box_content {
