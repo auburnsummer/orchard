@@ -6,7 +6,17 @@ import Switch from "components/generic/Switch";
 import {eq} from "utils/functions";
 import { useMemo } from "preact/hooks";
 
-import groupTEMP from "assets/groupTEMP.png";
+import snarkdown from 'snarkdown';
+
+const TEST_DESCRIPTION = `
+This is a paragraph.
+
+This is another paragraph.
+
+**Bold**
+
+_italic_
+`
 
 
 export default function GroupDetail({group_id, groups, _class, ...args}) {
@@ -17,10 +27,11 @@ export default function GroupDetail({group_id, groups, _class, ...args}) {
 
     return (
         <div class={cm("p-2 text-md", _class)} {...args}>
-            <img src={groupTEMP} class="h-40 bg-gray-100"></img>
-            <h1 class="mt-4 font-semibold">{group.name}</h1>
-            <h2 class="text-sm italic text-blue-700 hover:underline"><a href={group.website}>{group.website}</a></h2>
-            <p class="mt-2">{group.description}</p>
+            <div class="flex flex-row items-baseline justify-between">
+                <h1 class="text-sm italic font-semibold">{group.name}</h1>
+                <h2 class="text-sm italic text-blue-700 hover:underline"><a href={group.website}>{group.website}</a></h2>
+            </div>
+            <div class="mt-2" dangerouslySetInnerHTML={{__html: snarkdown(TEST_DESCRIPTION)}} />
         </div>
     )
 }
