@@ -19,7 +19,7 @@ console.error(process.env);
 const processGroup = async (entry, entryIndex, entries, currTime) => {
 	const {id, driver, args} = entry;
 	const Driver = require(`./sources/drivers/${driver}`);
-	const drive = new Driver(args);
+	let drive = new Driver(args);
 
 	try {
 		log(":driver", `Initialising driver... ${id}`);
@@ -84,6 +84,7 @@ const processGroup = async (entry, entryIndex, entries, currTime) => {
 	finally {
 		try {
 			await drive.cleanup();
+			drive = null;
 		}
 		catch (err) {
 			log("!driver cleanup", err);
@@ -108,25 +109,21 @@ const processGroup = async (entry, entryIndex, entries, currTime) => {
 	}
 	log(":connect", "Connected!");
 
-	let currTime;
+	const sourcePath = process.argv[2] || "/var/conf/sources.yml";
+	const entries = await parseSources.parse(sourcePath);
+	const groups = (await client.addGroups(entries)).data;
 
-	while (true) {
-		const sourcePath = process.argv[2] || "/var/conf/sources.yml";
-		const entries = await parseSources.parse(sourcePath);
-		const groups = (await client.addGroups(entries)).data;
+	const currTime = new moment();
+	const results = await promiseUtils.mapSeries(entries, async (entry, idx, entries) => {
+		return processGroup(entry, idx, entries, currTime)
+			.catch(err => {
+				log("!driver", err);
+			});
+	}, 1);
+	log(":sync", "Syncing search...");
+	await client.sync();
+	log(":sync", "Synced!");
 
-		let currTime = new moment();
-		const results = await promiseUtils.mapSeries(entries, async (entry, idx, entries) => {
-			return processGroup(entry, idx, entries, currTime)
-				.catch(err => {
-					log("!driver", err);
-				});
-		}, 1);
-		log(":sync", "Syncing search...");
-		await client.sync();
-		log(":sync", "Synced!");
-
-		log(":wait", `Waiting ${process.env.TIME_TO_WAIT_BETWEEN_INVOCATIONS} seconds before the next index...`);
-		await new Promise( (resolve) => setTimeout(resolve, parseInt(process.env.TIME_TO_WAIT_BETWEEN_INVOCATIONS)*1000) );
-	}
+	log(":wait", `Waiting ${process.env.TIME_TO_WAIT_BETWEEN_INVOCATIONS} seconds before the next index...`);
+	await new Promise( (resolve) => setTimeout(resolve, parseInt(process.env.TIME_TO_WAIT_BETWEEN_INVOCATIONS)*1000) );
 })();
