@@ -7,8 +7,10 @@ services:
     environment:
       POSTGRES_PASSWORD:
     volumes:
+      - "./backend/postgresql.conf:/etc/postgresql.conf"
       - "dbdata:/var/lib/postgresql/data"
       - "./backend/sql:/docker-entrypoint-initdb.d"
+    command: "postgres -c config_file=/etc/postgresql.conf"
     restart: "unless-stopped"
   backend:
     build:
