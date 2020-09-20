@@ -19,7 +19,7 @@ export default function useGroups() {
             setError(err);
             setState("ERROR");
         })
-    });
+    }, []);
 
     return {groups, state, error};
 
