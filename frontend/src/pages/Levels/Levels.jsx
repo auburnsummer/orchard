@@ -15,6 +15,7 @@ import {ltrap, stubTrue, eq} from "utils/functions.js";
 import cm from "classnames";
 
 import "./Levels.css";
+import { nullOrUndef } from "../../utils/functions";
 
 // default values for query parameters.
 const defaults = {
@@ -38,7 +39,7 @@ export default function Levels ({start, q, globalSettings, groups}) {
 
     const [selectedIndex, setSelectedIndex] = useState(-1);
 
-    // deselect any level if we changed the page.
+    // deselect any level if we changed the page or search query.
     useEffect(() => {
         setSelectedIndex(-1);
     }, [offset, limit, showUnranked, sortDirection]);
@@ -48,51 +49,51 @@ export default function Levels ({start, q, globalSettings, groups}) {
     }
     
     return (
-            <main class="levels" onMouseDown={ltrap(resetSelectedLevel)}>
-                <div class="levels_left">
-                    <Switch args={[state]}>
-                        <div class="levels_loading-icon-wrapper" test={eq("LOADING")} >  
-                            <LoadingIcon />
-                        </div>
-
-                        <div class="levels_level-list-wrapper" test={eq("LOADED")}>
-                            <LevelListHeaderInfo defaults={defaults} query={query} currOffset={offset} nextOffset={offset + levels.length} prevOffset={offset - limit}/>
-                            <Switch args={[levels.length]}>
-                                <div test={eq(0)}>
-                                    <p class="levels_no-more-levels">No more levels</p>
-                                </div>
-                                <LevelList
-                                    test={stubTrue}
-                                    levels={levels}
-                                    state={[selectedIndex, setSelectedIndex]}
-                                    _class="levels_level-list"
-                                />
-                            </Switch>
-                            <LevelListHeaderInfo
-                                defaults={defaults}
-                                query={query}
-                                currOffset={offset}
-                                nextOffset={offset + levels.length}
-                                prevOffset={offset - limit}
-                                _class={cm("levels_level-list-header-info-bottom", levels.length < 6 ? "hidden\!levels_level-list-header-info-bottom" : "")}
-                            />
-                        </div>
-                                        
-                        <ErrorScreen test={eq("ERROR")} error={error}/>
-                    </Switch>
-                </div>
-                
-                <div class="levels_right">
-                    <div class="levels_right-wrapper">
-                        
-                        <Switch args={[selectedIndex]}>
-                            <SelectALevel _class="levels_select-a-level" test={eq(-1)} />
-
-                            <LevelBox test={stubTrue} index={selectedIndex} level={levels[selectedIndex]} {...{globalSettings, groups}} /> 
-                        </Switch>
-
+        <main class="levels" onMouseDown={ltrap(resetSelectedLevel)}>
+            <div class="levels_left">
+                <Switch args={[state]}>
+                    <div class="levels_loading-icon-wrapper" test={eq("LOADING")} >  
+                        <LoadingIcon />
                     </div>
+
+                    <div class="levels_level-list-wrapper" test={eq("LOADED")}>
+                        <LevelListHeaderInfo defaults={defaults} query={query} currOffset={offset} nextOffset={offset + levels.length} prevOffset={offset - limit}/>
+                        <Switch args={[levels.length]}>
+                            <div test={eq(0)}>
+                                <p class="levels_no-more-levels">No more levels</p>
+                            </div>
+                            <LevelList
+                                test={stubTrue}
+                                levels={levels}
+                                state={[selectedIndex, setSelectedIndex]}
+                                _class="levels_level-list"
+                            />
+                        </Switch>
+                        <LevelListHeaderInfo
+                            defaults={defaults}
+                            query={query}
+                            currOffset={offset}
+                            nextOffset={offset + levels.length}
+                            prevOffset={offset - limit}
+                            _class={cm("levels_level-list-header-info-bottom", levels.length < 6 ? "hidden\!levels_level-list-header-info-bottom" : "")}
+                        />
+                    </div>
+                                    
+                    <ErrorScreen test={eq("ERROR")} error={error}/>
+                </Switch>
+            </div>
+            
+            <div class="levels_right">
+                <div class="levels_right-wrapper">
+                    
+                    <Switch args={[levels[selectedIndex]]}>
+                        <SelectALevel _class="levels_select-a-level" test={nullOrUndef} />
+
+                        <LevelBox test={stubTrue} index={selectedIndex} level={levels[selectedIndex]} {...{globalSettings, groups}} /> 
+                    </Switch>
+
                 </div>
-            </main>
+            </div>
+        </main>
     )
 }

@@ -42,6 +42,11 @@ export const stubFalse = () => false;
 export const sample = arr => arr[Math.floor(Math.random() * arr.length)];
 
 /**
+ * is null or undefined
+ */
+export const nullOrUndef = x => x === undefined || x === null;
+
+/**
  * Is a link a URL?
  */
 export const isHttpUrl = s => s?.startsWith?.("http://") || s?.startsWith?.("https://") || false;
