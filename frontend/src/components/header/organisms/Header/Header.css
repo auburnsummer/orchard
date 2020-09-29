@@ -23,7 +23,7 @@
 }
 
 .header_settings-wrapper {
-    @apply flex flex-row-reverse scale-50 pointer-events-none;
+    @apply flex flex-row-reverse pointer-events-none;
 }
 
 .enter\!header_settings {

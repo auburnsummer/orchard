@@ -16,6 +16,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@tailwindcss/typography": "^0.2.0",
     "@tailwindui/react": "^0.1.1",
     "apng-default-image": "0.0.1",
     "classnames": "^2.2.6",

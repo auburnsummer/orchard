@@ -8,7 +8,11 @@ import { useMemo } from "preact/hooks";
 
 import snarkdown from 'snarkdown';
 
+import testImage from "assets/groupTEMP.png";
+
 const TEST_DESCRIPTION = `
+![](${testImage})
+
 This is a paragraph.
 
 This is another paragraph.
@@ -31,7 +35,7 @@ export default function GroupDetail({group_id, groups, _class, ...args}) {
                 <h1 class="text-sm italic font-semibold">{group.name}</h1>
                 <h2 class="text-sm italic text-blue-700 hover:underline"><a href={group.website}>{group.website}</a></h2>
             </div>
-            <div class="mt-2" dangerouslySetInnerHTML={{__html: snarkdown(TEST_DESCRIPTION)}} />
+            <div class="p-4 mt-2 prose-sm prose bg-gray-100" dangerouslySetInnerHTML={{__html: snarkdown(TEST_DESCRIPTION)}} />
         </div>
     )
 }
