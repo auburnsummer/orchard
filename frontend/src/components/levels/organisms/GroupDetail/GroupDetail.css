@@ -1,0 +1,23 @@
+.group-detail {
+
+}
+
+.group-detail_header {
+    @apply flex flex-row items-baseline justify-between;
+}
+
+.group-detail_name {
+    @apply text-sm italic font-semibold;
+}
+
+.group-detail_website {
+    @apply text-sm italic text-blue-700 hover:underline;
+}
+
+.group-detail_text {
+    @apply p-4 mt-2 bg-gray-100;
+}
+
+.group-detail_text img {
+    @apply h-40;
+}

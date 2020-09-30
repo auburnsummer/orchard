@@ -10,6 +10,8 @@ import snarkdown from 'snarkdown';
 
 import testImage from "assets/groupTEMP.png";
 
+import "./GroupDetail.css";
+
 const TEST_DESCRIPTION = `
 ![](${testImage})
 
@@ -30,12 +32,12 @@ export default function GroupDetail({group_id, groups, _class, ...args}) {
     }, [group_id, groups]);
 
     return (
-        <div class={cm("p-2 text-md", _class)} {...args}>
-            <div class="flex flex-row items-baseline justify-between">
-                <h1 class="text-sm italic font-semibold">{group.name}</h1>
-                <h2 class="text-sm italic text-blue-700 hover:underline"><a href={group.website}>{group.website}</a></h2>
+        <div class={cm("group-detail", _class)} {...args}>
+            <div class="group-detail_header">
+                <h1 class="group-detail_name">{group.name}</h1>
+                <h2 class="group-detail_website"><a href={group.website}>{group.website}</a></h2>
             </div>
-            <div class="p-4 mt-2 prose-sm prose bg-gray-100" dangerouslySetInnerHTML={{__html: snarkdown(TEST_DESCRIPTION)}} />
+            <div class="prose-sm prose group-detail_text" dangerouslySetInnerHTML={{__html: snarkdown(group.description)}} />
         </div>
     )
 }
