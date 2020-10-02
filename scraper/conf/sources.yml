@@ -25,11 +25,11 @@
     to actually put their levels on git...
   args:
     cloneURL: "https://github.com/1ug1a/rd-levels.git"
-- name: "RDL Charts"
+- name: "Heritage Charts"
   id: "40b06174-7b5a-4fe4-a8df-c3a91fd1ebba"
   driver: "legacySheet"
-  website: "https://discord.gg/rhythmdr"
+  website: "https://auburnsummer.github.io/rdlevels/"
   description: |
-    RDL is the official server for 7th Beat Games. These are levels from
-    the old website
+    Levels from the old spreadsheet that's no longer updated. You can find
+    a link to the spreadsheet [here](https://docs.google.com/spreadsheets/d/1sJLpC3A2riEQGbdxGC3D9uNfn__hOl5C6ITBNSLFqjg/edit#gid=0).
   args: {}
