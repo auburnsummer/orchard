@@ -25,7 +25,7 @@
     to actually put their levels on git...
   args:
     cloneURL: "https://github.com/1ug1a/rd-levels.git"
-- name: "Heritage Charts"
+- name: "RDL Charts"
   id: "40b06174-7b5a-4fe4-a8df-c3a91fd1ebba"
   driver: "legacySheet"
   website: "https://auburnsummer.github.io/rdlevels/"
