@@ -13,7 +13,7 @@ export default function UnrankedMessage ({approval, _class}) {
 
     const message = cond([
         [geq(10),  constant('')],
-        [geq(0),   constant('Awaiting validation...')],
+        [geq(0),   constant('Awaiting review...')],
         [geq(-1),  constant('Needs gameplay changes')],
         [geq(-2),  constant('Needs metadata changes')],
         [geq(-3),  constant('Artist blacklist')],
