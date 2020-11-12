@@ -1,12 +1,5 @@
 import {sample} from "utils/functions";
 
-// do you want a free shirt?
-// https://hacktoberfest.digitalocean.com/
-// come October time, make a pull request to add a quote!
-// ...or just add a pull request now
-// ...but then you won't get your shirt
-// ...your decision
-
 const EBOOKS = [
     "Klyzx: CV why are you streaming a green line for the entire day",
     "fizzd: banana detection",

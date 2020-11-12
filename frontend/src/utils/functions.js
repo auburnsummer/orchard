@@ -17,6 +17,9 @@ export const leftClick = (func) => (evt) => {
     }
 }
 
+/**
+ * Convenience method for decorating an event handler to not propagate AND only occur on left click.
+ */
 export const ltrap = (func) => trap(leftClick(func));
 
 /**
@@ -30,7 +33,7 @@ export const constant = x => () => x;
 export const cond = list => (...args) => list.find(t => t[0](...args))[1](...args);
 
 /**
- * Lodash stubTrue
+ * Lodash stubTrue & stubFalse
  */
 export const stubTrue = () => true;
 

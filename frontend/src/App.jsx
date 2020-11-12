@@ -1,7 +1,8 @@
 import Router from "preact-router";
 import Home from "./pages/Home";
 import Levels from "pages/Levels";
-import Boosters from "pages/Boosters";
+import Booster from "pages/Booster";
+import BoosterIndex from "pages/BoosterIndex";
 import SingleLevel from "./pages/SingleLevel";
 import NotFound from "./pages/404";
 
@@ -48,7 +49,8 @@ export default function App () {
             <div class="app_main-wrapper" style={style} onClick={() => setShowSettings(false)}>
                 <Router>
                     <Home exact path="/" />
-                    <Boosters path="/boosters" />
+                    <BoosterIndex path="/boosters" />
+                    <Booster path="/boosters/:file" />
                     <Levels exact path="/levels" globalSettings={globalSettings} groups={groups} />
                     <SingleLevel exact path="/:id" />
                     <NotFound exact default />
