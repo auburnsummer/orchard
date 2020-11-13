@@ -3,8 +3,6 @@ import {useRef, useEffect} from "preact/hooks";
 
 export default function Canvas(props) {
 
-
-
     const canvasRef = useRef(null);
 
     const draw = ctx => {

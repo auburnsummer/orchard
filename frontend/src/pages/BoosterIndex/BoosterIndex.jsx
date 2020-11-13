@@ -19,7 +19,11 @@ export default function BoosterIndex() {
                     <div test={eq("LOADED")} class="grid grid-flow-col">
                         {
                             boosters.map(booster => {
-                                return <BoosterCard booster={booster} _class="mt-4" />
+                                return (
+                                    <a class="mt-4" href="/boosters/efaiwfhaiohefioaw">
+                                        <BoosterCard booster={booster} />
+                                    </a>
+                                )
                             })
                         }
                     </div>
