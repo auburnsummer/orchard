@@ -1,16 +1,23 @@
 
 import {useRef, useEffect} from "preact/hooks";
 
-export default function Canvas(props) {
+export default function Canvas({draw, _class, ...rest}) {
 
     const canvasRef = useRef(null);
 
-    const draw = (ctx, frameCount) => {
-        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-        ctx.fillStyle = '#000000';
-        ctx.beginPath();
-        ctx.arc(50, 100, 20*Math.sin(frameCount*0.05)**2, 0, 2*Math.PI)
-        ctx.fill()
+    function resizeCanvas(canvas) {
+        const { width, height } = canvas.getBoundingClientRect()
+        
+        if (canvas.width !== width || canvas.height !== height) {
+            const { devicePixelRatio:ratio=1 } = window
+            const context = canvas.getContext('2d')
+            canvas.width = width*ratio
+            canvas.height = height*ratio
+            context.scale(ratio, ratio)
+            return true
+        }
+
+        return false
     }
 
     useEffect(() => {
@@ -21,6 +28,7 @@ export default function Canvas(props) {
 
         const render = () => {
             frameCount++;
+            resizeCanvas(canvas);
             draw(context, frameCount);
             animationFrameId = window.requestAnimationFrame(render);
         }
@@ -33,7 +41,7 @@ export default function Canvas(props) {
       }, [draw])
 
     return (
-        <canvas ref={canvasRef} {...props}>
+        <canvas ref={canvasRef} {...rest}>
 
         </canvas>
     )

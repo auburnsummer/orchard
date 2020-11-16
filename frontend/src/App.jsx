@@ -47,14 +47,16 @@ export default function App () {
             </header>
 
             <div class="app_main-wrapper" style={style} onClick={() => setShowSettings(false)}>
-                <Router>
-                    <Home exact path="/" />
-                    <BoosterIndex path="/boosters" />
-                    <Booster path="/boosters/:file" />
-                    <Levels exact path="/levels" globalSettings={globalSettings} groups={groups} />
-                    <SingleLevel exact path="/:id" />
-                    <NotFound exact default />
-                </Router>
+
+                    <Router>
+                        <Home exact path="/" />
+                        <BoosterIndex path="/boosters" />
+                        <Booster path="/boosters/:file" />
+                        <Levels exact path="/levels" globalSettings={globalSettings} groups={groups} />
+                        <SingleLevel exact path="/:id" />
+                        <NotFound exact default />
+                    </Router>
+
             </div>
 
         </div>
