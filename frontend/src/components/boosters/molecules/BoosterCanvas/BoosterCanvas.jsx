@@ -41,7 +41,7 @@ export default function Canvas({draw, _class, ...rest}) {
       }, [draw])
 
     return (
-        <canvas ref={canvasRef} {...rest}>
+        <canvas ref={canvasRef} {...rest} class={_class}>
 
         </canvas>
     )

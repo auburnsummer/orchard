@@ -1,3 +1,5 @@
+const colors = require('tailwindcss/colors')
+
 module.exports = {
   future: {
     removeDeprecatedGapUtilities: true
@@ -22,7 +24,9 @@ module.exports = {
         '1r' : '0.25rem'
       },
       colors: {
-        ...require('./palette.json')
+        gray: colors.warmGray,
+        orange: colors.orange,
+        teal: colors.teal
       },
       spacing: {
         '9/16' : '56.25%'
