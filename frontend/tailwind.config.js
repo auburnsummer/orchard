@@ -29,7 +29,9 @@ module.exports = {
         teal: colors.teal
       },
       spacing: {
-        '9/16' : '56.25%'
+        '1/2'  : '50%',
+        '9/16' : '56.25%',
+        '1/1'  : '100%'
       },
       fontSize: {
         '2xs': '0.625rem'
