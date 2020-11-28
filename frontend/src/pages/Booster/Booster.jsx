@@ -11,10 +11,10 @@ export default function Booster() {
 
     const draw = (ctx, frameCount) => {
         const { devicePixelRatio:ratio=1 } = window;
-        const w = ctx.canvas.width / ratio;
-        const h = ctx.canvas.height / ratio;
+        // it's a square, so only one side is needed.
+        const s = ctx.canvas.width / ratio;
         // clear
-        ctx.clearRect(0, 0, w, h);
+        ctx.clearRect(0, 0, s, s);
         // background
         ctx.fillStyle = `hsl(
             ${(Math.sin(frameCount*0.005)**2)*360},
@@ -22,11 +22,12 @@ export default function Booster() {
             50%
         )
         `;
-        ctx.fillRect(0, 0, w, h);
+        ctx.fillRect(0, 0, s, s);
         // vibing circle
+        const r = Math.floor(s / 4);
         ctx.fillStyle = "#FFFFFF";
         ctx.beginPath();
-        ctx.arc(Math.floor(w / 2), Math.floor(h / 2), 50*Math.sin(frameCount*0.05)**2, 0, 2*Math.PI)
+        ctx.arc(Math.floor(s / 2), Math.floor(s/ 2), r*Math.sin(frameCount*0.05)**2, 0, 2*Math.PI)
         ctx.fill()
     }
 
