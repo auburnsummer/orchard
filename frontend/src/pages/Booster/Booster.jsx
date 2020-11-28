@@ -33,12 +33,15 @@ export default function Booster() {
     return (
         <main class="-mt-16">
             <div class="flex flex-row min-h-screen pt-16">
-                <div class="w-3/5 booster_left">
-                    <div class="booster_left-wrapper1">
-                        <div class="relative bg-red-500 pb-1/1">
+                <div class="flex items-center justify-center w-3/5 booster_left">
+                    <div class="w-full booster_left-wrapper1">
+                        <div class="relative pb-1/1">
                             <div class="absolute top-0 w-full h-full p-4">
-                                <div class="w-full h-full bg-blue-500">
-                                    
+                                <div class="w-full h-full bg-white shadow-lg">
+                                    <div class="grid w-full h-full grid-cols-1 grid-rows-1 p-4">
+                                        <Canvas draw={draw} _class="w-full h-full col-start-1 row-start-1"/>
+                                        <div class="w-full h-full col-start-1 row-start-1 booster_shadow"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -55,7 +58,7 @@ export default function Booster() {
                         </div> 
                     </div> */}
                 </div>
-                <div class="flex flex-col">
+                <div class="flex flex-col items-stretch justify-center w-2/5 px-8">
                     <LevelHorizontal level={tempLevel} selected={false} />
                     <LevelDetail level={tempLevel} />
                 </div>

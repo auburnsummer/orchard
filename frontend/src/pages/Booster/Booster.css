@@ -1,3 +1,7 @@
 .booster_left-wrapper1 {
     max-width: calc(100vh - 4rem);
 }
+
+.booster_shadow {
+    box-shadow: inset 0 4px 6px 0 rgba(0, 0, 0, 0.1);
+}
