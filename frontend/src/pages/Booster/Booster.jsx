@@ -3,32 +3,57 @@ import Canvas from "components/boosters/molecules/BoosterCanvas";
 import LevelHorizontal from "components/levels/organisms/LevelHorizontal";
 import LevelDetail from "components/levels/organisms/LevelDetail";
 
+import {useState, useEffect} from "preact/hooks";
+
+import {nullOrUndef} from "utils/functions";
+
 import "./Booster.css";
 
 export default function Booster() {
 
     const tempLevel = {"id":"DGWYzWfvZ5BziwN47phhdd","artist":"jjdf ft. Alice Leonz","song":"Song of the Sea","difficulty":0,"seizure_warning":false,"description":"","max_bpm":60,"min_bpm":60,"last_updated":"2020-06-27T17:45:30.000Z","single_player":true,"two_player":false,"image_ipfs":"bafkreihmrjmzhaotpqhw5oy55fzo63g3kv4c7l3kfz6b4q6z7abtaqnifi","rdzip_ipfs":"bafybeif5wpt6ad2x2ttwyxmsk34d3wk2urey35pg7pygnmyjmaqujieini","hue":0.43,"has_classics":false,"has_oneshots":false,"has_squareshots":false,"has_swing":false,"has_freetimes":false,"has_holds":false,"icon_ipfs":null,"group_id":"4a69bed8-76e5-4144-b5af-d87a6ba2bc51","group_iid":"1f_VxcF1Eh5KEaIIsln9FNWLOiHjFXHRT/2020-06-27T07:46:08.569Z","aux":{"id":"1f_VxcF1Eh5KEaIIsln9FNWLOiHjFXHRT","name":"jjdf_ft._Alice_Leonz_-_Song_of_the_Sea.rdzip","size":"4780546","mimeType":"application/x-zip","webViewLink":"https://drive.google.com/file/d/1f_VxcF1Eh5KEaIIsln9FNWLOiHjFXHRT/view?usp=drivesdk","modifiedTime":"2020-06-27T07:46:08.569Z","fileExtension":"rdzip","webContentLink":"https://drive.google.com/uc?id=1f_VxcF1Eh5KEaIIsln9FNWLOiHjFXHRT&export=download"},"uploaded":"2020-08-15T09:25:48.494Z","approval":0,"approval_message":null,"recycle_bin":false,"group":"Mock Google Drive","tags":[""],"authors":["auburnsummer"]};
 
-    const draw = (ctx, frameCount) => {
-        const { devicePixelRatio:ratio=1 } = window;
-        // it's a square, so only one side is needed.
-        const s = ctx.canvas.width / ratio;
+    const [image, setImage] = useState(null);
+
+    useEffect(() => {
+        const img = new Image();
+        img.src = "https://i.redd.it/osuf1vt8w0uz.png";
+        const onLoad = () => {
+            console.log("yoyoyoyoo")
+            setImage(img);
+        }
+        img.addEventListener('load', onLoad);
+        // cleanup function
+        return () => {
+            img.removeEventListener('load', onLoad);
+        }
+    }, []);
+
+    const draw = (ctx, frameCount, s) => {
         // clear
         ctx.clearRect(0, 0, s, s);
         // background
-        ctx.fillStyle = `hsl(
-            ${(Math.sin(frameCount*0.005)**2)*360},
-            50%,
-            50%
-        )
-        `;
-        ctx.fillRect(0, 0, s, s);
+        // ctx.fillStyle = `hsl(
+        //     ${(Math.sin(frameCount*0.005)**2)*360},
+        //     50%,
+        //     50%
+        // )
+        // `;
+        // ctx.fillRect(0, 0, s, s);
+        if (!nullOrUndef(image)) {
+            ctx.drawImage(image, 1400, 1400, 480, 480, 0, 0, s, s);
+        }
         // vibing circle
-        const r = Math.floor(s / 4);
+        const r = Math.floor(s / 12);
         ctx.fillStyle = "#FFFFFF";
         ctx.beginPath();
-        ctx.arc(Math.floor(s / 2), Math.floor(s/ 2), r*Math.sin(frameCount*0.05)**2, 0, 2*Math.PI)
-        ctx.fill()
+        ctx.arc(Math.floor(s / 8), Math.floor(s/ 8), r*Math.sin(frameCount*0.05)**2, 0, 2*Math.PI);
+        ctx.fill();
+    }
+
+    const down = (sx, sy, s) => {
+        console.log(sx);
+        console.log(sy);
     }
 
     return (
@@ -40,8 +65,8 @@ export default function Booster() {
                             <div class="absolute top-0 w-full h-full p-4">
                                 <div class="w-full h-full bg-white shadow-lg">
                                     <div class="grid w-full h-full grid-cols-1 grid-rows-1 p-4">
-                                        <Canvas draw={draw} _class="w-full h-full col-start-1 row-start-1"/>
-                                        <div class="w-full h-full col-start-1 row-start-1 booster_shadow"></div>
+                                        <Canvas draw={draw} down={down} _class="w-full h-full col-start-1 row-start-1"/>
+                                        <div class="w-full h-full col-start-1 row-start-1 pointer-events-none booster_shadow" onMouseDown={console.log}></div>
                                     </div>
                                 </div>
                             </div>
