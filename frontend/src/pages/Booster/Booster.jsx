@@ -15,6 +15,14 @@ export default function Booster() {
 
     const [image, setImage] = useState(null);
 
+    // 0 - 1
+    const [drag, setDrag] = useState(null);
+    // point where the drag starts
+    const [waypoint, setWaypoint] = useState(null);
+
+    // position it's rendered in.
+    const [pos, setPos] = useState({x: 1400, y: 1400});
+
     useEffect(() => {
         const img = new Image();
         img.src = "https://i.redd.it/osuf1vt8w0uz.png";
@@ -32,28 +40,34 @@ export default function Booster() {
     const draw = (ctx, frameCount, s) => {
         // clear
         ctx.clearRect(0, 0, s, s);
-        // background
-        // ctx.fillStyle = `hsl(
-        //     ${(Math.sin(frameCount*0.005)**2)*360},
-        //     50%,
-        //     50%
-        // )
-        // `;
-        // ctx.fillRect(0, 0, s, s);
         if (!nullOrUndef(image)) {
-            ctx.drawImage(image, 1400, 1400, 480, 480, 0, 0, s, s);
+            ctx.drawImage(image, pos.x, pos.y, 480, 480, 0, 0, s, s);
         }
-        // vibing circle
-        const r = Math.floor(s / 12);
-        ctx.fillStyle = "#FFFFFF";
-        ctx.beginPath();
-        ctx.arc(Math.floor(s / 8), Math.floor(s/ 8), r*Math.sin(frameCount*0.05)**2, 0, 2*Math.PI);
-        ctx.fill();
     }
 
     const down = (sx, sy, s) => {
-        console.log(sx);
-        console.log(sy);
+        setDrag({x: sx, y: sy});
+        setWaypoint({x: pos.x, y: pos.y});
+    }
+
+    const over = (sx, sy, s) => {
+        if (!nullOrUndef(drag)) {
+            const {x, y} = drag;
+            const dx = sx - x;
+            const dy = sy - y;
+            setPos({
+                x: waypoint.x - dx * s,
+                y: waypoint.y - dy * s
+            });
+        }
+    }
+
+    const up = (sx, sy, s) => {
+        setDrag(null);
+    }
+
+    const exit = (sx, sy, s) => {
+        up(sx, sy, s);
     }
 
     return (
@@ -65,7 +79,7 @@ export default function Booster() {
                             <div class="absolute top-0 w-full h-full p-4">
                                 <div class="w-full h-full bg-white shadow-lg">
                                     <div class="grid w-full h-full grid-cols-1 grid-rows-1 p-4">
-                                        <Canvas draw={draw} down={down} _class="w-full h-full col-start-1 row-start-1"/>
+                                        <Canvas {...{draw, down, over, up, exit}} _class="w-full h-full col-start-1 row-start-1"/>
                                         <div class="w-full h-full col-start-1 row-start-1 pointer-events-none booster_shadow" onMouseDown={console.log}></div>
                                     </div>
                                 </div>

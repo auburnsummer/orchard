@@ -1,11 +1,11 @@
 
 import {useRef, useEffect} from "preact/hooks";
 
-export default function Canvas({draw, _class, down, ...rest}) {
+export default function Canvas({draw, _class, down, over, exit, up, ...rest}) {
 
     const canvasRef = useRef(null);
 
-    function resizeCanvas(canvas) {
+    const resizeCanvas = canvas => {
         const { width, height } = canvas.getBoundingClientRect();
         const { devicePixelRatio:ratio=1 } = window;
         const s = canvas.width / ratio;
@@ -20,7 +20,7 @@ export default function Canvas({draw, _class, down, ...rest}) {
         return s;
     }
 
-    function onMouseDown(event) {
+    const eventHandler = func => event => {
         const canvas = canvasRef.current;
         const { devicePixelRatio:ratio=1 } = window;
         const rect = canvas.getBoundingClientRect();
@@ -29,7 +29,7 @@ export default function Canvas({draw, _class, down, ...rest}) {
         const s = canvas.width / ratio;
         const sx = offsetX / s;
         const sy = offsetY / s;
-        down(sx, sy, s);
+        func(sx, sy, s);
     }
 
     useEffect(() => {
@@ -53,7 +53,14 @@ export default function Canvas({draw, _class, down, ...rest}) {
       }, [draw])
 
     return (
-        <canvas {...rest} ref={canvasRef} class={_class} onMouseDown={onMouseDown} >
+        <canvas
+            {...rest}
+            ref={canvasRef}
+            class={_class}
+            onMouseDown={eventHandler(down)}
+            onMouseMove={eventHandler(over)}
+            onMouseUp={eventHandler(up)}
+            onMouseOut={eventHandler(exit)}>
 
         </canvas>
     )
