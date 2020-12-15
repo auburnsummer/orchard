@@ -1,7 +1,7 @@
 
-import {useRef, useEffect} from "preact/hooks";
+import {useRef, useEffect, useState, useLayoutEffect} from "preact/hooks";
 
-export default function Canvas({draw, _class, down, over, exit, up, ...rest}) {
+export default function Canvas({draw, _class, down, over, exit, up, sentinel, ...rest}) {
 
     const canvasRef = useRef(null);
 
@@ -32,25 +32,20 @@ export default function Canvas({draw, _class, down, over, exit, up, ...rest}) {
         func(sx, sy, s);
     }
 
-    useEffect(() => {
+    const render = () => {
         const canvas = canvasRef.current
         const context = canvas.getContext('2d')
-        let frameCount = 0;
+        const w = resizeCanvas(canvas);
+        draw(context, w);
+    }
+
+    useLayoutEffect(() => {
         let animationFrameId;
-
-        const render = () => {
-            frameCount++;
-            const w = resizeCanvas(canvas);
-            draw(context, frameCount, w);
-            animationFrameId = window.requestAnimationFrame(render);
-        }
-
-        render();
-
+        animationFrameId = window.requestAnimationFrame(render);
         return () => {
-            window.cancelAnimationFrame(animationFrameId);
+            window.cancelAnimationFrame(animationFrameId)
         }
-      }, [draw])
+    }, [sentinel])
 
     return (
         <canvas

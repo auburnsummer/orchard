@@ -1,0 +1,50 @@
+{
+  "images": {
+    "bg": {
+      "image": "https://i.redd.it/osuf1vt8w0uz.png",
+      "smooth": true
+    },
+    "food": {
+      "image": "https://user-images.githubusercontent.com/37142182/100858706-0ff28900-34da-11eb-9399-507a9484adad.png",
+      "smooth": false
+    }
+  },
+  "sprites": {
+    "bg": {
+      "source": {
+        "image": "bg",
+        "x": 0,
+        "y": 0,
+        "width": 5000,
+        "height": 2000
+      },
+      "place": {
+        "width": 500,
+        "height": 200
+      }
+    },
+    "beer": {
+      "source": {
+        "image": "food",
+        "x": 64,
+        "y": 32,
+        "width": 16,
+        "height": 16
+      },
+      "place": {
+        "width": 8,
+        "height": 8
+      }
+
+    }
+  },
+  "layout": [
+    {
+      "sprite": "bg",
+      "place": {
+        "x": 0,
+        "y": 0
+      }
+    }
+  ]
+}
